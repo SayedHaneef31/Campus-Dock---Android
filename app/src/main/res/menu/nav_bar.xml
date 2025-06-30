@@ -10,12 +10,13 @@
         android:icon="@drawable/order_icon"
         android:title="Orders" />
     <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/cart_icon"
+        android:title="Cart" />
+    <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile_icon"
         android:title="Profile" />
-    <item
-        android:id="@+id/nav_cart"
-        android:icon="@drawable/cart"
-        android:title="Cart" />
+
 </menu>
 
