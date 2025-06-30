@@ -84,9 +84,12 @@
             android:padding="16dp">
 
 <!--             Sample card layout; repeat programmatically -->
-                        <include layout="@layout/canteen_card" />
-                        <include layout="@layout/canteen_card" />
-                        <include layout="@layout/canteen_card" />
+                        <include layout="@layout/canteen_card"
+                            android:id="@+id/canteenCard1"/>
+                        <include layout="@layout/canteen_card"
+                            android:id="@+id/canteenCard2"/>
+                        <include layout="@layout/canteen_card"
+                            android:id="@+id/canteenCard3"/>
 
 
         </LinearLayout>

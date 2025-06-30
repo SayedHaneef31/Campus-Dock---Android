@@ -6,25 +6,40 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import com.sayed.campusdock.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayout
+import com.sayed.campusdock.databinding.ActivityCanteenMenuBinding
 
-class MainActivity : AppCompatActivity() {
+class CanteenMenuActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+
+    lateinit var binding: ActivityCanteenMenuBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        enableEdgeToEdge()
+        binding = ActivityCanteenMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        enableEdgeToEdge()
 
-        // Load home fragment by default
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, HomeFragment())
-                .commit()
+
+
+
+//        val tabLayout = findViewById<TabLayout>(R.id.menuTabLayout)
+//        val categories = listOf("All", "Snacks", "Meals", "Drinks")
+//
+//        categories.forEach { label ->
+//            tabLayout.addTab(tabLayout.newTab().setText(label))
+//        }
+
+        val categories = listOf("All", "Snacks", "Meals", "Drinks")
+        categories.forEach { label ->
+            binding.menuTabLayout.addTab(
+                binding.menuTabLayout.newTab().setText(label)
+            )
+
         }
+
+
         // Handle bottom nav item clicks
         binding.navigationnnnn.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -48,13 +63,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-
-
     }
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
+
+
+
 }

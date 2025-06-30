@@ -1,5 +1,6 @@
 package com.sayed.campusdock
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +18,24 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        binding.root.findViewById<View>(R.id.canteenCard1).setOnClickListener {
+            navigateToMenu("Tea Man's Cafe")
+        }
+        binding.root.findViewById<View>(R.id.canteenCard2).setOnClickListener {
+            navigateToMenu("Student Union Eats")
+        }
+        binding.root.findViewById<View>(R.id.canteenCard3).setOnClickListener {
+            navigateToMenu("Library Bistro")
+        }
+
         return binding.root
+
+    }
+    private fun navigateToMenu(canteenName: String) {
+        val intent = Intent(requireContext(), CanteenMenuActivity::class.java)
+        intent.putExtra("canteen_name", canteenName)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
