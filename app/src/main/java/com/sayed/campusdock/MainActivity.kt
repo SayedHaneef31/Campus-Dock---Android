@@ -3,9 +3,11 @@ package com.sayed.campusdock
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.sayed.campusdock.UI.CartFragment
+import com.sayed.campusdock.UI.HomeFragment
+import com.sayed.campusdock.UI.OrdersFragment
+import com.sayed.campusdock.UI.ProfileFragment
 import com.sayed.campusdock.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

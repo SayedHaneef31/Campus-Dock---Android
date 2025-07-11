@@ -83,7 +83,8 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-<!--             Sample card layout; repeat programmatically -->
+<!--             Sample card layout; Just for local seeing -->
+<!--            Ultimately setting the value by backend-->
                         <include layout="@layout/canteen_card"
                             android:id="@+id/canteenCard1"/>
                         <include layout="@layout/canteen_card"

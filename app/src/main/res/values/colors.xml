@@ -2,8 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blue">#2196F3</color> <!-- A nice medium blue -->
+    <color name="blue">#2196F3</color>
     <color name="gray">#9E9E9E</color>
+    <color name="green">#07F830</color>
+    <color name="red">#ED0B0B</color>
 
 </resources>
 

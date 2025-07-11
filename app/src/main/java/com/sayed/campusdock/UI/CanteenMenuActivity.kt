@@ -1,12 +1,10 @@
-package com.sayed.campusdock
+package com.sayed.campusdock.UI
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
+import com.sayed.campusdock.R
 import com.sayed.campusdock.databinding.ActivityCanteenMenuBinding
 
 class CanteenMenuActivity : AppCompatActivity() {

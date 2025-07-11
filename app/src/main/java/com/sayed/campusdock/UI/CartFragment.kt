@@ -1,4 +1,4 @@
-package com.sayed.campusdock
+package com.sayed.campusdock.UI
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sayed.campusdock.databinding.FragmentCartBinding
-import com.sayed.campusdock.databinding.FragmentHomeBinding
 
 class CartFragment : Fragment() {
 
