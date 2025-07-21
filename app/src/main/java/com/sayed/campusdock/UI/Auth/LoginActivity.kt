@@ -1,33 +1,29 @@
-package com.sayed.campusdock.UI
+package com.sayed.campusdock.UI.Auth
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.sayed.campusdock.Data.CollegeSpinner
 import com.sayed.campusdock.Data.CreateUser
-import com.sayed.campusdock.R
-import com.sayed.campusdock.RetrofitClient
-import com.sayed.campusdock.databinding.ActivityLoginBinding
-import kotlinx.coroutines.delay
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.databinding.AuthLoginActivityBinding
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: AuthLoginActivityBinding
     private lateinit var collegeList: List<CollegeSpinner>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = AuthLoginActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         fetchCollegesAndPopulateSpinner()
@@ -38,7 +34,8 @@ class LoginActivity : AppCompatActivity() {
             val selectedCollegeDomain = selectedCollege.domain
             val email = binding.emailInput.text.toString().trim()
 
-            if (email.endsWith("m")) {
+            if (email.endsWith("")) // Use selectedCollegeDomain for production
+            {
                 lifecycleScope.launch {
                     try {
                         val response = RetrofitClient.instance.sendOTP(CreateUser(email))
@@ -100,10 +97,10 @@ private fun fetchCollegesAndPopulateSpinner() {
 
             val adapter = ArrayAdapter(
                 this@LoginActivity,
-                android.R.layout.simple_spinner_item,
+                R.layout.simple_spinner_item,
                 collegeNames
             )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             binding.collegeSpinner.adapter = adapter
 
             Log.d("COLLEGE_FETCH", "Spinner populated successfully")

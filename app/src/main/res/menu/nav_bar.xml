@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/home_icon"
         android:title="Home"/>
-
     <item
-        android:id="@+id/nav_orders"
-        android:icon="@drawable/order_icon"
-        android:title="Orders" />
+        android:id="@+id/canteenFragment"
+        android:icon="@drawable/canteed_icon_2"
+        android:title="Canteens" />
     <item
-        android:id="@+id/nav_cart"
-        android:icon="@drawable/cart_icon"
-        android:title="Cart" />
+        android:id="@+id/marketPlaceFragment"
+        android:icon="@drawable/marketplace_icon"
+        android:title="Buy &amp; Sell" />
     <item
-        android:id="@+id/nav_profile"
+        android:id="@+id/chatRoomFragment"
+        android:icon="@drawable/chatroom_icon"
+        android:title="Chat Room" />
+    <item
+        android:id="@+id/profileFragment"
         android:icon="@drawable/profile_icon"
         android:title="Profile" />
 
 </menu>
+
+
+<!--    ⚠️ Important: android:ids in this menu must exactly match the fragment IDs in nav_graph.xml.-->
 

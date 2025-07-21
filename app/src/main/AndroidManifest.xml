@@ -17,27 +17,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusDock">
         <activity
-            android:name=".UI.OtpActivity"
+            android:name=".UI.Auth.OtpActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.LauncherActivity"
+            android:name=".UI.Main.LauncherActivity"
             android:exported="false">
 
         </activity>
         <activity
-            android:name=".UI.CanteenMenuActivity"
+            android:name=".UI.Canteen.CanteenMenuActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UI.LoginActivity"
+            android:name=".UI.Main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".UI.Auth.LoginActivity"
+            android:exported="false">
+
         </activity>
     </application>
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9FAFB"
-    tools:context=".MainActivity">
+    tools:context=".UI.Main.MainActivity">
 
 
     <TextView
@@ -83,14 +83,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-<!--             Sample card layout; Just for local seeing -->
-<!--            Ultimately setting the value by backend-->
-                        <include layout="@layout/canteen_card"
-                            android:id="@+id/canteenCard1"/>
-                        <include layout="@layout/canteen_card"
-                            android:id="@+id/canteenCard2"/>
-                        <include layout="@layout/canteen_card"
-                            android:id="@+id/canteenCard3"/>
+            <!--             Sample card layout; Just for local seeing -->
+            <!--            Ultimately setting the value by backend-->
+            <include layout="@layout/canteen_card"
+                android:id="@+id/canteenCard1"/>
+            <include layout="@layout/canteen_card"
+                android:id="@+id/canteenCard2"/>
+            <include layout="@layout/canteen_card"
+                android:id="@+id/canteenCard3"/>
 
 
         </LinearLayout>

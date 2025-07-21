@@ -1,6 +1,7 @@
-package com.sayed.campusdock
+package com.sayed.campusdock.API
 
-import com.sayed.campusdock.API.ApiService
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient
 {
@@ -8,9 +9,9 @@ object RetrofitClient
     private const val BASE_URL= "http://192.168.1.9:8081/"
 
     val instance: ApiService by lazy {
-        retrofit2.Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
 

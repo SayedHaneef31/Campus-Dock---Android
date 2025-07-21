@@ -1,37 +1,37 @@
-package com.sayed.campusdock.UI
+package com.sayed.campusdock.UI.Canteen
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.sayed.campusdock.Data.Canteen
 import com.sayed.campusdock.R
-import com.sayed.campusdock.RetrofitClient
-import com.sayed.campusdock.databinding.FragmentHomeBinding
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.UI.Canteen.CanteenMenuActivity
+import com.sayed.campusdock.databinding.CanteenFragmentBinding
+
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class CanteenFragment : Fragment() {
 
-    //Enable view binding
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: CanteenFragmentBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        //This inflates your layout and prepares it for rendering.
+    ): View? {
+        _binding = CanteenFragmentBinding.inflate(inflater, container, false)
 
         fetchCanteens()
+
         return binding.root
 
     }

@@ -46,11 +46,11 @@
         app:layout_constraintTop_toBottomOf="@id/orderDetailsLabel">
 
         <!-- Item Example -->
-        <include layout="@layout/item_order_summary_card" />
+        <include layout="@layout/canteen_item_order_summary_card" />
 
-        <include layout="@layout/item_order_summary_card" />
+        <include layout="@layout/canteen_item_order_summary_card" />
 
-        <include layout="@layout/item_order_summary_card" />
+        <include layout="@layout/canteen_item_order_summary_card" />
 
     </LinearLayout>
 

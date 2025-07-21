@@ -91,9 +91,9 @@
             android:layout_marginBottom="12dp" />
 
         <!-- Sample Order Card (repeat programmatically) -->
-        <include layout="@layout/order_history_card" />
-        <include layout="@layout/order_history_card" />
-        <include layout="@layout/order_history_card" />
+        <include layout="@layout/profile_order_history_card" />
+        <include layout="@layout/profile_order_history_card" />
+        <include layout="@layout/profile_order_history_card" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

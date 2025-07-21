@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+
+<!--    Make sure the menu items have the same id as the fragment ids.-->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.sayed.campusdock.UI.Home.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/canteenFragment"
+        android:name="com.sayed.campusdock.UI.Canteen.CanteenFragment"
+        android:label="CanteenFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.sayed.campusdock.UI.Profile.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.sayed.campusdock.UI.ChatRoom.ChatRoomFragment"
+        android:label="chat_room_fragment"
+        tools:layout="@layout/chat_room_fragment" />
+    <fragment
+        android:id="@+id/marketPlaceFragment"
+        android:name="com.sayed.campusdock.UI.MarketPlace.MarketPlaceFragment"
+        android:label="market_place_fragment"
+        tools:layout="@layout/market_place_fragment" />
+</navigation>

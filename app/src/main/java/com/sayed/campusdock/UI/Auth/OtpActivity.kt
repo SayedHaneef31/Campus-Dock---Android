@@ -1,31 +1,27 @@
-package com.sayed.campusdock.UI
+package com.sayed.campusdock.UI.Auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.sayed.campusdock.MainActivity
-import com.sayed.campusdock.R
-import com.sayed.campusdock.RetrofitClient
-import com.sayed.campusdock.databinding.ActivityOtpBinding
+import com.sayed.campusdock.UI.Main.MainActivity
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.databinding.AuthOtpActivityBinding
 import kotlinx.coroutines.launch
 
 class OtpActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityOtpBinding
+    private lateinit var binding: AuthOtpActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityOtpBinding.inflate(layoutInflater)
+        binding = AuthOtpActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val email = intent.getStringExtra("email")
 
         binding.btnVerifyOtp.setOnClickListener {
-            val enteredOtp = binding.otpInput.text.toString().trim()
+            val enteredOtp = binding.otpView.value
             val email = intent.getStringExtra("email") ?: ""
 
             if (enteredOtp.isEmpty()) {

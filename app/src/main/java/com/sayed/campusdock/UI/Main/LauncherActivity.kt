@@ -1,14 +1,10 @@
-package com.sayed.campusdock.UI
+package com.sayed.campusdock.UI.Main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.sayed.campusdock.MainActivity
-import com.sayed.campusdock.R
-
+import com.sayed.campusdock.UI.Main.MainActivity
+import com.sayed.campusdock.UI.Auth.LoginActivity
 
 //This is the new launcher that decides:
 // 1. If user should go to login screen, or

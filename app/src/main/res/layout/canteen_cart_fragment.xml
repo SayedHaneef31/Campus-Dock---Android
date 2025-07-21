@@ -42,9 +42,9 @@
             android:padding="16dp">
 
             <!--             Sample card layout; repeat programmatically -->
-            <include layout="@layout/menu_item" />
-            <include layout="@layout/menu_item" />
-            <include layout="@layout/menu_item" />
+            <include layout="@layout/canteen_menu_item" />
+            <include layout="@layout/canteen_menu_item" />
+            <include layout="@layout/canteen_menu_item" />
 
 
 
