@@ -6,15 +6,20 @@
     app:startDestination="@id/homeFragment">
 
 
-<!--    Make sure the menu items have the same id as the fragment ids.-->
+    <!--    Make sure the menu items have the same id as the fragment ids.-->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.sayed.campusdock.UI.Home.HomeFragment"
         android:label="HomeFragment" />
-    <fragment
-        android:id="@+id/canteenFragment"
-        android:name="com.sayed.campusdock.UI.Canteen.CanteenFragment"
-        android:label="CanteenFragment" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/canteenFragment"-->
+    <!--        android:name="com.sayed.campusdock.UI.Canteen.CanteenFragment"-->
+    <!--        android:label="CanteenFragment" />-->
+    <!-- This now points to the entire canteen subgraph -->
+<!--    <navigation-->
+<!--        android:id="@+id/canteen_nav_graph"-->
+<!--        app:graph="@navigation/canteen_nav_graph" />-->
+    <include app:graph="@navigation/canteen_nav_graph" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.sayed.campusdock.UI.Profile.ProfileFragment"
@@ -29,4 +34,7 @@
         android:name="com.sayed.campusdock.UI.MarketPlace.MarketPlaceFragment"
         android:label="market_place_fragment"
         tools:layout="@layout/market_place_fragment" />
+
+
+
 </navigation>

@@ -1,5 +1,6 @@
 package com.sayed.campusdock.UI.Auth
 
+//noinspection SuspiciousImport
 import android.R
 import android.content.Intent
 import android.graphics.Color

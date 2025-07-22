@@ -15,7 +15,7 @@ interface ApiService
 {
 
     @GET("api/v1/colleges/caf0ae86-27da-4243-bf75-431b83ecefca/canteens")
-    suspend fun getCanteens(): List<Canteen>      // Display all the canteens
+    suspend fun getCanteens(): List<Canteen>      // Display all the canteens of specific college by id
 
     @GET("api/v1/colleges/name")
     suspend fun getCollegesName(): List<CollegeSpinner>      // Display all the colleges in login spinner

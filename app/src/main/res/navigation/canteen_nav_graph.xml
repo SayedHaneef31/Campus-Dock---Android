@@ -1,0 +1,33 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/canteen_nav_graph"
+    app:startDestination="@id/canteenFragment">
+
+    <fragment
+        android:id="@+id/canteenFragment"
+        android:name="com.sayed.campusdock.UI.Canteen.CanteenFragment"
+        android:label="CanteenFragment">
+
+        <action
+            android:id="@+id/action_canteenFragment_to_canteenFullFragment"
+            app:destination="@id/canteenFullFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/canteenFullFragment"
+        android:name="com.sayed.campusdock.UI.Canteen.CanteenFullFragment"
+        android:label="CanteenFullFragment" >
+        <argument
+            android:name="canteenName"
+            app:argType="string" />
+        <argument
+            android:name="canteenUrl"
+            app:argType="string" />
+        <argument
+            android:name="canteenOpen"
+            app:argType="boolean" />
+        <argument
+            android:name="canteenId"
+            app:argType="string" />
+    </fragment>
+</navigation>

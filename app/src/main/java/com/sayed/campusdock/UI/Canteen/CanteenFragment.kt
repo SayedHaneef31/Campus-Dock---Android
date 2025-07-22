@@ -6,16 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.sayed.campusdock.Data.Canteen
 import com.sayed.campusdock.R
 import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.UI.Canteen.CanteenMenuActivity
 import com.sayed.campusdock.databinding.CanteenFragmentBinding
+import androidx.navigation.fragment.findNavController
+
+
 
 import kotlinx.coroutines.launch
 
@@ -58,8 +64,10 @@ class CanteenFragment : Fragment() {
 
             val nameView = card.findViewById<TextView>(R.id.canteenName)
             val statusView = card.findViewById<TextView>(R.id.canteenStatus)
+            val imageView = card.findViewById<ImageView>(R.id.canteenImage)
 
             nameView.text = canteen.name
+
             statusView.text = if (canteen.open) "Open" else "Closed"
             statusView.setTextColor(
                 ContextCompat.getColor(
@@ -68,20 +76,28 @@ class CanteenFragment : Fragment() {
                 )
             )
 
+            Glide.with(requireContext())
+                .load(canteen.url)
+                .placeholder(R.drawable.canteen_img) // optional
+                .into(imageView)
+
             // Set click to navigate
             card.setOnClickListener {
-                navigateToMenu(canteen.name)
+                val action = CanteenFragmentDirections.actionCanteenFragmentToCanteenFullFragment(
+                    canteenName = canteen.name,
+                    canteenUrl = canteen.url,
+                    canteenOpen = canteen.open,
+                    canteenId = canteen.id.toString()
+                )
+                findNavController().navigate(action)
+
             }
 
             container.addView(card)
         }
     }
 
-    private fun navigateToMenu(canteenName: String) {
-        val intent = Intent(requireContext(), CanteenMenuActivity::class.java)
-        intent.putExtra("canteen_name", canteenName)
-        startActivity(intent)
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
