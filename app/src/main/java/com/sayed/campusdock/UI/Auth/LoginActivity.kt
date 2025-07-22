@@ -2,9 +2,14 @@ package com.sayed.campusdock.UI.Auth
 
 import android.R
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -29,87 +34,97 @@ class LoginActivity : AppCompatActivity() {
         fetchCollegesAndPopulateSpinner()
 
         binding.btnSendOtp.setOnClickListener {
-            val selectedIndex = binding.collegeSpinner.selectedItemPosition
-            val selectedCollege = collegeList[selectedIndex]
-            val selectedCollegeDomain = selectedCollege.domain
-            val email = binding.emailInput.text.toString().trim()
+            sendOTP()
+        }
 
-            if (email.endsWith("")) // Use selectedCollegeDomain for production
-            {
-                lifecycleScope.launch {
-                    try {
-                        val response = RetrofitClient.instance.sendOTP(CreateUser(email))
-                        Log.d("SEND_OTP", "Response code: ${response.code()}, body: ${response.body()}")
+    }
 
-                        if (response.isSuccessful) {
-                            Toast.makeText(this@LoginActivity, "OTP sent successfully", Toast.LENGTH_LONG).show()
+    private fun fetchCollegesAndPopulateSpinner() {
+        lifecycleScope.launch {
+            try {
+                collegeList = RetrofitClient.instance.getCollegesName()
 
-                            val intent = Intent(this@LoginActivity, OtpActivity::class.java)
-                            intent.putExtra("email", email)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this@LoginActivity, "Failed to send OTP, Retry in 10 seconds", Toast.LENGTH_SHORT).show()
-                        }
-                    } catch (e: Exception) {
-                        Log.e("SEND_OTP_ERROR", "Exception: ${e.message}", e)
-                        Toast.makeText(this@LoginActivity, "Error in sending OTP: ${e.message}", Toast.LENGTH_LONG).show()
+                val collegeNames = mutableListOf("Select your college") + collegeList.map { it.name }
+
+                val adapter = object : ArrayAdapter<String>(
+                    this@LoginActivity,
+                    android.R.layout.simple_spinner_item,
+                    collegeNames
+                ) {
+                    override fun isEnabled(position: Int): Boolean {
+                        return position != 0 // disable the hint item
+                    }
+
+                    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                        val view = super.getDropDownView(position, convertView, parent) as TextView
+                        view.setTextColor(if (position == 0) Color.GRAY else Color.BLACK)
+                        return view
                     }
                 }
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                binding.collegeSpinner.adapter = adapter
 
-            } else {
-                Toast.makeText(this, "Please select the college from the spinner", Toast.LENGTH_SHORT).show()
+                binding.emailInput.isEnabled = false
+
+                binding.collegeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                        // Enable email input only if valid college is selected
+                        binding.emailInput.isEnabled = position != 0
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {}
+                }
+
+            } catch (e: Exception) {
+                Log.e("COLLEGE_FETCH_ERROR", "Failed to fetch colleges: ${e.message}", e)
+                Toast.makeText(this@LoginActivity, "Failed to load colleges", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-//    private fun fetchCollegesAndPopulateSpinner() {
-//       lifecycleScope.launch {
-//           try {
-//               collegeList = RetrofitClient.instance.getCollegesName()
-//               val collegeNames = collegeList.map { it.name }
-//
-//               val adapter = ArrayAdapter(
-//                   this@LoginActivity, // or requireContext() in Fragment
-//                   android.R.layout.simple_spinner_item,
-//                   collegeNames
-//               )
-//               adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//               binding.collegeSpinner.adapter = adapter
-//           }catch (e: Exception){
-//               Toast.makeText(this@LoginActivity, "Failed to load colleges", Toast.LENGTH_SHORT).show()
-//           }
-//
-//       }
-//
-//
-//
-//    }
-private fun fetchCollegesAndPopulateSpinner() {
-    lifecycleScope.launch {
-        try {
-            Log.d("COLLEGE_FETCH", "Fetching college list from backend...")
 
-            collegeList = RetrofitClient.instance.getCollegesName()
-            Log.d("COLLEGE_FETCH", "College list fetched: $collegeList")
+    private fun sendOTP() {
+        val selectedIndex = binding.collegeSpinner.selectedItemPosition
+        val selectedCollege = collegeList[selectedIndex-1]
+        //since the hint item shifts all indexes by 1.
+        val selectedCollegeDomain = selectedCollege.domain
+        val email = binding.emailInput.text.toString().trim()
 
-            val collegeNames = collegeList.map { it.name }
-            Log.d("COLLEGE_FETCH", "Extracted college names: $collegeNames")
+        if (selectedIndex == 0) {
+            Toast.makeText(this, "Please select a valid college", Toast.LENGTH_SHORT).show()
+        }
+        if(email.isEmpty())
+            Toast.makeText(this@LoginActivity, "Please enter the valid email", Toast.LENGTH_SHORT).show()
 
-            val adapter = ArrayAdapter(
-                this@LoginActivity,
-                R.layout.simple_spinner_item,
-                collegeNames
-            )
-            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-            binding.collegeSpinner.adapter = adapter
+        if (email.endsWith(selectedCollegeDomain))
+        {
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitClient.instance.sendOTP(CreateUser(email))
+                    Log.d("SEND_OTP", "Response code: ${response.code()}, body: ${response.body()}")
 
-            Log.d("COLLEGE_FETCH", "Spinner populated successfully")
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@LoginActivity, "OTP sent successfully", Toast.LENGTH_LONG).show()
 
-        } catch (e: Exception) {
-            Log.e("COLLEGE_FETCH_ERROR", "Failed to fetch colleges: ${e.message}", e)
-            Toast.makeText(this@LoginActivity, "Failed to load colleges", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@LoginActivity, OtpActivity::class.java)
+                        intent.putExtra("email", email)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Failed to send OTP, Retry in 10 seconds", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Log.e("SEND_OTP_ERROR", "Exception: ${e.message}", e)
+                    Toast.makeText(this@LoginActivity, "Error in sending OTP: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+        }
+        else {
+            Toast.makeText(this, "Please fill in the correct college email", Toast.LENGTH_SHORT).show()
         }
     }
 }
 
-}
+
+
+
