@@ -63,20 +63,7 @@
         </LinearLayout>
     </FrameLayout>
 
-    <!-- Description -->
-    <TextView
-        android:id="@+id/cafeDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Tea Man's Cafe offers a variety of quick bites and beverages, perfect for a study break or a quick meal between classes..."
-        android:textSize="14sp"
-        android:textColor="#444"
-        app:layout_constraintTop_toBottomOf="@id/headerSection"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <!-- Menu Title -->
     <TextView
@@ -89,23 +76,23 @@
         android:textColor="#000"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/cafeDescription"
+        app:layout_constraintTop_toBottomOf="@id/headerSection"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Tab Filter -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/menuTabLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:tabIndicatorColor="@color/blue"
-        app:tabSelectedTextColor="@color/blue"
-        app:tabTextColor="@color/gray"
-        app:tabIndicatorFullWidth="false"
-        app:tabMode="scrollable"
-        app:layout_constraintTop_toBottomOf="@id/menuTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    &lt;!&ndash; Tab Filter &ndash;&gt;-->
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/menuTabLayout"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:tabIndicatorColor="@color/blue"-->
+<!--        app:tabSelectedTextColor="@color/blue"-->
+<!--        app:tabTextColor="@color/gray"-->
+<!--        app:tabIndicatorFullWidth="false"-->
+<!--        app:tabMode="scrollable"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/menuTitle"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <!-- Scrollable Menu -->
     <androidx.core.widget.NestedScrollView
@@ -114,7 +101,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/menuTabLayout"
+        app:layout_constraintTop_toBottomOf="@id/menuTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

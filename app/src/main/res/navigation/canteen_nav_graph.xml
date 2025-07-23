@@ -22,7 +22,8 @@
             app:argType="string" />
         <argument
             android:name="canteenUrl"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"/>
         <argument
             android:name="canteenOpen"
             app:argType="boolean" />

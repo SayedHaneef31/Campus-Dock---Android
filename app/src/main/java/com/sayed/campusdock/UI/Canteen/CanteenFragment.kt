@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -20,7 +21,7 @@ import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.UI.Canteen.CanteenMenuActivity
 import com.sayed.campusdock.databinding.CanteenFragmentBinding
 import androidx.navigation.fragment.findNavController
-
+import com.sayed.campusdock.ViewModel.CanteenViewModel
 
 
 import kotlinx.coroutines.launch
@@ -30,30 +31,46 @@ class CanteenFragment : Fragment() {
     private var _binding: CanteenFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: CanteenViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = CanteenFragmentBinding.inflate(inflater, container, false)
 
-        fetchCanteens()
+//        fetchCanteens()
 
         return binding.root
 
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    private fun fetchCanteens() {
-        lifecycleScope.launch {
-            try {
-                val canteens = RetrofitClient.instance.getCanteens()
-                displayCanteens(canteens)
-            } catch (e: Exception){
-                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                Log.e("HomeFragment", "Error: ${e.message}")
-            }
+        // 🔹 Associate ViewModel with this Fragment
+        viewModel = ViewModelProvider(this).get(CanteenViewModel::class.java)
 
+        // 🔹 Observe LiveData so that it updates UI when data arrives or changes
+        viewModel.canteens.observe(viewLifecycleOwner) { canteens ->
+            displayCanteens(canteens)
         }
+
+        // Load if not already loaded
+        viewModel.fetchCanteens()
     }
+
+//    private fun fetchCanteens() {
+//        lifecycleScope.launch {
+//            try {
+//                val canteens = RetrofitClient.instance.getCanteens()
+//                displayCanteens(canteens)
+//            } catch (e: Exception){
+//                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
+//                Log.e("HomeFragment", "Error: ${e.message}")
+//            }
+//
+//        }
+//    }
 
     private fun displayCanteens(canteens: List<Canteen>) {
         val container = binding.canteenContainer

@@ -3,12 +3,14 @@ package com.sayed.campusdock.API
 import com.sayed.campusdock.Data.Canteen
 import com.sayed.campusdock.Data.CollegeSpinner
 import com.sayed.campusdock.Data.CreateUser
+import com.sayed.campusdock.Data.MenuItem
 import com.sayed.campusdock.Data.OtpResponse
 import com.sayed.campusdock.Data.OtpVerifyResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService
@@ -26,5 +28,9 @@ interface ApiService
     @POST("api/v1/auth/verifyOTP")
     suspend fun verifyOTP(@Query("email") email: String,
                           @Query("otp") otp: String): Response<OtpVerifyResponse>      //Verifying login otp
+
+
+    @GET("api/v1/menuItems/canteens/{canteenId}")
+    suspend fun getMenuItems(@Path("canteenId") canteenId: String): List<MenuItem>
 
 }

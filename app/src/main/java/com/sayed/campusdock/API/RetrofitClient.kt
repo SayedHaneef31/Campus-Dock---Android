@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient
 {
     //private const val BASE_URL= "http://campusdock-api.vidvault.me:8082/"
-    private const val BASE_URL= "http://192.168.1.9:8081/"
+    private const val BASE_URL= "http://192.168.1.5:8081/"
 
     val instance: ApiService by lazy {
         Retrofit.Builder()
