@@ -2,18 +2,21 @@ package com.sayed.campusdock.UI.Canteen
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Data.MenuItem
 import com.sayed.campusdock.R
+import com.sayed.campusdock.ViewModel.CanteenMenuViewModel
 import com.sayed.campusdock.databinding.CanteenFullFragmentBinding
 import kotlinx.coroutines.launch
 
@@ -22,54 +25,14 @@ class CanteenFullFragment : Fragment() {
     private var _binding: CanteenFullFragmentBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    // Getting a reference to the ViewModel, scoped to this Fragment.
+    private val viewModel: CanteenMenuViewModel by viewModels()
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = CanteenFullFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-    private fun fetchAndDisplayMenuItems(canteenId: String) {
-        lifecycleScope.launch {
-            try {
-                val menuItems = RetrofitClient.instance.getMenuItems(canteenId)
-                Log.d("CanteenFullFragment", "Fetched ${menuItems.size} menu items")
-                Toast.makeText(requireContext(), "Fetched the menu", Toast.LENGTH_SHORT).show()
-                displayMenuItems(menuItems)
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Failed to load menu", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun displayMenuItems(menuItems: List<MenuItem>) {
-        Log.d("CanteenFullFragment", "Displaying ${menuItems.size} menu items")
-        val container = binding.canteenContainer
-        container.removeAllViews()
-
-        for (item in menuItems) {
-            val card = layoutInflater.inflate(R.layout.canteen_menu_item, container, false)
-
-            val nameView = card.findViewById<TextView>(R.id.foodNameIddddd)
-            val priceView = card.findViewById<TextView>(R.id.foodPriceIddddd)
-            val imageView = card.findViewById<ImageView>(R.id.foodImageIdddd)
-
-            nameView.text = item.name
-            priceView.text = "₹ ${item.price}"
-
-            // Load image using Glide
-            Glide.with(this)
-                .load(item.url)
-                .placeholder(R.drawable.burger)
-                .into(imageView)
-
-
-            // You can add click listeners for add buttons here
-            container.addView(card)
-        }
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,27 +41,98 @@ class CanteenFullFragment : Fragment() {
 
         // ✅ Use Safe Args to get the passed data
         val args = CanteenFullFragmentArgs.fromBundle(requireArguments())
+        val canteenId = args.canteenId
+        val canteenName = args.canteenName
 
-        val name = args.canteenName
-        val url = args.canteenUrl
-        val isOpen = args.canteenOpen
-        val id = args.canteenId    // This came a s string
-        Log.d("CanteenFullFragment", "Canteen ID: $id")
-        Log.d("CanteenFullFragment", "Canteen name: $name")
-        Log.d("CanteenFullFragment", "Canteen URL: $url")
-        Log.d("CanteenFullFragment", "Canteen Open: $isOpen")
+        // Filling canteen card info
+        binding.cafeTitle.text = canteenName
+        Glide.with(requireContext()).load(args.canteenUrl).placeholder(R.drawable.canteen_img).into(binding.cafeImage)
+        binding.cafeTiming.text = if (args.canteenOpen) "Open Now" else "Closed"
 
-        // Example: set name to a TextView
-        view.findViewById<TextView>(R.id.cafeTitle)?.text = name
-        view.findViewById<TextView>(R.id.cafeTiming)?.text = if (isOpen) "Open Now" else "Closed"
+        //Observe the menu items from the ViewModel
+        observeMenuItems()
+        observeErrors()
 
-        Glide.with(requireContext())
-            .load(url)
-            .into(view.findViewById(R.id.cafeImage))
-
-
-        fetchAndDisplayMenuItems(id)
+        viewModel.fetchMenuItems(canteenId)
     }
+    private fun observeMenuItems() {
+        lifecycleScope.launch {
+            viewModel.menuItems.collect { menuItems ->
+                if (menuItems.isNotEmpty()) {
+                    displayMenuItems(menuItems)
+                }
+            }
+        }
+    }
+
+    private fun observeErrors() {
+        lifecycleScope.launch {
+            viewModel.error.collect { errorMessage ->
+                if (errorMessage.isNotEmpty()) {
+                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun displayMenuItems(menuItems: List<MenuItem>) {
+        Log.d("CanteenFullFragment", "Displaying ${menuItems.size} menu items")
+        val container = binding.canteenContainer
+        container.removeAllViews() // Clear previous views
+
+        // Loop through each menu item and create a card for it
+        for (item in menuItems) {
+            val card = layoutInflater.inflate(R.layout.canteen_menu_item, container, false)
+            val nameView = card.findViewById<TextView>(R.id.foodNameIddddd)
+            val priceView = card.findViewById<TextView>(R.id.foodPriceIddddd)
+            val imageView = card.findViewById<ImageView>(R.id.foodImageIdddd)
+            val btnAdd = card.findViewById<Button>(R.id.btnAddIddddddd)
+            val quantitySelector = card.findViewById<LinearLayout>(R.id.quantitySelector)
+            val quantityText = card.findViewById<TextView>(R.id.quantityIddddd)
+            val btnPlus = card.findViewById<Button>(R.id.btnPlusIddddd)
+            val btnMinus = card.findViewById<Button>(R.id.btnMinusIdddd)
+
+            // Setting the static data for menu item card
+            Log.d("CanteenFullFragment", "Setting data for item: ${item.foodName}")
+            nameView.text = item.foodName
+            priceView.text = "₹ ${item.price}"
+            Glide.with(this).load(item.url).placeholder(R.drawable.burger).into(imageView)
+
+            // 5. OBSERVE the cart state from the ViewModel for THIS SPECIFIC item
+            // This replaces all the manual UI updates and if/else blocks
+            lifecycleScope.launch {
+                viewModel.cartItems.collect { cartMap ->
+                    val quantityInCart = cartMap[item.id]?.quantity ?: 0
+                    if (quantityInCart > 0) {
+                        quantitySelector.visibility = View.VISIBLE
+                        btnAdd.visibility = View.GONE
+                        quantityText.text = quantityInCart.toString()
+                    } else {
+                        quantitySelector.visibility = View.GONE
+                        btnAdd.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            // 6. DELEGATE all button clicks to the ViewModel
+            btnAdd.setOnClickListener {
+                Toast.makeText(requireContext(), "Add buttton clicked", Toast.LENGTH_SHORT).show()
+                viewModel.onAddItemClicked(item) }
+            btnPlus.setOnClickListener {
+                Toast.makeText(requireContext(), "Plus buttton clicked", Toast.LENGTH_SHORT).show()
+                viewModel.onUpdateQuantity(item.id, 1) }
+            btnMinus.setOnClickListener {
+                Toast.makeText(requireContext(), "Minus buttton clicked", Toast.LENGTH_SHORT).show()
+                viewModel.onUpdateQuantity(item.id, -1) }
+
+            container.addView(card)
+        }
+    }
+
+        override fun onStop() {
+            super.onStop()
+            viewModel.scheduleSync()
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -106,3 +140,128 @@ class CanteenFullFragment : Fragment() {
     }
 
 }
+
+
+
+
+
+//    private fun fetchAndDisplayMenuItems(canteenId: String) {
+//        lifecycleScope.launch {
+//            try {
+//                val menuItems = RetrofitClient.instance.getMenuItems(canteenId)
+//                Log.d("CanteenFullFragment", "Fetched ${menuItems.size} menu items")
+//                Toast.makeText(requireContext(), "Fetched the menu", Toast.LENGTH_SHORT).show()
+//                displayMenuItems(menuItems)
+//            } catch (e: Exception) {
+//                Toast.makeText(requireContext(), "Failed to load menu", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
+//
+//    private fun displayMenuItems(menuItems: List<MenuItem>) {
+//        Log.d("CanteenFullFragment", "Displaying ${menuItems.size} menu items")
+//        val container = binding.canteenContainer
+//        container.removeAllViews()
+//
+//        lifecycleScope.launch {
+//            val cartDao = AppDatabaseBuilder.getInstance(requireContext()).cartDao()
+//            val currentCart = cartDao.getAllCartItems().associateBy { it.id }
+//
+//            for (item in menuItems) {
+//                val card = layoutInflater.inflate(R.layout.canteen_menu_item, container, false)
+//
+//                val nameView = card.findViewById<TextView>(R.id.foodNameIddddd)
+//                val priceView = card.findViewById<TextView>(R.id.foodPriceIddddd)
+//                val imageView = card.findViewById<ImageView>(R.id.foodImageIdddd)
+//
+//
+//                val btnAdd = card.findViewById<Button>(R.id.btnAddIddddddd)
+//                val quantitySelector = card.findViewById<LinearLayout>(R.id.quantitySelector)
+//                val quantityText = card.findViewById<TextView>(R.id.quantityIddddd)
+//                val btnPlus = card.findViewById<Button>(R.id.btnPlusIddddd)
+//                val btnMinus = card.findViewById<Button>(R.id.btnMinusIdddd)
+//
+//                // Set basic data
+//                nameView.text = item.name
+//                priceView.text = "₹ ${item.price}"
+//
+//                // Load image using Glide
+//                Glide.with(this@CanteenFullFragment)
+//                    .load(item.url)
+//                    .placeholder(R.drawable.burger)
+//                    .into(imageView)
+//
+//                // Check if already in cart
+//                val existingQuantity = currentCart[item.id]?.quantity ?: 0
+//                if (existingQuantity > 0) {
+//                    quantitySelector.visibility = View.VISIBLE
+//                    btnAdd.visibility = View.GONE
+//                    quantityText.text = existingQuantity.toString()
+//                } else {
+//                    quantitySelector.visibility = View.GONE
+//                    btnAdd.visibility = View.VISIBLE
+//                }
+//
+//                // Add button
+//                btnAdd.setOnClickListener {
+//                    quantitySelector.visibility = View.VISIBLE
+//                    btnAdd.visibility = View.GONE
+//                    quantityText.text = "1"
+//
+//                    lifecycleScope.launch {
+//                        cartDao.insertOrUpdate(
+//                            CartItem(item.id, item.name, 1, item.price, item.url)
+//                        )
+//                        scheduleCartSync(requireContext())
+//                    }
+//                }
+//
+//                // Plus button
+//                btnPlus.setOnClickListener {
+//                    var quantity = quantityText.text.toString().toInt()
+//                    quantity++
+//                    quantityText.text = quantity.toString()
+//
+//                    lifecycleScope.launch {
+//                        cartDao.updateQuantity(item.id, quantity)
+//                        scheduleCartSync(requireContext())
+//                    }
+//                }
+//
+//                // Minus button
+//                btnMinus.setOnClickListener {
+//                    var quantity = quantityText.text.toString().toInt()
+//                    if (quantity > 1) {
+//                        quantity--
+//                        quantityText.text = quantity.toString()
+//                        lifecycleScope.launch {
+//                            cartDao.updateQuantity(item.id, quantity)
+//                            scheduleCartSync(requireContext())
+//                        }
+//                    } else {
+//                        quantitySelector.visibility = View.GONE
+//                        btnAdd.visibility = View.VISIBLE
+//                        lifecycleScope.launch {
+//                            cartDao.deleteCartItemById(item.id)
+//                            scheduleCartSync(requireContext())
+//                        }
+//                    }
+//                }
+//
+//                container.addView(card)
+//
+//            }
+//        }
+//    }
+//
+//    fun scheduleCartSync(context: Context) {
+//        val workRequest = OneTimeWorkRequestBuilder<CartSyncWorker>()
+//            .setInitialDelay(5, TimeUnit.SECONDS) // Delay after last change
+//            .build()
+//
+//        WorkManager.getInstance(context).enqueueUniqueWork(
+//            "cart_sync_work",
+//            ExistingWorkPolicy.REPLACE, // Replace if already scheduled
+//            workRequest
+//        )
+//    }

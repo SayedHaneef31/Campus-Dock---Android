@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    id("kotlin-kapt")     //for annotation processing
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -77,5 +78,15 @@ dependencies {
 
     //JWT Token Decoding
     implementation("com.auth0:java-jwt:4.5.0")
+
+    //Load json directly
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    //Room databse
+    implementation("androidx.room:room-runtime:2.7.2")
+    kapt("androidx.room:room-compiler:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")  // Kotlin Extensions and Coroutines support
+    implementation("androidx.room:room-paging:2.7.2")   // Paging support
+
 
 }
