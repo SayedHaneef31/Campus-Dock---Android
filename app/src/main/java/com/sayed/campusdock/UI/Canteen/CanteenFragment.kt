@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide
 import com.sayed.campusdock.Data.Canteen
 import com.sayed.campusdock.R
 import com.sayed.campusdock.API.RetrofitClient
-import com.sayed.campusdock.UI.Canteen.CanteenMenuActivity
 import com.sayed.campusdock.databinding.CanteenFragmentBinding
 import androidx.navigation.fragment.findNavController
 import com.sayed.campusdock.ViewModel.CanteenViewModel
@@ -36,9 +35,6 @@ class CanteenFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = CanteenFragmentBinding.inflate(inflater, container, false)
 
-        binding.cartFab.setOnClickListener {
-
-        }
 
         //Toast.makeText(requireContext(), "Inside canteen fragement", Toast.LENGTH_SHORT).show()
         return binding.root
@@ -49,10 +45,10 @@ class CanteenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 🔹 Associate ViewModel with this Fragment
+        // Calling the viewModel
         viewModel = ViewModelProvider(this)[CanteenViewModel::class.java]
 
-        // 🔹 Observe LiveData so that it updates UI when data arrives or changes
+        // This block is automatically triggered because the data it's watching has changed. This calls your displayCanteens function.
         viewModel.canteens.observe(viewLifecycleOwner) { canteens ->
             displayCanteens(canteens)
         }
@@ -68,62 +64,6 @@ class CanteenFragment : Fragment() {
             Log.e("CANTEEN_UI", "No JWT token found in SharedPreferences")
         }
     }
-
-//    private fun fetchCanteens() {
-//        lifecycleScope.launch {
-//            try {
-//                val canteens = RetrofitClient.instance.getCanteens()
-//                displayCanteens(canteens)
-//            } catch (e: Exception){
-//                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
-//                Log.e("HomeFragment", "Error: ${e.message}")
-//            }
-//
-//        }
-//    }
-
-//    private fun displayCanteens(canteens: List<Canteen>) {
-//        val container = binding.canteenContainer
-//        container.removeAllViews()
-//
-//        for (canteen in canteens) {
-//            val card = layoutInflater.inflate(R.layout.canteen_card, container, false)
-//
-//            val nameView = card.findViewById<TextView>(R.id.canteenName)
-//            val statusView = card.findViewById<TextView>(R.id.canteenStatus)
-//            val imageView = card.findViewById<ImageView>(R.id.canteenImage)
-//
-//            nameView.text = canteen.name
-//
-//            statusView.text = if (canteen.open) "Open" else "Closed"
-//            statusView.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (canteen.open) R.color.green else R.color.red
-//                )
-//            )
-//
-//            Glide.with(requireContext())
-//                .load(canteen.url)
-//                .placeholder(R.drawable.canteen_img) // optional
-//                .into(imageView)
-//
-//            // Set click to navigate
-//            card.setOnClickListener {
-//                val action = CanteenFragmentDirections.actionCanteenFragmentToCanteenFullFragment(
-//                    canteenName = canteen.name,
-//                    canteenUrl = canteen.url,
-//                    canteenOpen = canteen.open,
-//                    canteenId = canteen.id.toString()
-//                )
-//                findNavController().navigate(action)
-//
-//            }
-//
-//            container.addView(card)
-//        }
-//    }
-//
 
     private fun displayCanteens(canteens: List<Canteen>) {
         Log.d("CANTEEN_UI", "Displaying ${canteens.size} canteens")

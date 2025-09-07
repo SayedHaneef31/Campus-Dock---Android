@@ -9,6 +9,7 @@ import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Data.Room.AppDatabase
 import com.sayed.campusdock.Data.Room.AppDatabaseBuilder
 
+// Its main job is to reliably synchronize the user's local shopping cart, stored on the phone, with the main database on your server.
 class CartSyncWorker(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
 
@@ -19,6 +20,7 @@ class CartSyncWorker(appContext: Context, params: WorkerParameters) :
 
 
     override suspend fun doWork(): Result {
+
         // 1. Get the userId passed from the ViewModel. If it's null or empty, we can't proceed.
         val userId = inputData.getString(KEY_USER_ID)
         if (userId.isNullOrEmpty()) {
@@ -31,10 +33,10 @@ class CartSyncWorker(appContext: Context, params: WorkerParameters) :
         val api = RetrofitClient.instance
 
         return try {
-            // 3. Fetch all cart items currently stored in the local Room database.
+            // Fetching Local Data: The worker reads all the items currently saved in the local cart_items table from the phone's database.
             val cartItems = db.cartDao().getAllCartItems()
 
-            // 4. (Optional but good practice) If the cart is empty, there's nothing to sync.
+            // 4.  If the cart is empty, there's nothing to sync.
             if (cartItems.isEmpty()) {
                 Log.d("CartSyncWorker", "Local cart is empty. Sync not needed.")
                 return Result.success()
@@ -59,24 +61,5 @@ class CartSyncWorker(appContext: Context, params: WorkerParameters) :
             Result.retry() // An external issue occurred, so we should try again later.
         }
     }
-
-//    override suspend fun doWork(): Result {
-//        val db = Room.databaseBuilder(
-//            applicationContext,
-//            AppDatabase::class.java,
-//            "app_db"
-//        ).build()
-//
-//        val cartItems = db.cartDao().getAllCartItems()
-//
-//        // Call backend API here with cartItems
-//        val api = RetrofitClient.instance
-//        try {
-//            api.updateCart(cartItems) // Your API endpoint
-//            return Result.success()
-//        } catch (e: Exception) {
-//            return Result.retry()
-//        }
-//    }
 
 }

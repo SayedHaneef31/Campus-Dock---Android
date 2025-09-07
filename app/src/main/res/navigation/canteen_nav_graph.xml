@@ -31,4 +31,8 @@
             android:name="canteenId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.sayed.campusdock.UI.Canteen.CartFragment"
+        android:label="CartFragment" />
 </navigation>

@@ -11,21 +11,14 @@
         android:id="@+id/homeFragment"
         android:name="com.sayed.campusdock.UI.Home.HomeFragment"
         android:label="HomeFragment" />
-    <!--    <fragment-->
-    <!--        android:id="@+id/canteenFragment"-->
-    <!--        android:name="com.sayed.campusdock.UI.Canteen.CanteenFragment"-->
-    <!--        android:label="CanteenFragment" />-->
-    <!-- This now points to the entire canteen subgraph -->
-<!--    <navigation-->
-<!--        android:id="@+id/canteen_nav_graph"-->
-<!--        app:graph="@navigation/canteen_nav_graph" />-->
+
     <include app:graph="@navigation/canteen_nav_graph" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.sayed.campusdock.UI.Profile.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
-        android:id="@+id/chatRoomFragment"
+        android:id="@+id/socialsFragment"
         android:name="com.sayed.campusdock.UI.ChatRoom.ChatRoomFragment"
         android:label="chat_room_fragment"
         tools:layout="@layout/chat_room_fragment" />
@@ -34,7 +27,10 @@
         android:name="com.sayed.campusdock.UI.MarketPlace.MarketPlaceFragment"
         android:label="market_place_fragment"
         tools:layout="@layout/market_place_fragment" />
-
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.sayed.campusdock.UI.Canteen.CartFragment"
+        android:label="CartFragment" />
 
 
 </navigation>

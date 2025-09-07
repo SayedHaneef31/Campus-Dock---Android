@@ -14,12 +14,35 @@ import android.util.Base64
 
 class CanteenViewModel: ViewModel() {
     private val _canteens = MutableLiveData<List<Canteen>>() // Internal mutable data
-    val canteens: LiveData<List<Canteen>> = _canteens  // Public read-only version
+    val canteens: LiveData<List<Canteen>> = _canteens  // Fixed canteen for one session..untill this isnt canlled again
 
 //    MutableLiveData	Holds the list of canteens — and can change.
 //    LiveData	Public read-only access to the canteen list.
 
     private var isLoaded = false
+
+
+
+    fun fetchCanteens(token: String) {
+        if (isLoaded) return // Avoid re-fetching
+
+        val collegeId = getCollegeIdFromToken(token)
+        if (collegeId.isNullOrEmpty()) {
+            Log.e("CANTEEN_VM", "No collegeId found in token")
+            return
+        }
+
+        viewModelScope.launch {                               //API CALL to get canteens
+            try {
+                val result = RetrofitClient.instance.getCanteens(collegeId) // pass collegeId
+                _canteens.value = result         //Loaded in Mutable Live Data
+                isLoaded = true
+                Log.d("CANTEEN_VM", "Loaded ${result.size} canteens for $collegeId")
+            } catch (e: Exception) {
+                Log.e("CANTEEN_VM", "Failed to load canteens: ${e.message}")
+            }
+        }
+    }
 
     fun getCollegeIdFromToken(token: String): String? {
         try {
@@ -33,27 +56,6 @@ class CanteenViewModel: ViewModel() {
         } catch (e: Exception) {
             e.printStackTrace()
             return null
-        }
-    }
-
-    fun fetchCanteens(token: String) {
-        if (isLoaded) return // Avoid re-fetching
-
-        val collegeId = getCollegeIdFromToken(token)
-        if (collegeId.isNullOrEmpty()) {
-            Log.e("CANTEEN_VM", "No collegeId found in token")
-            return
-        }
-
-        viewModelScope.launch {
-            try {
-                val result = RetrofitClient.instance.getCanteens(collegeId) // pass collegeId
-                _canteens.value = result
-                isLoaded = true
-                Log.d("CANTEEN_VM", "Loaded ${result.size} canteens for $collegeId")
-            } catch (e: Exception) {
-                Log.e("CANTEEN_VM", "Failed to load canteens: ${e.message}")
-            }
         }
     }
 }

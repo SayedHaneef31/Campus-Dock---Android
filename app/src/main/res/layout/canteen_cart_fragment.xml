@@ -21,35 +21,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:fillViewport="true"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/CartTitleIddddd"
-        app:layout_constraintBottom_toTopOf="@id/paymentSummary">
 
-        <LinearLayout
-            android:id="@+id/canteenContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!--             Sample card layout; repeat programmatically -->
-            <include layout="@layout/canteen_menu_item" />
-            <include layout="@layout/canteen_menu_item" />
-            <include layout="@layout/canteen_menu_item" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cartRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/paymentSummary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/CartTitleIddddd"
+            tools:listitem="@layout/canteen_cart_list_item" />
 
 
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
 
     <!--    Payment summary-->

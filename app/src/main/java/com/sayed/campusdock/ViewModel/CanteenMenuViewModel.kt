@@ -19,6 +19,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
+/**  Will be getting thw menu items of a particular canteen
+ *
+ * This defines the CanteenMenuViewModel class.
+ * It inherits from AndroidViewModel instead of the regular ViewModel.
+ * This is a deliberate choice because AndroidViewModel gives you access
+ * to the application Context, which is necessary for creating the database instance,
+ * accessing SharedPreferences, and initializing WorkManager.
+ *
+ */
 class CanteenMenuViewModel (application: Application) : AndroidViewModel(application) {
 
     // Get an instance of the DAO from your singleton database builder
@@ -26,31 +35,34 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
     private val apiService = RetrofitClient.instance
 
     // --- State for Menu Items ---
-    //Private state for the list of menu items
-    private val _menuItems = MutableStateFlow<List<MenuItem>>(emptyList())
-    //Public, read-only state for the Fragment to observe
-    val menuItems: StateFlow<List<MenuItem>> = _menuItems
+    private val _menuItems = MutableStateFlow<List<MenuItem>>(emptyList())       //Private state for the list of menu items
+    val menuItems: StateFlow<List<MenuItem>> = _menuItems     //Public, exposes the menu items list to the Fragment. The Fragment can read and observe this,
+                                                              // but it cannot change it, ensuring a clean, one-way data flow.
 
     // --- State for Cart ---
+    // It holds the cart data as a Map, where the key is the menuItemId and the value is the CartItem
+    // object. This makes it very fast to look up the quantity of a specific item in the UI.
     private val _cartItems = MutableStateFlow<Map<String, CartItem>>(emptyMap())
     val cartItems: StateFlow<Map<String, CartItem>> = _cartItems
 
     // --- State for Errors ---
-    // Private state for holding error messages
     private val _error = MutableStateFlow("")
-    // Public, read-only state for the Fragment to observe for errors
-    val error: StateFlow<String> = _error
+    val error: StateFlow<String> = _error    //The Fragment observes this to show Toast messages to the user.
 
     /**
-     * The init block is called when the ViewModel is first created.
+     * This block of code runs once automatically when the CanteenMenuViewModel is first created.
      * It starts a coroutine to continuously observe the database for any changes.
      */
     init {
         viewModelScope.launch {
-            // Whenever the cart_items table changes in Room, this flow will emit the new list
+            // This is the heart of the reactive cart. It "collects" or listens to the Flow from the Room database.
+            // Whenever the cart data changes in the database,
+            // this block of code automatically runs again with the fresh list of items.
             cartDao.getAllCartItemsAsFlow().collect { items ->
-                // We convert the list to a map for easy lookup of items by their ID
                 _cartItems.value = items.associateBy { it.menuItemId }
+                // It takes the new list of items from the database and updates the _cartItems state,
+                // which in turn automatically updates the UI.
+                // The associateBy function efficiently converts the list to a map for fast lookups.
             }
         }
     }
@@ -69,7 +81,11 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
     }
 
     /**
-     * Called by the Fragment when the user clicks the initial "Add" button.
+     * This is called when the user taps the "Add" button.
+     * Its only job is to create a CartItem object and tell the cartDao
+     * to immediately save it to the local Room database.
+     * This action is what triggers the init block's collector to run again,
+     * updating the UI instantly.
      */
     fun onAddItemClicked(item: MenuItem) {
         viewModelScope.launch {
@@ -77,11 +93,11 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
             cartDao.insertOrUpdate(
                 CartItem(
                     id = item.id,
-                    menuItemId = item.id, // Assuming menuItemId is the same as the item's primary ID
+                    menuItemId = item.id,
                     foodName = item.foodName,
                     price = item.price,
-                    quantity = 1, // Start with quantity 1
-                    status = "ACTIVE", // Default status
+                    quantity = 1,
+                    status = "ACTIVE",
                     url = item.url
                 )
             )
@@ -110,10 +126,11 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
     }
 
     /**
+     * This function, called by the Fragment's onStop() method, handles the background sync.
      * Configures and enqueues a unique WorkManager job to sync the cart with the backend.
      */
     fun scheduleSync() {
-        // IMPORTANT: You must have the user's ID saved somewhere accessible, like SharedPreferences.
+
         val prefs = getApplication<Application>().getSharedPreferences("CampusDockPrefs", Context.MODE_PRIVATE)
         val token = prefs.getString("jwt_token", null)
         val userId = token?.let { getUserIdFromToken(it) }
@@ -123,17 +140,28 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
             return
         }
 
-        // Pass the userId to the worker
+        // It packs the userId into a data bundle to pass to the background worker.
         val workData = workDataOf(CartSyncWorker.KEY_USER_ID to userId)
 
+        /**    It builds a request to run the CartSyncWorker job once.
+         *     CartSyncWorker is a custom Worker Class that defines what the task does....like syncing cart data to server here.
+         *   1. .setInitialDelay(5, TimeUnit.SECONDS) ==== It tells WorkManager to wait 5 seconds after the last change before starting the sync.
+         *       This is a "debounce" mechanism.
+         *   2.  .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS) ====  - If the work fails, WorkManager will retry it.
+         *   Each retry will wait 10 sec longer than the previos one's
+           */
         val workRequest = OneTimeWorkRequestBuilder<CartSyncWorker>()
             .setInputData(workData)
             .setInitialDelay(5, TimeUnit.SECONDS)
             .setBackoffCriteria(BackoffPolicy.LINEAR, 10, TimeUnit.SECONDS)
             .build()
 
-        // Enqueue the work as a unique job, replacing any pending syncs.
-        // This prevents spamming the sync worker if the user makes many changes quickly.
+        // It hands the job to the Android system.
+        // "cart_sync_work": A unique name for the job.
+        //ExistingWorkPolicy.REPLACE: This tells WorkManager that if a sync job with this name is already scheduled and waiting,
+        // cancel it and replace it with this new one.
+        // This is extremely efficient, preventing the app from queuing up multiple syncs
+        // if the user taps buttons many times in a row.
         WorkManager.getInstance(getApplication()).enqueueUniqueWork(
             "cart_sync_work",
             ExistingWorkPolicy.REPLACE,
@@ -142,10 +170,6 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
         Log.d("CanteenMenuViewModel", "Cart sync scheduled for user: $userId")
     }
 
-    /**
-     * A helper function to parse the user ID from the JWT token.
-     * This should match the claim name you set in your backend.
-     */
     private fun getUserIdFromToken(token: String): String? {
         // TODO----- more robust JWT parsing library in a real app,
         // but this manual parsing works for this case.

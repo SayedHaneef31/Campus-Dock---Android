@@ -44,7 +44,7 @@ class CanteenFullFragment : Fragment() {
         val canteenId = args.canteenId
         val canteenName = args.canteenName
 
-        // Filling canteen card info
+        // Filling top canteen card info
         binding.cafeTitle.text = canteenName
         Glide.with(requireContext()).load(args.canteenUrl).placeholder(R.drawable.canteen_img).into(binding.cafeImage)
         binding.cafeTiming.text = if (args.canteenOpen) "Open Now" else "Closed"
@@ -82,7 +82,7 @@ class CanteenFullFragment : Fragment() {
 
         // Loop through each menu item and create a card for it
         for (item in menuItems) {
-            val card = layoutInflater.inflate(R.layout.canteen_menu_item, container, false)
+            val card = layoutInflater.inflate(R.layout.canteen_cart_list_item, container, false)
             val nameView = card.findViewById<TextView>(R.id.foodNameIddddd)
             val priceView = card.findViewById<TextView>(R.id.foodPriceIddddd)
             val imageView = card.findViewById<ImageView>(R.id.foodImageIdddd)
@@ -116,13 +116,13 @@ class CanteenFullFragment : Fragment() {
 
             // 6. DELEGATE all button clicks to the ViewModel
             btnAdd.setOnClickListener {
-                Toast.makeText(requireContext(), "Add buttton clicked", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Add buttton clicked", Toast.LENGTH_SHORT).show()
                 viewModel.onAddItemClicked(item) }
             btnPlus.setOnClickListener {
-                Toast.makeText(requireContext(), "Plus buttton clicked", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Plus buttton clicked", Toast.LENGTH_SHORT).show()
                 viewModel.onUpdateQuantity(item.id, 1) }
             btnMinus.setOnClickListener {
-                Toast.makeText(requireContext(), "Minus buttton clicked", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Minus buttton clicked", Toast.LENGTH_SHORT).show()
                 viewModel.onUpdateQuantity(item.id, -1) }
 
             container.addView(card)
@@ -142,126 +142,3 @@ class CanteenFullFragment : Fragment() {
 }
 
 
-
-
-
-//    private fun fetchAndDisplayMenuItems(canteenId: String) {
-//        lifecycleScope.launch {
-//            try {
-//                val menuItems = RetrofitClient.instance.getMenuItems(canteenId)
-//                Log.d("CanteenFullFragment", "Fetched ${menuItems.size} menu items")
-//                Toast.makeText(requireContext(), "Fetched the menu", Toast.LENGTH_SHORT).show()
-//                displayMenuItems(menuItems)
-//            } catch (e: Exception) {
-//                Toast.makeText(requireContext(), "Failed to load menu", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
-//
-//    private fun displayMenuItems(menuItems: List<MenuItem>) {
-//        Log.d("CanteenFullFragment", "Displaying ${menuItems.size} menu items")
-//        val container = binding.canteenContainer
-//        container.removeAllViews()
-//
-//        lifecycleScope.launch {
-//            val cartDao = AppDatabaseBuilder.getInstance(requireContext()).cartDao()
-//            val currentCart = cartDao.getAllCartItems().associateBy { it.id }
-//
-//            for (item in menuItems) {
-//                val card = layoutInflater.inflate(R.layout.canteen_menu_item, container, false)
-//
-//                val nameView = card.findViewById<TextView>(R.id.foodNameIddddd)
-//                val priceView = card.findViewById<TextView>(R.id.foodPriceIddddd)
-//                val imageView = card.findViewById<ImageView>(R.id.foodImageIdddd)
-//
-//
-//                val btnAdd = card.findViewById<Button>(R.id.btnAddIddddddd)
-//                val quantitySelector = card.findViewById<LinearLayout>(R.id.quantitySelector)
-//                val quantityText = card.findViewById<TextView>(R.id.quantityIddddd)
-//                val btnPlus = card.findViewById<Button>(R.id.btnPlusIddddd)
-//                val btnMinus = card.findViewById<Button>(R.id.btnMinusIdddd)
-//
-//                // Set basic data
-//                nameView.text = item.name
-//                priceView.text = "₹ ${item.price}"
-//
-//                // Load image using Glide
-//                Glide.with(this@CanteenFullFragment)
-//                    .load(item.url)
-//                    .placeholder(R.drawable.burger)
-//                    .into(imageView)
-//
-//                // Check if already in cart
-//                val existingQuantity = currentCart[item.id]?.quantity ?: 0
-//                if (existingQuantity > 0) {
-//                    quantitySelector.visibility = View.VISIBLE
-//                    btnAdd.visibility = View.GONE
-//                    quantityText.text = existingQuantity.toString()
-//                } else {
-//                    quantitySelector.visibility = View.GONE
-//                    btnAdd.visibility = View.VISIBLE
-//                }
-//
-//                // Add button
-//                btnAdd.setOnClickListener {
-//                    quantitySelector.visibility = View.VISIBLE
-//                    btnAdd.visibility = View.GONE
-//                    quantityText.text = "1"
-//
-//                    lifecycleScope.launch {
-//                        cartDao.insertOrUpdate(
-//                            CartItem(item.id, item.name, 1, item.price, item.url)
-//                        )
-//                        scheduleCartSync(requireContext())
-//                    }
-//                }
-//
-//                // Plus button
-//                btnPlus.setOnClickListener {
-//                    var quantity = quantityText.text.toString().toInt()
-//                    quantity++
-//                    quantityText.text = quantity.toString()
-//
-//                    lifecycleScope.launch {
-//                        cartDao.updateQuantity(item.id, quantity)
-//                        scheduleCartSync(requireContext())
-//                    }
-//                }
-//
-//                // Minus button
-//                btnMinus.setOnClickListener {
-//                    var quantity = quantityText.text.toString().toInt()
-//                    if (quantity > 1) {
-//                        quantity--
-//                        quantityText.text = quantity.toString()
-//                        lifecycleScope.launch {
-//                            cartDao.updateQuantity(item.id, quantity)
-//                            scheduleCartSync(requireContext())
-//                        }
-//                    } else {
-//                        quantitySelector.visibility = View.GONE
-//                        btnAdd.visibility = View.VISIBLE
-//                        lifecycleScope.launch {
-//                            cartDao.deleteCartItemById(item.id)
-//                            scheduleCartSync(requireContext())
-//                        }
-//                    }
-//                }
-//
-//                container.addView(card)
-//
-//            }
-//        }
-//    }
-//
-//    fun scheduleCartSync(context: Context) {
-//        val workRequest = OneTimeWorkRequestBuilder<CartSyncWorker>()
-//            .setInitialDelay(5, TimeUnit.SECONDS) // Delay after last change
-//            .build()
-//
-//        WorkManager.getInstance(context).enqueueUniqueWork(
-//            "cart_sync_work",
-//            ExistingWorkPolicy.REPLACE, // Replace if already scheduled
-//            workRequest
-//        )
-//    }

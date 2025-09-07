@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 //Step 2
 
@@ -52,6 +53,9 @@ interface CartDao {
     @Query("SELECT * FROM cart_items")
     fun getAllCartItemsAsFlow(): Flow<List<CartItem>>
 
+    // A Flow is a modern Kotlin feature that automatically emits the latest list
+    // of cart items whenever the data changes in the table. This is the magic that
+    // makes your UI update reactively.
     @Query("SELECT COALESCE(SUM(price * quantity), 0.0) FROM cart_items")
     fun getCartTotalAsFlow(): Flow<Double>
 }
