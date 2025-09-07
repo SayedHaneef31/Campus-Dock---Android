@@ -4,8 +4,17 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#2196F3</color>
     <color name="gray">#9E9E9E</color>
+    <color name="light_gray">#E0DCDC</color>
     <color name="green">#07F830</color>
     <color name="red">#ED0B0B</color>
+    <color name="green_dark">#107505</color>
+    <color name="primaryGreen">#2E7D32</color>
+    <color name="secondaryGreen">#A5D6A7</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="dividerColor">#E0E0E0</color>
+
 
 </resources>
 

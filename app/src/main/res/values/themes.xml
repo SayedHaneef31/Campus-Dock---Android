@@ -2,6 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CampusDock" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="colorPrimary">@color/primaryGreen</item>
+        <item name="colorPrimaryVariant">@color/secondaryGreen</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>

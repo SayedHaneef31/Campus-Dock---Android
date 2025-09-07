@@ -37,11 +37,13 @@
 
         <ImageView
             android:id="@+id/imgProfile"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/profile_pic"
-            android:contentDescription="Profile"
-            android:background="@drawable/circle_background"/>
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:clipToOutline="true"
+            android:contentDescription="Profile"/>
     </LinearLayout>
 
     <!-- Scrollable Content -->
@@ -81,21 +83,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:weightSum="3">
+                android:layout_marginTop="12dp"
+                android:weightSum="3"
+                android:paddingHorizontal="8dp">
 
+                <!-- Attendance -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="6dp"
+                    android:background="@drawable/quick_access_bg"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:text="72.8%"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/red"/>
 
@@ -103,45 +111,66 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Attendance"
-                        android:textSize="12sp"/>
+                        android:textSize="11sp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
+                <!-- Messages -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="6dp"
+                    android:background="@drawable/quick_access_bg"
+                    android:layout_marginStart="6dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/message"/>
+                        android:src="@drawable/message"
+                        android:tint="@color/black"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Messages"
-                        android:textSize="12sp"/>
+                        android:textSize="11sp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
+                <!-- Wi-Fi -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="6dp"
+                    android:background="@drawable/quick_access_bg"
+                    android:layout_marginStart="6dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/wifi"/>
+                        android:src="@drawable/wifi"
+                        android:tint="@color/black"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wi-Fi"
-                        android:textSize="12sp"/>
+                        android:textSize="11sp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </LinearLayout>
+
+
 
             <!-- Trending Section -->
             <TextView
@@ -198,22 +227,33 @@
                         android:orientation="horizontal"
                         android:layout_gravity="center">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_yes"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
                             android:text="Hell Yeahh"
-                            android:backgroundTint="@color/green"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
                             android:textColor="@android:color/white"
-                            android:layout_marginEnd="8dp"/>
+                            app:cornerRadius="50dp"
+                            app:backgroundTint="@color/green"
+                            android:layout_marginEnd="12dp"/>
 
-                        <Button
+
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_no"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
                             android:text="Nahhh"
-                            android:backgroundTint="@color/gray"
-                            android:textColor="@android:color/black"/>
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/black"
+                            app:cornerRadius="50dp"
+                            app:backgroundTint="@color/gray"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -261,7 +301,7 @@
                 <!-- Senior Advice -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -273,14 +313,16 @@
                         android:layout_height="wrap_content"
                         android:text="/Senior Advice"
                         android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:layout_marginTop="8dp"
+                        android:textSize="20sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8sp"
                         android:text="For third year focus more on the development side because for the internship you will be asked..."
                         android:textSize="12sp"
-                        android:maxLines="3"
+                        android:maxLines="4"
                         android:ellipsize="end"/>
                 </LinearLayout>
             </LinearLayout>
@@ -294,68 +336,27 @@
                 android:textSize="20sp"
                 android:layout_marginTop="16dp"/>
 
-            <LinearLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2"
+                android:scrollbars="none"
                 android:layout_marginTop="12dp">
 
-                <!-- Deal 1 -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/keyboard"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Zebronics Keyboard 7UF"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:paddingTop="4dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹870"
-                        android:textSize="12sp"/>
+                    <!-- Include Deal Cards -->
+                    <include layout="@layout/deal_item" />
+                    <include layout="@layout/deal_item" />
+                    <include layout="@layout/deal_item" />
+
                 </LinearLayout>
+            </HorizontalScrollView>
 
-                <!-- Deal 2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginStart="8dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/drafter"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Drafter"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:paddingTop="4dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹250"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
