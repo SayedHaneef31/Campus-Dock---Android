@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.sayed.campusdock.API.RetrofitClient
-import com.sayed.campusdock.Data.Canteen
+import com.sayed.campusdock.Data.Canteen.Canteen
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import android.util.Base64

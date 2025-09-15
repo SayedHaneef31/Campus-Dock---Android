@@ -5,17 +5,18 @@
         android:icon="@drawable/home_icon"
         android:title="Home"/>
     <item
+        android:id="@+id/socialsFragment"
+        android:icon="@drawable/chatroom_icon"
+        android:title="Socials" />
+    <item
         android:id="@+id/canteen_nav_graph"
         android:icon="@drawable/canteed_icon_2"
         android:title="Canteens" />
     <item
         android:id="@+id/marketPlaceFragment"
         android:icon="@drawable/marketplace_icon"
-        android:title="Buy &amp; Sell" />
-    <item
-        android:id="@+id/socialsFragment"
-        android:icon="@drawable/chatroom_icon"
-        android:title="Socials" />
+        android:title="Market Place" />
+
     <item
         android:id="@+id/cartFragment"
         android:icon="@drawable/cart_icon"

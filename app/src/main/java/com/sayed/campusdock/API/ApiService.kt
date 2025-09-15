@@ -1,12 +1,12 @@
 package com.sayed.campusdock.API
 
-import com.sayed.campusdock.Data.Canteen
-import com.sayed.campusdock.Data.Cart
+import com.sayed.campusdock.Data.Canteen.Canteen
+import com.sayed.campusdock.Data.Canteen.Cart
 import com.sayed.campusdock.Data.CollegeSpinner
 import com.sayed.campusdock.Data.CreateUser
-import com.sayed.campusdock.Data.MenuItem
-import com.sayed.campusdock.Data.OtpResponse
-import com.sayed.campusdock.Data.OtpVerifyResponse
+import com.sayed.campusdock.Data.Canteen.MenuItem
+import com.sayed.campusdock.Data.Auth.OtpResponse
+import com.sayed.campusdock.Data.Auth.OtpVerifyResponse
 import com.sayed.campusdock.Data.Room.CartItem
 import retrofit2.Response
 import retrofit2.http.Body

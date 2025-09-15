@@ -10,7 +10,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.sayed.campusdock.API.RetrofitClient
-import com.sayed.campusdock.Data.MenuItem
+import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.Data.Room.AppDatabaseBuilder
 import com.sayed.campusdock.Data.Room.CartItem
 import com.sayed.campusdock.WorkManager.CartSyncWorker

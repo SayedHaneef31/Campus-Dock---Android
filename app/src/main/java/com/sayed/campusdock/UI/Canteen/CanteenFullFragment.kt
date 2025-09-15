@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.sayed.campusdock.Data.MenuItem
+import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenMenuViewModel
 import com.sayed.campusdock.databinding.CanteenFullFragmentBinding

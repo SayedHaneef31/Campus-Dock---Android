@@ -1,4 +1,4 @@
-package com.sayed.campusdock.Data
+package com.sayed.campusdock.Data.Canteen
 
 import java.util.UUID
 

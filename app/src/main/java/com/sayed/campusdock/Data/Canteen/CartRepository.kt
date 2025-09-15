@@ -1,4 +1,4 @@
-package com.sayed.campusdock.Data
+package com.sayed.campusdock.Data.Canteen
 
 import com.sayed.campusdock.API.ApiService
 import com.sayed.campusdock.Data.Room.CartDao

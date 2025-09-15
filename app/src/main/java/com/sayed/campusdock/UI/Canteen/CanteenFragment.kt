@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.sayed.campusdock.Data.Canteen
+import com.sayed.campusdock.Data.Canteen.Canteen
 import com.sayed.campusdock.R
 import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.databinding.CanteenFragmentBinding

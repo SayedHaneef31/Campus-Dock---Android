@@ -24,7 +24,7 @@
         tools:layout="@layout/chat_room_fragment" />
     <fragment
         android:id="@+id/marketPlaceFragment"
-        android:name="com.sayed.campusdock.UI.MarketPlace.MarketPlaceFragment"
+        android:name="com.sayed.campusdock.UI.MarketPlace.MarketplaceFragment"
         android:label="market_place_fragment"
         tools:layout="@layout/market_place_fragment" />
     <fragment
