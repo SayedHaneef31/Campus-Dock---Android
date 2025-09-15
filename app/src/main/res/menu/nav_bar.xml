@@ -5,7 +5,7 @@
         android:icon="@drawable/home_icon"
         android:title="Home"/>
     <item
-        android:id="@+id/socialsFragment"
+        android:id="@+id/socialFragment"
         android:icon="@drawable/chatroom_icon"
         android:title="Socials" />
     <item

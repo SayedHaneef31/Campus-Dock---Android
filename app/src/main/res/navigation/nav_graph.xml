@@ -17,11 +17,7 @@
         android:id="@+id/profileFragment"
         android:name="com.sayed.campusdock.UI.Profile.ProfileFragment"
         android:label="ProfileFragment" />
-    <fragment
-        android:id="@+id/socialsFragment"
-        android:name="com.sayed.campusdock.UI.ChatRoom.ChatRoomFragment"
-        android:label="chat_room_fragment"
-        tools:layout="@layout/chat_room_fragment" />
+
     <fragment
         android:id="@+id/marketPlaceFragment"
         android:name="com.sayed.campusdock.UI.MarketPlace.MarketplaceFragment"
@@ -31,6 +27,11 @@
         android:id="@+id/cartFragment"
         android:name="com.sayed.campusdock.UI.Canteen.CartFragment"
         android:label="CartFragment" />
+    <fragment
+        android:id="@+id/socialFragment"
+        android:name="com.sayed.campusdock.UI.Socials.SocialFragment"
+        android:label="social_fragment"
+        tools:layout="@layout/social_fragment" />
 
 
 </navigation>
