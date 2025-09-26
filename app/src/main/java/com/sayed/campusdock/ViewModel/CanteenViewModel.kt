@@ -1,5 +1,6 @@
 package com.sayed.campusdock.ViewModel
 
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import com.sayed.campusdock.Data.Canteen.Canteen
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import android.util.Base64
+import androidx.annotation.RequiresApi
 
 class CanteenViewModel: ViewModel() {
     private val _canteens = MutableLiveData<List<Canteen>>() // Internal mutable data
@@ -23,6 +25,7 @@ class CanteenViewModel: ViewModel() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun fetchCanteens(token: String) {
         if (isLoaded) return // Avoid re-fetching
 

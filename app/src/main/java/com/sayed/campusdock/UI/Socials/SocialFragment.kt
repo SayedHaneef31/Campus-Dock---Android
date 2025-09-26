@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -16,8 +17,7 @@ class SocialFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-        ): View? {
-        // Inflate the layout for this fragment
+    ): View? {
         val view = inflater.inflate(R.layout.social_fragment, container, false)
 
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
@@ -40,12 +40,10 @@ class SocialFragment : Fragment() {
         return view
     }
 
-    /**
-     * Adapter to manage fragments in the ViewPager2.
-     * Each position corresponds to a different tab.
-     */
-    private inner class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-        override fun getItemCount(): Int = 3 // We have 3 tabs: All Posts, Trending, Polls
+    private inner class ViewPagerAdapter(
+        fragment: Fragment
+    ) : FragmentStateAdapter(fragment) {
+        override fun getItemCount(): Int = 3
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {

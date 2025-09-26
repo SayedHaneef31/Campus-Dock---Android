@@ -8,6 +8,7 @@ import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.Data.Auth.OtpResponse
 import com.sayed.campusdock.Data.Auth.OtpVerifyResponse
 import com.sayed.campusdock.Data.Room.CartItem
+import com.sayed.campusdock.Data.Socials.Post
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -15,6 +16,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.UUID
 
 interface ApiService
 {
@@ -93,6 +95,23 @@ interface ApiService
     @GET("api/v1/colleges/name")
     suspend fun getCollegesName(): List<CollegeSpinner>                                             // Display all the colleges in login spinner
     // -------------------  COLLEGE API  -------------------//
+
+    @GET("api/v1/posts")
+    suspend fun getAllPosts(): Response<List<Post>>
+
+
+
+    // -------------------  SOCIALS API  -------------------//
+
+    @GET("api/v1/posts/college/{id}")
+    suspend fun getAllPostsByCollegeId(@Path("id") collegeId: UUID): Response<List<Post>>
+
+    @GET("api/v1/posts/college/{id}/trending")
+    suspend fun getAllTrendingPostsByCollegeId(@Path("id") collegeId: UUID): Response<List<Post>>
+
+    @GET("api/v1/posts/{id}")
+    suspend fun getPostById(@Path("id") id: UUID): Response<Post>
+    // -------------------  SOCIALS API  -------------------//
 
 
 }

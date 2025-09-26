@@ -1,7 +1,9 @@
 package com.sayed.campusdock.ViewModel
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.BackoffPolicy
@@ -13,7 +15,7 @@ import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.Data.Room.AppDatabaseBuilder
 import com.sayed.campusdock.Data.Room.CartItem
-import com.sayed.campusdock.WorkManager.CartSyncWorker
+import com.sayed.campusdock.ConfigManager.CartSyncWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,6 +34,7 @@ class CanteenMenuViewModel (application: Application) : AndroidViewModel(applica
 
     // Get an instance of the DAO from your singleton database builder
     private val cartDao = AppDatabaseBuilder.getInstance(application).cartDao()
+    @RequiresApi(Build.VERSION_CODES.O)
     private val apiService = RetrofitClient.instance
 
     // --- State for Menu Items ---

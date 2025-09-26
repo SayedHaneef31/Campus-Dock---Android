@@ -13,7 +13,7 @@ import androidx.work.workDataOf
 import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Data.Room.AppDatabaseBuilder
 import com.sayed.campusdock.Data.Room.CartItem
-import com.sayed.campusdock.WorkManager.CartSyncWorker
+import com.sayed.campusdock.ConfigManager.CartSyncWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

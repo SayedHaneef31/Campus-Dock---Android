@@ -1,25 +1,33 @@
 package com.sayed.campusdock.UI.Socials
 
-import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sayed.campusdock.R
+import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Adaptor.PostAdapter
-import com.sayed.campusdock.Data.Socials.Post
-import java.time.LocalDateTime
+import com.sayed.campusdock.ConfigManager.TokenManager
+import com.sayed.campusdock.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class AllPostsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var postAdapter: PostAdapter
+    private val viewModel: SocialPostsViewModel by navGraphViewModels(R.id.social_nav_graph)
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,61 +36,34 @@ class AllPostsFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        // Create a list of mock posts for this fragment
-        val mockPosts = generateMockAllPosts()
-
-        // Initialize and set the adapter with the mock data
-        val postAdapter = PostAdapter(mockPosts)
+        postAdapter = PostAdapter(emptyList()) { postId ->
+            // No-op for now, will be updated in fetchPosts
+        }
         recyclerView.adapter = postAdapter
+
+        // Initialize TokenManager and get the college ID
+        TokenManager.init(requireContext())
+        val collegeIdString = TokenManager.getCollegeId()
+
+        if (collegeIdString != null) {
+            val collegeId = UUID.fromString(collegeIdString)
+            // Observe cached posts
+            viewModel.allPosts.observe(viewLifecycleOwner) { posts ->
+                postAdapter = PostAdapter(posts) { postId ->
+                    val action = SocialFragmentDirections.actionSocialFragmentToPostScreenFragment(postId.toString())
+                    findNavController().navigate(action)
+                }
+                recyclerView.adapter = postAdapter
+            }
+            // Trigger initial load only if needed
+            viewModel.ensureAllPosts(collegeId)
+        } else {
+            Log.e("AllPostsFragment", "Could not get collegeId from TokenManager.")
+            Toast.makeText(context, "Could not get college ID", Toast.LENGTH_SHORT).show()
+        }
 
         return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun generateMockAllPosts(): List<Post> {
-        return listOf(
-            Post(
-                id = UUID.randomUUID(),
-                topicName = "Announcements",
-                title = "Campus-wide power outage scheduled for this weekend",
-                content = null,
-                imageUrl = "https://images.unsplash.com/photo-1621252199049-74e7931f6160",
-                authorUsername = "TechSupport",
-                authorId = UUID.randomUUID(),
-                isAnonymous = false,
-                upvoteCount = 123,
-                downvoteCount = 45,
-                commentCount = 67,
-                createdAt = LocalDateTime.now().minusHours(2)
-            ),
-            Post(
-                id = UUID.randomUUID(),
-                topicName = "Lost & Found",
-                title = "Found: A pair of glasses near the library",
-                content = "Found a pair of black-rimmed glasses. If they're yours, please contact CampusHelper.",
-                imageUrl = "https://images.unsplash.com/photo-1579737119106-a82f3c7b82fe",
-                authorUsername = "CampusHelper",
-                authorId = UUID.randomUUID(),
-                isAnonymous = false,
-                upvoteCount = 89,
-                downvoteCount = 23,
-                commentCount = 45,
-                createdAt = LocalDateTime.now().minusHours(3)
-            ),
-            Post(
-                id = UUID.randomUUID(),
-                topicName = "Events",
-                title = "Movie night at the quad this Friday! 🍿",
-                content = "Come join us for a free screening of a popular sci-fi movie. Popcorn will be provided!",
-                imageUrl = "https://images.unsplash.com/photo-1540321550546-2495af4453f6",
-                authorUsername = "StudentLife",
-                authorId = UUID.randomUUID(),
-                isAnonymous = false,
-                upvoteCount = 101,
-                downvoteCount = 34,
-                commentCount = 56,
-                createdAt = LocalDateTime.now().minusHours(4)
-            )
-        )
-    }
+    
 }

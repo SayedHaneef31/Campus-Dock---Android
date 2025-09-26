@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/social_nav_graph"
+    app:startDestination="@id/socialFragment2">
+
+    <fragment
+        android:id="@+id/socialFragment2"
+        android:name="com.sayed.campusdock.UI.Socials.SocialFragment"
+        android:label="SocialFragment" >
+        <action
+            android:id="@+id/action_socialFragment_to_postScreenFragment"
+            app:destination="@id/postScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/allPostsFragment"
+        android:name="com.sayed.campusdock.UI.Socials.AllPostsFragment"
+        android:label="AllPostFragment" />
+    <fragment
+        android:id="@+id/trendingFragment"
+        android:name="com.sayed.campusdock.UI.Socials.TrendingFragment"
+        android:label="TrendingFragment" />
+    <fragment
+        android:id="@+id/pollsFragment"
+        android:name="com.sayed.campusdock.UI.Socials.PollsFragment"
+        android:label="PollsFragment" />
+
+    <fragment
+        android:id="@+id/postScreenFragment"
+        android:name="com.sayed.campusdock.UI.Socials.PostScreenFragment"
+        android:label="PostScreenFragment"
+        tools:layout="@layout/fragment_post_screen">
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

@@ -2,10 +2,8 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
 <!--        home WIFI-->
-        <domain includeSubdomains="true">192.168.1.10</domain>
+        <domain includeSubdomains="true">192.168.1.13</domain>
 
-<!--        College KC WIFI-->
-<!--        <domain includeSubdomains="true">172.16.45.158</domain>-->
     </domain-config>
 </network-security-config>
 

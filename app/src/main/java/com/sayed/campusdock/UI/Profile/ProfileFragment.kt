@@ -23,9 +23,16 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
+
+
+
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
         }
+
+
+
+
         return binding.root
     }
 

@@ -6,66 +6,81 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayed.campusdock.R
 import com.sayed.campusdock.Adaptor.PostAdapter
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.Data.Socials.Post
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
 
 class PollsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var postAdapter: PostAdapter
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_polls, container, false)
-        recyclerView = view.findViewById(R.id.recyclerViewAllPosts) // Use the same RecyclerView ID
+        recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val mockPosts = generateMockPolls()
-        val postAdapter = PostAdapter(mockPosts)
+        postAdapter = PostAdapter(emptyList()) { postId ->
+            // No-op for now, will be updated in fetchPosts
+        }
         recyclerView.adapter = postAdapter
+
+        // Initialize TokenManager and get the college ID
+        TokenManager.init(requireContext())
+        val collegeIdString = TokenManager.getCollegeId()
+
+        // Fetch posts using the college ID
+        if (collegeIdString != null) {
+            fetchPosts(UUID.fromString(collegeIdString))
+        } else {
+            Toast.makeText(context, "Could not get college ID", Toast.LENGTH_SHORT).show()
+        }
 
         return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun generateMockPolls(): List<Post> {
-        return listOf(
-            Post(
-                id = UUID.randomUUID(),
-                topicName = "Poll",
-                title = "I think college should have a student union!!",
-                content = "A student union could represent student interests and improve campus life. What do you think?",
-                imageUrl = "https://images.unsplash.com/photo-1549480833-281b37d80540",
-                authorUsername = "ChangeMaker",
-                authorId = UUID.randomUUID(),
-                isAnonymous = true,
-                upvoteCount = 85,
-                downvoteCount = 10,
-                commentCount = 42,
-                createdAt = LocalDateTime.now().minusDays(1)
-            ),
-            Post(
-                id = UUID.randomUUID(),
-                topicName = "Poll",
-                title = "Should the university ban single-use plastic bottles?",
-                content = "A proposal to ban plastic bottles is being considered to promote sustainability. Vote and comment on your stance.",
-                imageUrl = "https://images.unsplash.com/photo-1525287313837-1755a1226154",
-                authorUsername = "EcoWarrior",
-                authorId = UUID.randomUUID(),
-                isAnonymous = false,
-                upvoteCount = 150,
-                downvoteCount = 30,
-                commentCount = 60,
-                createdAt = LocalDateTime.now().minusHours(8)
-            )
-        )
+    private fun fetchPosts(collegeId: UUID) {
+        CoroutineScope(Dispatchers.IO).launch {
+//            try {
+//                // Assuming there's a specific API endpoint for polls.
+//                // If not, you may need to filter posts after fetching all.
+//                // Replace with the correct API call if available.
+//                val response = RetrofitClient.instance.getAllPostsByCollegeId(collegeId)
+//                if (response.isSuccessful) {
+//                    val posts = response.body() ?: emptyList()
+//                    withContext(Dispatchers.Main) {
+//                        postAdapter = PostAdapter(posts) { postId ->
+//                            val action = SocialFragmentDirections.actionSocialFragmentToPostScreenFragment(postId.toString())
+//                            findNavController().navigate(action)
+//                        }
+//                        recyclerView.adapter = postAdapter
+//                    }
+//                } else {
+//                    withContext(Dispatchers.Main) {
+//                        Toast.makeText(context, "Failed to fetch polls", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                withContext(Dispatchers.Main) {
+//                    Toast.makeText(context, "Network request failed", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+        }
     }
 }

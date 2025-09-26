@@ -27,11 +27,7 @@
         android:id="@+id/cartFragment"
         android:name="com.sayed.campusdock.UI.Canteen.CartFragment"
         android:label="CartFragment" />
-    <fragment
-        android:id="@+id/socialFragment"
-        android:name="com.sayed.campusdock.UI.Socials.SocialFragment"
-        android:label="social_fragment"
-        tools:layout="@layout/social_fragment" />
+    <include app:graph="@navigation/social_nav_graph" />
 
 
 </navigation>

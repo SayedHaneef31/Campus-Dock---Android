@@ -1,12 +1,10 @@
-package com.sayed.campusdock.WorkManager
+package com.sayed.campusdock.ConfigManager
 
 import android.content.Context
 import android.util.Log
-import androidx.room.Room
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.sayed.campusdock.API.RetrofitClient
-import com.sayed.campusdock.Data.Room.AppDatabase
 import com.sayed.campusdock.Data.Room.AppDatabaseBuilder
 
 // Its main job is to reliably synchronize the user's local shopping cart, stored on the phone, with the main database on your server.
