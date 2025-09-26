@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_socialFragment_to_postScreenFragment"
             app:destination="@id/postScreenFragment" />
+        <action
+            android:id="@+id/action_socialFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
     </fragment>
 
     <fragment
@@ -35,6 +38,18 @@
         <argument
             android:name="postId"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.sayed.campusdock.UI.Socials.CreatePostFragment"
+        android:label="CreatePostFragment"
+        tools:layout="@layout/fragment_create_post">
+        <action
+            android:id="@+id/action_createPostFragment_to_socialFragment2"
+            app:destination="@id/socialFragment2"
+            app:popUpTo="@id/socialFragment2"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

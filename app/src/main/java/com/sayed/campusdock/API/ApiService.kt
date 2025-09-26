@@ -9,6 +9,9 @@ import com.sayed.campusdock.Data.Auth.OtpResponse
 import com.sayed.campusdock.Data.Auth.OtpVerifyResponse
 import com.sayed.campusdock.Data.Room.CartItem
 import com.sayed.campusdock.Data.Socials.Post
+import com.sayed.campusdock.Data.Socials.PostRequest
+import com.sayed.campusdock.Data.Socials.PostResponse
+import com.sayed.campusdock.Data.Socials.TopicResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -111,6 +114,12 @@ interface ApiService
 
     @GET("api/v1/posts/{id}")
     suspend fun getPostById(@Path("id") id: UUID): Response<Post>
+
+    @POST("api/v1/posts")
+    suspend fun createPost(@Body postRequest: PostRequest): Response<PostResponse>
+
+    @GET("api/v1/topics/college/{collegeId}")
+    suspend fun getAllTopicsByCollegeId(@Path("collegeId") collegeId: UUID): Response<List<TopicResponse>>
     // -------------------  SOCIALS API  -------------------//
 
 

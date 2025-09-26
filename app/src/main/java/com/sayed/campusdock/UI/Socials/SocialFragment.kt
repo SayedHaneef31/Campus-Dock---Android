@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sayed.campusdock.R
@@ -22,6 +23,7 @@ class SocialFragment : Fragment() {
 
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
+        val fabAddPost: FloatingActionButton = view.findViewById(R.id.fabAddPost)
 
         // Set up the ViewPager with a custom adapter
         val pagerAdapter = ViewPagerAdapter(this)
@@ -36,6 +38,10 @@ class SocialFragment : Fragment() {
                 else -> throw IllegalStateException("Invalid tab position")
             }
         }.attach()
+
+        fabAddPost.setOnClickListener {
+            findNavController().navigate(R.id.action_socialFragment_to_createPostFragment)
+        }
 
         return view
     }
