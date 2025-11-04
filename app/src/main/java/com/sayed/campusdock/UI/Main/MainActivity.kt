@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.sayed.campusdock.R
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -51,6 +54,21 @@ class MainActivity : AppCompatActivity() {
         // Attach/update badge on the Cart tab
         val cartBadge = binding.bottomNav.getOrCreateBadge(R.id.cartFragment)
         cartBadge.isVisible = false
+
+        // Handle system bars insets so content doesn't overlap status/navigation bars
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Push content below status bar and above bottom nav/gesture bar
+            binding.navHostFragment.setPadding(0, sysBars.top, 0, sysBars.bottom)
+            // Lift bottom nav above gesture nav area
+            binding.bottomNav.setPadding(
+                binding.bottomNav.paddingLeft,
+                binding.bottomNav.paddingTop,
+                binding.bottomNav.paddingRight,
+                sysBars.bottom
+            )
+            insets
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
