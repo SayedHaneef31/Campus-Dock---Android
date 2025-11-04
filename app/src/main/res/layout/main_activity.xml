@@ -34,7 +34,8 @@
             app:itemIconTint="@color/bottom_nav_color_selector"
             app:itemTextColor="@color/bottom_nav_color_selector"
             android:layout_alignParentBottom="true"
-            android:background="@color/white"
+            android:background="?attr/colorSurface"
+            app:elevation="8dp"
             style="@style/Widget.Material3.BottomNavigationView"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -48,15 +49,15 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_drawer_header"
         app:menu="@menu/nav_drawer_menu"
-        app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_text"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorOnSurface"
         app:itemShapeFillColor="@android:color/transparent"
         app:itemIconSize="22dp"
         app:itemIconPadding="20dp"
         app:itemHorizontalPadding="20dp"
         app:itemVerticalPadding="8dp"
         app:itemTextAppearance="@style/NavDrawerTextStyle"
-        android:background="@color/white"
+        android:background="?attr/colorSurface"
         app:elevation="16dp"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

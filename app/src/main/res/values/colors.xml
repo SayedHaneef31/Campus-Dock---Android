@@ -24,6 +24,47 @@
     <color name="nav_item_text">#2C3E50</color>
     <color name="nav_item_bg">#F0F4FF</color>
 
+    <!-- Material 3 Design Tokens - Campus Flow (Blue Clarity) -->
+    <!-- Primary (Cool Blue - Trust, focus, calm) -->
+    <color name="colorPrimary">#4A90E2</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#E3F2FD</color>
+    <color name="colorOnPrimaryContainer">#0D3A5C</color>
+
+    <!-- Secondary (Light Aqua - Freshness, youth) -->
+    <color name="colorSecondary">#7FDBDA</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#E0F7F7</color>
+    <color name="colorOnSecondaryContainer">#1A4D4C</color>
+
+    <!-- Tertiary (Soft Green - Success, positive feedback) -->
+    <color name="colorTertiary">#A9DFBF</color>
+    <color name="colorOnTertiary">#1C1C1C</color>
+    <color name="colorTertiaryContainer">#E8F5E9</color>
+    <color name="colorOnTertiaryContainer">#1B5E20</color>
+
+    <!-- Surface & Background (Soft Gray White) -->
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceVariant">#F5F7FA</color>
+    <color name="colorOnSurface">#1C1C1C</color>
+    <color name="colorOnSurfaceVariant">#5A5A5A</color>
+    <color name="colorBackground">#F5F7FA</color>
+    <color name="colorOnBackground">#1C1C1C</color>
+
+    <!-- Outline & Borders -->
+    <color name="colorOutline">#E0E4E8</color>
+    <color name="colorOutlineVariant">#EEF1F5</color>
+
+    <!-- Semantic Colors -->
+    <color name="colorSuccess">#A9DFBF</color>
+    <color name="colorWarning">#FFB74D</color>
+    <color name="colorError">#EF5350</color>
+    <color name="colorInfo">#4A90E2</color>
+
+    <!-- Surface Tints (for subtle backgrounds) -->
+    <color name="surfaceTintBlue">#F0F7FF</color>
+    <color name="surfaceTintAqua">#F0FFFE</color>
+
 
 </resources>
 
