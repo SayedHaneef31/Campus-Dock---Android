@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.sayed.campusdock.Adaptor.BannerAdapter
+import com.sayed.campusdock.Adaptor.PollAdapter
+import com.sayed.campusdock.Data.Socials.PollOption
 import com.sayed.campusdock.R
 import com.sayed.campusdock.databinding.HomeFragmentBinding
 import kotlin.math.abs
@@ -29,6 +32,7 @@ class HomeFragment : Fragment() {
         binding.imgProfile.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
         }
+        setupPolls()
         return binding.root
     }
 
@@ -80,7 +84,27 @@ class HomeFragment : Fragment() {
         binding.bannerViewPager.setCurrentItem(3, false)
 
     }
-        override fun onDestroyView() {
+
+
+    private fun setupPolls() {
+        // Create a sample poll data
+        val sampleOptions = listOf(
+            PollOption("1", "Yepp, It's time!", 42, 100),
+
+            PollOption("2", "College won't allow :)", 68, 100)
+        )
+
+        val pollAdapter = PollAdapter(sampleOptions) { clickedOption ->
+            // Handle poll option click here, e.g., send vote to backend
+            // You can also update the local data and notify the adapter
+            // to reflect the new vote count immediately.
+        }
+
+        binding.pollOptionsRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.pollOptionsRecyclerView.adapter = pollAdapter
+    }
+
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }

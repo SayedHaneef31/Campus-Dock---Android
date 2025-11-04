@@ -1,22 +1,29 @@
 package com.sayed.campusdock.UI.Main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.sayed.campusdock.R
+import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.UI.Canteen.CartFragment
 import com.sayed.campusdock.UI.Canteen.OrdersFragment
 import com.sayed.campusdock.UI.Home.HomeFragment
 import com.sayed.campusdock.UI.Profile.ProfileFragment
 
 import com.sayed.campusdock.databinding.MainActivityBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityBinding
+    private val cartViewModel: CanteenCartViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +47,25 @@ class MainActivity : AppCompatActivity() {
         // Setup BottomNavigationView with NavController
         //This is the glue that connects your UI (BottomNavigationView) with your Navigation logic (NavGraph + NavController).
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
+        // Attach/update badge on the Cart tab
+        val cartBadge = binding.bottomNav.getOrCreateBadge(R.id.cartFragment)
+        cartBadge.isVisible = false
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                cartViewModel.cartItems.collect { items ->
+                    val count = items.sumOf { it.quantity }
+                    if (count > 0) {
+                        cartBadge.isVisible = true
+                        cartBadge.number = count
+                    } else {
+                        cartBadge.clearNumber()
+                        cartBadge.isVisible = false
+                    }
+                }
+            }
+        }
     }
 
 }

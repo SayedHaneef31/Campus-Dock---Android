@@ -12,20 +12,23 @@ import com.sayed.campusdock.R
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-
 class PostAdapter(
     private val posts: List<Post>,
     private val onPostClick: (UUID) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
-        val ivThumbnail: ImageView = itemView.findViewById(R.id.ivThumbnail)
-        val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
-        val tvSubtitle: TextView = itemView.findViewById(R.id.tvSubtitle)
-        val tvTime: TextView = itemView.findViewById(R.id.tvTime)
+        val ivUserProfile: ImageView = itemView.findViewById(R.id.ivUserProfile)
+        val tvUsername: TextView = itemView.findViewById(R.id.tvUsernameTime)
+        val tvTopicName: TextView = itemView.findViewById(R.id.tvTopicName)
+//        val tvContent: TextView = itemView.findViewById(R.id.tvContent)
+        val ivPostImage: ImageView = itemView.findViewById(R.id.ivPostImage)
+
+        val ivUpvote: ImageView = itemView.findViewById(R.id.ivUpvote)
         val tvUpvoteCount: TextView = itemView.findViewById(R.id.tvUpvoteCount)
+        val ivDownvote: ImageView = itemView.findViewById(R.id.ivDownvote)
         val tvDownvoteCount: TextView = itemView.findViewById(R.id.tvDownvoteCount)
+        val ivComment: ImageView = itemView.findViewById(R.id.ivComment)
         val tvCommentCount: TextView = itemView.findViewById(R.id.tvCommentCount)
     }
 
@@ -36,37 +39,47 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
+        val context = holder.itemView.context
 
-        val formatter = DateTimeFormatter.ofPattern("dd · hh:mm a")
-
-        // Bind data from the Post model to the views
-        holder.tvCategory.text = post.topicName
-        holder.tvTitle.text = post.title
-
-        // Correctly handle anonymous posts using the isAnonymous field
-        holder.tvSubtitle.text = if (post.isAnonymous) {
-            "By ${post.authorAnonymousName ?: "Anonymous"}"
+        // --- User Info ---
+        holder.tvTopicName.text = "r/${post.topicName ?: "General"}"
+        holder.tvUsername.text = if (post.isAnonymous) {
+            post.authorAnonymousName ?: "Anonymous"
         } else {
             "@${post.authorName}"
         }
-        holder.tvTime.text = post.createdAt.format(formatter)
 
+        // --- Post content ---
+//        holder.tvContent.text = post.title
+
+        // --- Optional Image ---
+        if (!post.imageUrl.isNullOrEmpty()) {
+            holder.ivPostImage.visibility = View.VISIBLE
+            Glide.with(context)
+                .load(post.imageUrl)
+                .placeholder(R.drawable.banner4) // use any placeholder
+                .into(holder.ivPostImage)
+        } else {
+            holder.ivPostImage.visibility = View.GONE
+        }
+
+        // --- Profile Picture ---
+//        if (!post.authorProfileUrl.isNullOrEmpty() && !post.isAnonymous) {
+//            Glide.with(context)
+//                .load(post.authorProfileUrl)
+//                .circleCrop()
+//                .into(holder.ivUserProfile)
+//        } else {
+//            holder.ivUserProfile.setImageResource(R.drawable.profile_icon)
+//        }
+        holder.ivUserProfile.setImageResource(R.drawable.profile_icon)
+
+        // --- Votes & Comments ---
         holder.tvUpvoteCount.text = post.upvoteCount.toString()
         holder.tvDownvoteCount.text = post.downvoteCount.toString()
         holder.tvCommentCount.text = post.commentCount.toString()
 
-        // Handle the thumbnail visibility and image loading
-        if (!post.imageUrl.isNullOrEmpty()) {
-            holder.ivThumbnail.visibility = View.VISIBLE
-            Glide.with(holder.itemView.context)
-                .load(post.imageUrl)
-                .placeholder(R.drawable.student_union) // 👈 Add this line
-                .into(holder.ivThumbnail)
-
-        } else {
-            holder.ivThumbnail.visibility = View.GONE
-        }
-
+        // --- Click listener ---
         holder.itemView.setOnClickListener {
             onPostClick(post.id)
         }

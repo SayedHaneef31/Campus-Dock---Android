@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_option_container"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/poll_option_background"
+    android:elevation="2dp"
+    android:translationZ="2dp"
+    android:stateListAnimator="@animator/raise_on_touch">
+
+    <View
+        android:id="@+id/poll_progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/poll_progress_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/poll_option_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Poll Option Text"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:paddingStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

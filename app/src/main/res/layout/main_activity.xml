@@ -22,10 +22,13 @@ android:layout_height="match_parent">
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:menu="@menu/nav_bar"
+        app:itemRippleColor="@null"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/bottom_nav_color_selector"
+        app:itemTextColor="@color/bottom_nav_color_selector"
         android:layout_alignParentBottom="true"
-        android:background="@color/white" />
+        android:background="@color/white"
+        style="@style/Widget.Material3.BottomNavigationView"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

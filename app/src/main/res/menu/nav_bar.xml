@@ -6,7 +6,7 @@
         android:title="Home"/>
     <item
         android:id="@+id/social_nav_graph"
-        android:icon="@drawable/chatroom_icon"
+        android:icon="@drawable/chat_icon2"
         android:title="Socials" />
     <item
         android:id="@+id/canteen_nav_graph"
@@ -14,7 +14,7 @@
         android:title="Canteens" />
     <item
         android:id="@+id/marketPlaceFragment"
-        android:icon="@drawable/marketplace_icon"
+        android:icon="@drawable/marke_icon3"
         android:title="Market Place" />
 
     <item

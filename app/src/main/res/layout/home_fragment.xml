@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
-    <!-- Top Bar (Fixed) -->
+<!--    top bar-->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -46,7 +45,6 @@
             android:contentDescription="Profile"/>
     </LinearLayout>
 
-    <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollContent"
         android:layout_width="0dp"
@@ -57,16 +55,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Main feed container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="12dp">
 
-            <!-- Banner -->
-
-            <!-- Quick Stats -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/bannerViewPager"
                 android:layout_width="match_parent"
@@ -87,7 +81,6 @@
                 android:weightSum="3"
                 android:paddingHorizontal="8dp">
 
-                <!-- Attendance -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -115,34 +108,47 @@
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
-                <!-- Messages -->
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="6dp"
-                    android:background="@drawable/quick_access_bg"
                     android:layout_marginStart="6dp"
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/message"
-                        android:tint="@color/black"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Messages"
-                        android:textSize="11sp"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="6dp"
+                        android:background="@drawable/quick_access_bg">
 
-                <!-- Wi-Fi -->
+                        <ImageView
+                            android:id="@+id/imgMessage"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/message"
+                            app:tint="@color/black" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Messages"
+                            android:textSize="11sp"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/message_badge"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/red_dot_background"
+                        android:visibility="gone" /> </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -159,7 +165,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/wifi"
-                        android:tint="@color/black"/>
+                        app:tint="@color/black" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -172,7 +178,6 @@
 
 
 
-            <!-- Trending Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,7 +195,6 @@
                 android:background="@drawable/rounded_card"
                 android:gravity="center_vertical">
 
-                <!-- Left Side Image -->
                 <ImageView
                     android:id="@+id/poll_image"
                     android:layout_width="80dp"
@@ -200,7 +204,6 @@
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/student_union" />
 
-                <!-- Right Side Question + Options -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -208,61 +211,28 @@
                     android:layout_gravity="center"
                     android:orientation="vertical">
 
-                    <!-- Question -->
                     <TextView
                         android:id="@+id/poll_question"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="I think college should have a student union!!"
+                        android:text="After what happend yesterday, I think we should form a student union!!"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
 
-                    <!-- Options -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/poll_options_recycler_view"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center">
+                        android:overScrollMode="never" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_yes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:text="Hell Yeahh"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/white"
-                            app:cornerRadius="50dp"
-                            app:backgroundTint="@color/green"
-                            android:layout_marginEnd="12dp"/>
-
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_no"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:text="Nahhh"
-                            android:textAllCaps="false"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/black"
-                            app:cornerRadius="50dp"
-                            app:backgroundTint="@color/gray"/>
-                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
 
-
-
-            <!-- Mini Cards -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -270,7 +240,6 @@
                 android:weightSum="2"
                 android:layout_marginTop="12dp">
 
-                <!-- Food -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -298,7 +267,6 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
 
-                <!-- Senior Advice -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -327,7 +295,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Top Deals -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -340,19 +307,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+
+                android:paddingHorizontal="6dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
+                    android:layout_marginBottom="12dp"
                     android:paddingEnd="8dp">
 
-                    <!-- Include Deal Cards -->
-                    <include layout="@layout/deal_item" />
-                    <include layout="@layout/deal_item" />
-                    <include layout="@layout/deal_item" />
+                    <include layout="@layout/marketplace_deal_item" />
+                    <include layout="@layout/marketplace_deal_item2" />
+                    <include layout="@layout/marketplace_deal_item" />
 
                 </LinearLayout>
             </HorizontalScrollView>
