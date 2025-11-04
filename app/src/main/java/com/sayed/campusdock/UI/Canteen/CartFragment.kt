@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.sayed.campusdock.Adaptor.CartAdapter
+import androidx.navigation.fragment.findNavController
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.ViewModel.PlaceOrderStatus
 import com.sayed.campusdock.databinding.CanteenCartFragmentBinding
@@ -37,6 +38,9 @@ class CartFragment : Fragment() {
 
         binding.btnPlaceOrder.setOnClickListener {
             viewModel.placeOrder()
+        }
+        binding.imgProfile.setOnClickListener {
+            findNavController().navigate(com.sayed.campusdock.R.id.profileFragment)
         }
          return binding.root
     }

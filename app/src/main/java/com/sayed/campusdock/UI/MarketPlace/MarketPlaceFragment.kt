@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayed.campusdock.Adaptor.MarketplaceAdapter
@@ -21,6 +22,7 @@ class MarketplaceFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.market_place_fragment, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.marketplaceRecyclerView)
+        val imgProfile = view.findViewById<View>(R.id.imgProfile)
 
         // Use GridLayoutManager with a span count of 2 for a grid layout
         recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -31,6 +33,10 @@ class MarketplaceFragment : Fragment() {
         // Set up the adapter
         val adapter = MarketplaceAdapter(productList)
         recyclerView.adapter = adapter
+
+        imgProfile?.setOnClickListener {
+            findNavController().navigate(R.id.profileFragment)
+        }
 
         return view
     }

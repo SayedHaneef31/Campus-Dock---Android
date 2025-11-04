@@ -24,6 +24,7 @@ class SocialFragment : Fragment() {
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
         val fabAddPost: FloatingActionButton = view.findViewById(R.id.fabAddPost)
+        val imgProfile: View = view.findViewById(R.id.imgProfile)
 
         // Set up the ViewPager with a custom adapter
         val pagerAdapter = ViewPagerAdapter(this)
@@ -41,6 +42,10 @@ class SocialFragment : Fragment() {
 
         fabAddPost.setOnClickListener {
             findNavController().navigate(R.id.action_socialFragment_to_createPostFragment)
+        }
+
+        imgProfile.setOnClickListener {
+            findNavController().navigate(R.id.profileFragment)
         }
 
         return view

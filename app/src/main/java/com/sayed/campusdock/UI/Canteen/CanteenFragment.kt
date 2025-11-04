@@ -39,6 +39,9 @@ class CanteenFragment : Fragment() {
 
 
         //Toast.makeText(requireContext(), "Inside canteen fragement", Toast.LENGTH_SHORT).show()
+        binding.imgProfile.setOnClickListener {
+            findNavController().navigate(com.sayed.campusdock.R.id.profileFragment)
+        }
         return binding.root
 
     }
