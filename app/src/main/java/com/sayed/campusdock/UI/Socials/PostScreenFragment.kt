@@ -37,6 +37,10 @@ class PostScreenFragment : Fragment() {
 
         // Fetch the post details from the API
         fetchPostDetails(args.postId)
+        
+        binding.btnMenu.setOnClickListener {
+            (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
+        }
 
         return view
     }

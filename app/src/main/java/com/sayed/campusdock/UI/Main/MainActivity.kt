@@ -1,17 +1,24 @@
 package com.sayed.campusdock.UI.Main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.ConfigManager.TokenManager
@@ -88,6 +95,113 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        
+        // Setup Navigation Drawer
+        setupNavigationDrawer()
+        
+        // Handle back button for drawer
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
+    }
+    
+    private fun setupNavigationDrawer() {
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_about_app -> {
+                    showAboutAppDialog()
+                }
+                R.id.nav_website -> {
+                    openWebsite("https://campusdock.live")
+                }
+                R.id.nav_developers -> {
+                    showDevelopersDialog()
+                }
+                R.id.nav_privacy -> {
+                    openWebsite("https://campusdock.live")
+                }
+                R.id.nav_terms -> {
+                    openWebsite("https://campusdock.live")
+                }
+                R.id.nav_feedback -> {
+                    sendFeedback()
+                }
+                R.id.nav_rate -> {
+                    rateApp()
+                }
+                R.id.nav_share -> {
+                    shareApp()
+                }
+            }
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+    }
+    
+    fun openDrawer() {
+        binding.drawerLayout.openDrawer(GravityCompat.START)
+    }
+    
+    private fun showAboutAppDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("About Campus Dock")
+            .setMessage("Campus Dock is your all-in-one campus companion app that brings together essential campus services including canteen ordering, marketplace, social networking, and more.\n\nVersion: 1.0\n\nMade with ❤️ for students")
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+    
+    private fun showDevelopersDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("About Developers")
+            .setMessage("Campus Dock is developed by passionate students who understand the needs of campus life.\n\nDevelopment Team:\n• Lead Developer: Sayed Haneef\n• UI/UX Design Team\n• Backend Development Team\n\nContact: dev@campusdock.com")
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+    
+    private fun openWebsite(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Unable to open website", Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    private fun sendFeedback() {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:haneefatwork01@gmail.com")
+            putExtra(Intent.EXTRA_SUBJECT, "Campus Dock Feedback")
+        }
+        try {
+            startActivity(Intent.createChooser(intent, "Send Feedback"))
+        } catch (e: Exception) {
+            Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    private fun rateApp() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Play Store not available", Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    private fun shareApp() {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "Campus Dock App")
+            putExtra(Intent.EXTRA_TEXT, "Check out Campus Dock - Your Campus Companion! Download now: https://play.google.com/store/apps/details?id=$packageName")
+        }
+        startActivity(Intent.createChooser(shareIntent, "Share Campus Dock"))
     }
 
 }

@@ -25,6 +25,7 @@ class SocialFragment : Fragment() {
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
         val fabAddPost: FloatingActionButton = view.findViewById(R.id.fabAddPost)
         val imgProfile: View = view.findViewById(R.id.imgProfile)
+        val btnMenu: View = view.findViewById(R.id.btnMenu)
 
         // Set up the ViewPager with a custom adapter
         val pagerAdapter = ViewPagerAdapter(this)
@@ -46,6 +47,10 @@ class SocialFragment : Fragment() {
 
         imgProfile.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
+        }
+        
+        btnMenu.setOnClickListener {
+            (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
         }
 
         return view

@@ -18,6 +18,10 @@
     <color name="gray_light">#A9A6A6</color>
     <color name="nav_active_color">#BA3B0A</color>
     <color name="nav_inactive_color">#FF000000</color>
+    
+    <!-- Navigation Drawer Colors -->
+    <color name="nav_item_color">#666666</color>
+    <color name="nav_item_bg">#F5F5F5</color>
 
 
 </resources>

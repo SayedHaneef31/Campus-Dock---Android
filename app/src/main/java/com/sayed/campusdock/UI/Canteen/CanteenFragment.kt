@@ -42,6 +42,9 @@ class CanteenFragment : Fragment() {
         binding.imgProfile.setOnClickListener {
             findNavController().navigate(com.sayed.campusdock.R.id.profileFragment)
         }
+        binding.btnMenu.setOnClickListener {
+            (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
+        }
         return binding.root
 
     }

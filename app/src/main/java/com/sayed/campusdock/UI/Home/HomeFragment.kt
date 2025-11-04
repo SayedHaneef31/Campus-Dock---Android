@@ -32,6 +32,9 @@ class HomeFragment : Fragment() {
         binding.imgProfile.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
         }
+        binding.btnMenu.setOnClickListener {
+            (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
+        }
         setupPolls()
         return binding.root
     }

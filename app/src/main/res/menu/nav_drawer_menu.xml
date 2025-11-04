@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_about_app"
+            android:icon="@drawable/ic_info"
+            android:title="About Campus Dock" />
+        
+        <item
+            android:id="@+id/nav_website"
+            android:icon="@drawable/ic_web"
+            android:title="Visit Website" />
+        
+        <item
+            android:id="@+id/nav_developers"
+            android:icon="@drawable/ic_developer"
+            android:title="About Developers" />
+        
+        <item
+            android:id="@+id/nav_privacy"
+            android:icon="@drawable/ic_privacy"
+            android:title="Privacy Policy" />
+        
+        <item
+            android:id="@+id/nav_terms"
+            android:icon="@drawable/ic_terms"
+            android:title="Terms of Service" />
+    </group>
+    
+    <group android:id="@+id/group_support">
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_feedback"
+            android:title="Send Feedback" />
+        
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/ic_star"
+            android:title="Rate Us" />
+        
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share"
+            android:title="Share App" />
+    </group>
+    
+    <group android:id="@+id/group_app_info">
+        <item
+            android:id="@+id/nav_version"
+            android:icon="@drawable/ic_info"
+            android:title="Version 1.0" />
+    </group>
+    
+</menu>

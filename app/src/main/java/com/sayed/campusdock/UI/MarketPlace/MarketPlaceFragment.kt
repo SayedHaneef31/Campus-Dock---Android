@@ -23,6 +23,7 @@ class MarketplaceFragment : Fragment() {
         val view = inflater.inflate(R.layout.market_place_fragment, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.marketplaceRecyclerView)
         val imgProfile = view.findViewById<View>(R.id.imgProfile)
+        val btnMenu = view.findViewById<View>(R.id.btnMenu)
 
         // Use GridLayoutManager with a span count of 2 for a grid layout
         recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -36,6 +37,10 @@ class MarketplaceFragment : Fragment() {
 
         imgProfile?.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
+        }
+        
+        btnMenu?.setOnClickListener {
+            (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
         }
 
         return view

@@ -70,6 +70,10 @@ class CreatePostFragment : Fragment() {
         binding.btnSubmitPost.setOnClickListener {
             submitPost()
         }
+        
+        binding.btnMenu.setOnClickListener {
+            (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
+        }
     }
 
     private fun fetchTopics() {
