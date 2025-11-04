@@ -49,8 +49,8 @@ class PostAdapter(
             "@${post.authorName}"
         }
 
-        // --- Post content ---
-//        holder.tvContent.text = post.title
+        // --- Post title ---
+        holder.itemView.findViewById<TextView>(R.id.tvPostTitle).text = post.title
 
         // --- Optional Image ---
         if (!post.imageUrl.isNullOrEmpty()) {
