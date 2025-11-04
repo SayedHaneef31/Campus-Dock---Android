@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import android.widget.TextView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +27,9 @@ class TrendingFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: PostAdapter
+    private lateinit var progressBar: CircularProgressIndicator
+    private lateinit var emptyView: TextView
+    private lateinit var loadingOverlay: View
     private val viewModel: SocialPostsViewModel by navGraphViewModels(R.id.social_nav_graph)
 
     override fun onCreateView(
@@ -33,6 +38,9 @@ class TrendingFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_trending, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
+        progressBar = view.findViewById(R.id.progressBar)
+        emptyView = view.findViewById(R.id.emptyView)
+        loadingOverlay = view.findViewById(R.id.loadingOverlay)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         postAdapter = PostAdapter(emptyList()) { postId ->
@@ -51,6 +59,26 @@ class TrendingFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 recyclerView.adapter = postAdapter
+                if (posts.isNullOrEmpty()) {
+                    crossfade(recyclerView, false)
+                    emptyView.visibility = View.VISIBLE
+                } else {
+                    emptyView.visibility = View.GONE
+                    crossfade(recyclerView, true)
+                }
+            }
+            viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+                if (loading) {
+                    loadingOverlay.alpha = 0f
+                    loadingOverlay.visibility = View.VISIBLE
+                    loadingOverlay.animate().alpha(1f).setDuration(150).start()
+                    recyclerView.visibility = View.GONE
+                    emptyView.visibility = View.GONE
+                } else {
+                    loadingOverlay.animate().alpha(0f).setDuration(180).withEndAction {
+                        loadingOverlay.visibility = View.GONE
+                    }.start()
+                }
             }
             viewModel.ensureTrendingPosts(collegeId)
         } else {
@@ -61,5 +89,16 @@ class TrendingFragment : Fragment() {
         return view
     }
 
-    
+    private fun crossfade(target: View, show: Boolean) {
+        if (show) {
+            target.alpha = 0f
+            target.visibility = View.VISIBLE
+            target.animate().alpha(1f).setDuration(180).start()
+        } else {
+            target.animate().alpha(0f).setDuration(150).withEndAction {
+                target.visibility = View.GONE
+            }.start()
+        }
+    }
+
 }

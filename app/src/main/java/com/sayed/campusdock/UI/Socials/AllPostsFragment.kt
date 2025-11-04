@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import android.widget.TextView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import androidx.navigation.fragment.findNavController
 
 import androidx.navigation.navGraphViewModels
@@ -26,6 +28,9 @@ class AllPostsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: PostAdapter
+    private lateinit var progressBar: CircularProgressIndicator
+    private lateinit var emptyView: TextView
+    private lateinit var loadingOverlay: View
     private val viewModel: SocialPostsViewModel by navGraphViewModels(R.id.social_nav_graph)
 
     override fun onCreateView(
@@ -34,6 +39,9 @@ class AllPostsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_all_posts, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
+        progressBar = view.findViewById(R.id.progressBar)
+        emptyView = view.findViewById(R.id.emptyView)
+        loadingOverlay = view.findViewById(R.id.loadingOverlay)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         postAdapter = PostAdapter(emptyList()) { postId ->
@@ -54,6 +62,29 @@ class AllPostsFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 recyclerView.adapter = postAdapter
+
+                // toggle views
+                if (posts.isNullOrEmpty()) {
+                    crossfade(recyclerView, false)
+                    emptyView.visibility = View.VISIBLE
+                } else {
+                    emptyView.visibility = View.GONE
+                    crossfade(recyclerView, true)
+                }
+            }
+            // observe loading state
+            viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+                if (loading) {
+                    loadingOverlay.alpha = 0f
+                    loadingOverlay.visibility = View.VISIBLE
+                    loadingOverlay.animate().alpha(1f).setDuration(150).start()
+                    recyclerView.visibility = View.GONE
+                    emptyView.visibility = View.GONE
+                } else {
+                    loadingOverlay.animate().alpha(0f).setDuration(180).withEndAction {
+                        loadingOverlay.visibility = View.GONE
+                    }.start()
+                }
             }
             // Trigger initial load only if needed
             viewModel.ensureAllPosts(collegeId)
@@ -65,5 +96,16 @@ class AllPostsFragment : Fragment() {
         return view
     }
 
-    
+    private fun crossfade(target: View, show: Boolean) {
+        if (show) {
+            target.alpha = 0f
+            target.visibility = View.VISIBLE
+            target.animate().alpha(1f).setDuration(180).start()
+        } else {
+            target.animate().alpha(0f).setDuration(150).withEndAction {
+                target.visibility = View.GONE
+            }.start()
+        }
+    }
+
 }
