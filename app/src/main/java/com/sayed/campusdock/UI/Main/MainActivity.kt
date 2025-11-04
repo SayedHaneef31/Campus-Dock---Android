@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
+import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.UI.Canteen.CartFragment
 import com.sayed.campusdock.UI.Canteen.OrdersFragment
 import com.sayed.campusdock.UI.Home.HomeFragment
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Ensure TokenManager has the token ready in case user arrived directly here
+        TokenManager.init(applicationContext)
 
         // Get the NavController from the NavHostFragment
         //supportFragmentManager → Gives access to the fragment manager of this activity.

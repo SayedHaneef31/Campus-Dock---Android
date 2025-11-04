@@ -32,6 +32,8 @@ object TokenManager {
 
     fun getCollegeId(): String? = cachedPayload?.optString("collegeId")
     fun getUserId(): String? = cachedPayload?.optString("userId")
+    fun getName(): String? = cachedPayload?.optString("name")
+    fun getEmail(): String? = cachedPayload?.optString("email")
 
     private fun decodeToken(token: String): JSONObject? {
         return try {

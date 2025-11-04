@@ -4,6 +4,7 @@ import com.sayed.campusdock.Data.Canteen.Canteen
 import com.sayed.campusdock.Data.Canteen.Cart
 import com.sayed.campusdock.Data.CollegeSpinner
 import com.sayed.campusdock.Data.CreateUser
+import com.sayed.campusdock.Data.Auth.User
 import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.Data.Auth.OtpResponse
 import com.sayed.campusdock.Data.Auth.OtpVerifyResponse
@@ -121,6 +122,12 @@ interface ApiService
     @GET("api/v1/topics/college/{collegeId}")
     suspend fun getAllTopicsByCollegeId(@Path("collegeId") collegeId: UUID): Response<List<TopicResponse>>
     // -------------------  SOCIALS API  -------------------//
+
+
+    // -------------------  USER API  -------------------//
+    @GET("api/v1/users/{id}")
+    suspend fun getUserById(@Path("id") id: UUID): Response<User>
+    // -------------------  USER API  -------------------//
 
 
 }

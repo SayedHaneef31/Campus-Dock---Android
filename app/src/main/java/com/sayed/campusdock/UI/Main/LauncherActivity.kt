@@ -9,6 +9,7 @@ import org.json.JSONObject
 import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import com.sayed.campusdock.ConfigManager.TokenManager
 
 //This is the new launcher that decides:
 // 1. If user should go to login screen, or
@@ -18,6 +19,9 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        // Initialize TokenManager once app starts
+        TokenManager.init(applicationContext)
 
         val prefs = getSharedPreferences("CampusDockPrefs", MODE_PRIVATE)
         val token = prefs.getString("jwt_token", null)
