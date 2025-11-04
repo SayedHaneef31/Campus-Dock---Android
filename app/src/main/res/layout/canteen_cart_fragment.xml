@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     >
 
 
@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="12dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
         android:background="@color/white"
+        android:elevation="2dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -33,15 +35,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cart 🛒"
+            android:text="My Cart"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textColor="#1a1a1a"/>
 
         <ImageView
             android:id="@+id/imgProfile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:src="@drawable/profile_pic"
             android:scaleType="centerCrop"
             android:background="@drawable/circle_background"
@@ -55,7 +58,9 @@
             android:id="@+id/cartRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/paymentSummary"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,14 +73,13 @@
 
 
     <!--    Payment summary-->
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/paymentSummary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:orientation="vertical"
-        android:padding="16dp"
-
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        android:layout_margin="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -84,96 +88,108 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="12dp">
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill Details"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#1a1a1a"
+                android:layout_marginBottom="12dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
-                android:weightSum="2">
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sub Total" />
+                    android:text="Sub Total"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
 
                 <TextView
                     android:id="@+id/tvNetTotal"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="₹320" />
+                    android:text="₹320"
+                    android:textSize="14sp"
+                    android:textColor="#1a1a1a" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
-                android:paddingTop="4dp"
-                android:weightSum="2">
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tax (Est)" />
+                    android:text="Tax (Est)"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
 
                 <TextView
                     android:id="@+id/tvCGST"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹8"
+                    android:textSize="14sp"
+                    android:textColor="#1a1a1a" />
+            </LinearLayout>
+
+            <!--        For line division-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="₹8" />
+                    android:text="Total"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1a1a1a" />
+
+                <TextView
+                    android:id="@+id/tvGrandTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹328"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1a1a1a" />
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlaceOrder"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Place Order"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                app:backgroundTint="#F44336"
+                app:cornerRadius="8dp"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
-
-        <!--        For line division-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ccc" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Total"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvGrandTotal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="₹328"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnPlaceOrder"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Place Order"
-            android:textAllCaps="true"
-            android:backgroundTint="#007bff"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
