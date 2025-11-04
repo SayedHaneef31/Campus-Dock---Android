@@ -42,16 +42,21 @@
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_drawer_header"
         app:menu="@menu/nav_drawer_menu"
         app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_color"
-        app:itemShapeFillColor="@color/nav_item_bg"
+        app:itemTextColor="@color/nav_item_text"
+        app:itemShapeFillColor="@android:color/transparent"
+        app:itemIconSize="22dp"
+        app:itemIconPadding="20dp"
+        app:itemHorizontalPadding="20dp"
+        app:itemVerticalPadding="8dp"
+        app:itemTextAppearance="@style/NavDrawerTextStyle"
         android:background="@color/white"
-        app:elevation="8dp"/>
+        app:elevation="16dp"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

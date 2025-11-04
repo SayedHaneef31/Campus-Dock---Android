@@ -3,6 +3,7 @@ package com.sayed.campusdock.UI.Main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.activity.enableEdgeToEdge
@@ -18,7 +19,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sayed.campusdock.Adapter.DeveloperAdapter
+import com.sayed.campusdock.Data.Developer
 import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.ConfigManager.TokenManager
@@ -124,17 +130,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_developers -> {
                     showDevelopersDialog()
                 }
-                R.id.nav_privacy -> {
-                    openWebsite("https://campusdock.live")
-                }
-                R.id.nav_terms -> {
-                    openWebsite("https://campusdock.live")
-                }
                 R.id.nav_feedback -> {
                     sendFeedback()
-                }
-                R.id.nav_rate -> {
-                    rateApp()
                 }
                 R.id.nav_share -> {
                     shareApp()
@@ -158,11 +155,59 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun showDevelopersDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("About Developers")
-            .setMessage("Campus Dock is developed by passionate students who understand the needs of campus life.\n\nDevelopment Team:\n• Lead Developer: Sayed Haneef\n• UI/UX Design Team\n• Backend Development Team\n\nContact: dev@campusdock.com")
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-            .show()
+        // Create developer data - Customize this with your actual team info
+        val developers = listOf(
+            Developer(
+                name = "Sayed Haneef",
+                designation = "Backend Development | Android Development",
+                email = "haneefatwork01@gmail.com",
+                social = "https://www.linkedin.com/in/sayed-mohd-haneef-b12155217/",
+                photoResId = R.drawable.haneef_photo
+            ),
+            Developer(
+                name = "Ritik Kumar",
+                designation = "Backend Development | Devops",
+                email = "ritik352alc@gmail.com",
+                social = "https://www.linkedin.com/in/ritikkumar352/",
+                photoResId = R.drawable.ritik_photo
+            ),
+            Developer(
+                name = "Sania Khan",
+                designation = "Web Development | Project Management",
+                email = "saniaakhan76@gmail.con",
+                social = "https://www.linkedin.com/in/sania-khan-180673275/",
+                photoResId = R.drawable.sania_photo
+            )
+        )
+        
+        // Inflate custom dialog layout
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_developers, null)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.developersRecyclerView)
+        
+        // Setup RecyclerView with horizontal layout
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
+        
+        // Create and set adapter for infinite scrolling
+        val adapter = DeveloperAdapter(developers)
+        recyclerView.adapter = adapter
+        
+        // Scroll to a middle position to allow scrolling in both directions
+        val middlePosition = Int.MAX_VALUE / 2
+        val offset = middlePosition % developers.size
+        recyclerView.scrollToPosition(middlePosition - offset)
+        
+        // Create and show dialog
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+        
+        dialogView.findViewById<MaterialButton>(R.id.btnClose).setOnClickListener {
+            dialog.dismiss()
+        }
+        
+        dialog.show()
     }
     
     private fun openWebsite(url: String) {
@@ -183,15 +228,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, "Send Feedback"))
         } catch (e: Exception) {
             Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show()
-        }
-    }
-    
-    private fun rateApp() {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Play Store not available", Toast.LENGTH_SHORT).show()
         }
     }
     
