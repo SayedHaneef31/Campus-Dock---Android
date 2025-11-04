@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:drawable/ic_menu_edit"/>
+    <!-- Fallback edit icon from system -->
+    <!-- You can replace this with a custom vector later -->
+    
+</selector>
+
+

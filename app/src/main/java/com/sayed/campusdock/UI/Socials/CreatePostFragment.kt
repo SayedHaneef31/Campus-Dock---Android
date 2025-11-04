@@ -18,6 +18,8 @@ import com.sayed.campusdock.Data.Socials.PostRequest
 import com.sayed.campusdock.Data.Socials.TopicResponse
 import com.sayed.campusdock.R
 import com.sayed.campusdock.databinding.FragmentCreatePostBinding
+import com.bumptech.glide.Glide
+import androidx.core.widget.addTextChangedListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,6 +52,20 @@ class CreatePostFragment : Fragment() {
 
         // Fetch topics and then set up the spinner
         fetchTopics()
+
+        // Live image preview
+        binding.etPostImageUrl.addTextChangedListener { text ->
+            val url = text?.toString()?.trim()
+            if (!url.isNullOrEmpty()) {
+                binding.cardImagePreview.visibility = View.VISIBLE
+                Glide.with(this)
+                    .load(url)
+                    .centerCrop()
+                    .into(binding.ivPreview)
+            } else {
+                binding.cardImagePreview.visibility = View.GONE
+            }
+        }
 
         binding.btnSubmitPost.setOnClickListener {
             submitPost()
