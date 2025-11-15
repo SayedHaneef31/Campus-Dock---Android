@@ -22,7 +22,7 @@
         android:id="@+id/marketPlaceFragment"
         android:name="com.sayed.campusdock.UI.MarketPlace.MarketplaceFragment"
         android:label="market_place_fragment"
-        tools:layout="@layout/market_place_fragment" />
+        tools:layout="@layout/marketplace_fragment" />
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.sayed.campusdock.UI.Canteen.CartFragment"

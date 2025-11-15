@@ -34,7 +34,7 @@
         android:id="@+id/postScreenFragment"
         android:name="com.sayed.campusdock.UI.Socials.PostScreenFragment"
         android:label="PostScreenFragment"
-        tools:layout="@layout/fragment_post_screen">
+        tools:layout="@layout/socials_fragment_post_screen">
         <argument
             android:name="postId"
             app:argType="string" />
@@ -44,7 +44,7 @@
         android:id="@+id/createPostFragment"
         android:name="com.sayed.campusdock.UI.Socials.CreatePostFragment"
         android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post">
+        tools:layout="@layout/socials_fragment_create_post">
         <action
             android:id="@+id/action_createPostFragment_to_socialFragment2"
             app:destination="@id/socialFragment2"

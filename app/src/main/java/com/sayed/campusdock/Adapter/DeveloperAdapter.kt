@@ -21,7 +21,7 @@ class DeveloperAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeveloperViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_developer_card, parent, false)
+            .inflate(R.layout.drawer_item_developer_card, parent, false)
         return DeveloperViewHolder(view)
     }
 

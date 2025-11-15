@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.sayed.campusdock.Data.Socials.PollOption
 import com.sayed.campusdock.R
@@ -22,7 +21,7 @@ class PollAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PollViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.poll_option_item, parent, false)
+            .inflate(R.layout.home_poll_option_item, parent, false)
         return PollViewHolder(view)
     }
 

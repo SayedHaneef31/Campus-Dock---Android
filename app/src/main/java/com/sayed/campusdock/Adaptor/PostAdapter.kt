@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sayed.campusdock.Data.Socials.Post
 import com.sayed.campusdock.R
-import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 class PostAdapter(
@@ -33,7 +32,7 @@ class PostAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.socials_item_post, parent, false)
         return PostViewHolder(view)
     }
 

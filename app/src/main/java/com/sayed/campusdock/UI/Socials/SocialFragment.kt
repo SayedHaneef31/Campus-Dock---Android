@@ -19,7 +19,7 @@ class SocialFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.social_fragment, container, false)
+        val view = inflater.inflate(R.layout.socials_fragment, container, false)
 
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)

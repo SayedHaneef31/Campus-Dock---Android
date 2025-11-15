@@ -8,20 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import android.widget.TextView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import androidx.navigation.fragment.findNavController
 
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Adaptor.PostAdapter
 import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class AllPostsFragment : Fragment() {
@@ -36,7 +30,7 @@ class AllPostsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_all_posts, container, false)
+        val view = inflater.inflate(R.layout.socials_fragment_all_posts, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
         emptyView = view.findViewById(R.id.emptyView)
         shimmerContainer = view.findViewById(R.id.shimmerContainer)

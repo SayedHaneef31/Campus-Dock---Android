@@ -12,7 +12,8 @@ import com.bumptech.glide.Glide
 import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Data.Socials.Post
 import com.sayed.campusdock.R
-import com.sayed.campusdock.databinding.FragmentPostScreenBinding
+
+import com.sayed.campusdock.databinding.SocialsFragmentPostScreenBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ import java.util.UUID
 class PostScreenFragment : Fragment() {
 
     private val args: PostScreenFragmentArgs by navArgs()
-    private var _binding: FragmentPostScreenBinding? = null
+    private var _binding: SocialsFragmentPostScreenBinding? = null
     private val binding get() = _binding!!
 
 
@@ -32,7 +33,7 @@ class PostScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPostScreenBinding.inflate(inflater, container, false)
+        _binding = SocialsFragmentPostScreenBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // Fetch the post details from the API

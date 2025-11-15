@@ -18,7 +18,6 @@ import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.ConfigManager.TokenManager
 import java.util.UUID
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class ProfileFragment : Fragment() {
 
@@ -146,7 +145,7 @@ class ProfileFragment : Fragment() {
         for (item in items) {
             val listItemView: View = when (item) {
                 is OrderHistoryItem -> {
-                    inflater.inflate(R.layout.item_order_history, content, false).apply {
+                    inflater.inflate(R.layout.profile_item_order_history, content, false).apply {
                         findViewById<ImageView>(R.id.orderImage).setImageResource(item.imageResId)
                         findViewById<TextView>(R.id.orderTitle).text = item.title
                         findViewById<TextView>(R.id.orderDescription).text = item.description
@@ -154,7 +153,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 is MarketplaceItem -> {
-                    inflater.inflate(R.layout.item_order_history, content, false).apply {
+                    inflater.inflate(R.layout.profile_item_order_history, content, false).apply {
                         findViewById<ImageView>(R.id.orderImage).setImageResource(item.imageResId)
                         findViewById<TextView>(R.id.orderTitle).text = item.title
                         findViewById<TextView>(R.id.orderDescription).text = item.description
@@ -162,7 +161,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 is SocialPostItem -> {
-                    inflater.inflate(R.layout.item_social_post, content, false).apply {
+                    inflater.inflate(R.layout.profile_item_social_post, content, false).apply {
                         findViewById<ImageView>(R.id.postImage).setImageResource(item.imageResId)
                         findViewById<TextView>(R.id.postTitle).text = item.title
                         findViewById<TextView>(R.id.postDescription).text = item.description

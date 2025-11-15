@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_post" />
+        tools:listitem="@layout/socials_item_post" />
 
     <TextView
         android:id="@+id/emptyView"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <include layout="@layout/shimmer_posts_placeholder" />
+        <include layout="@layout/socials_shimmer_posts_placeholder" />
 
     </FrameLayout>
 

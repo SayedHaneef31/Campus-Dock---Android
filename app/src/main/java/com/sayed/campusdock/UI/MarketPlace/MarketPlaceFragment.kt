@@ -20,7 +20,7 @@ class MarketplaceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.market_place_fragment, container, false)
+        val view = inflater.inflate(R.layout.marketplace_fragment, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.marketplaceRecyclerView)
         val imgProfile = view.findViewById<View>(R.id.imgProfile)
         val btnMenu = view.findViewById<View>(R.id.btnMenu)

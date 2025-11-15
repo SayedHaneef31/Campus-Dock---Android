@@ -123,7 +123,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <include layout="@layout/shimmer_canteen_list" />
+        <include layout="@layout/canteen_shimmer_canteen_list" />
 
     </FrameLayout>
 

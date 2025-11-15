@@ -1,26 +1,19 @@
 package com.sayed.campusdock.UI.Socials
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayed.campusdock.R
 import com.sayed.campusdock.Adaptor.PostAdapter
-import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.ConfigManager.TokenManager
-import com.sayed.campusdock.Data.Socials.Post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 import java.util.UUID
 
 class PollsFragment : Fragment() {
@@ -32,7 +25,7 @@ class PollsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_polls, container, false)
+        val view = inflater.inflate(R.layout.socials_fragment_polls, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
         recyclerView.layoutManager = LinearLayoutManager(context)
 

@@ -5,12 +5,12 @@
     android:orientation="vertical"
     android:paddingBottom="16dp">
 
-    <include layout="@layout/shimmer_menu_item" />
+    <include layout="@layout/canteen_shimmer_menu_item" />
 
-    <include layout="@layout/shimmer_menu_item" />
+    <include layout="@layout/canteen_shimmer_menu_item" />
 
-    <include layout="@layout/shimmer_menu_item" />
+    <include layout="@layout/canteen_shimmer_menu_item" />
 
-    <include layout="@layout/shimmer_menu_item" />
+    <include layout="@layout/canteen_shimmer_menu_item" />
 
 </LinearLayout>

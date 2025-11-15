@@ -17,9 +17,10 @@ import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.Data.Socials.PostRequest
 import com.sayed.campusdock.Data.Socials.TopicResponse
 import com.sayed.campusdock.R
-import com.sayed.campusdock.databinding.FragmentCreatePostBinding
+
 import com.bumptech.glide.Glide
 import androidx.core.widget.addTextChangedListener
+import com.sayed.campusdock.databinding.SocialsFragmentCreatePostBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ import java.util.UUID
 
 class CreatePostFragment : Fragment() {
 
-    private var _binding: FragmentCreatePostBinding? = null
+    private var _binding: SocialsFragmentCreatePostBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SocialPostsViewModel by navGraphViewModels(R.id.social_nav_graph)
 
@@ -40,7 +41,7 @@ class CreatePostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCreatePostBinding.inflate(inflater, container, false)
+        _binding = SocialsFragmentCreatePostBinding.inflate(inflater, container, false)
         return binding.root
     }
 

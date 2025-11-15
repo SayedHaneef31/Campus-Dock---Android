@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/shimmer_canteen_card" />
+    <include layout="@layout/canteen_shimmer_canteen_card" />
 
-    <include layout="@layout/shimmer_canteen_card" />
+    <include layout="@layout/canteen_shimmer_canteen_card" />
 
-    <include layout="@layout/shimmer_canteen_card" />
+    <include layout="@layout/canteen_shimmer_canteen_card" />
 
 </LinearLayout>

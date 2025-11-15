@@ -97,15 +97,15 @@
 
 
         <!-- 🔽 Expandable Section 1: Order History -->
-        <include layout="@layout/item_expandable_section"
+        <include layout="@layout/profile_item_expandable_section"
             android:id="@+id/section_order_history"/>
 
         <!-- 🔽 Expandable Section 2: Marketplace Listings -->
-        <include layout="@layout/item_expandable_section"
+        <include layout="@layout/profile_item_expandable_section"
             android:id="@+id/section_marketplace"/>
 
         <!-- 🔽 Expandable Section 3: Social Posts -->
-        <include layout="@layout/item_expandable_section"
+        <include layout="@layout/profile_item_expandable_section"
             android:id="@+id/section_social_posts"/>
 
     </LinearLayout>

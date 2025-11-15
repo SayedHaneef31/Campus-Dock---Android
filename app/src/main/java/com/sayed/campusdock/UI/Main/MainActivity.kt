@@ -10,13 +10,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +27,6 @@ import com.sayed.campusdock.Data.Developer
 import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.ConfigManager.TokenManager
-import com.sayed.campusdock.UI.Canteen.CartFragment
-import com.sayed.campusdock.UI.Canteen.OrdersFragment
-import com.sayed.campusdock.UI.Home.HomeFragment
-import com.sayed.campusdock.UI.Profile.ProfileFragment
 
 import com.sayed.campusdock.databinding.MainActivityBinding
 import kotlinx.coroutines.launch
@@ -67,6 +62,17 @@ class MainActivity : AppCompatActivity() {
         // Setup BottomNavigationView with NavController
         //This is the glue that connects your UI (BottomNavigationView) with your Navigation logic (NavGraph + NavController).
         NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
+        // Ensure reselecting a tab pops back to that section's root screen
+        binding.bottomNav.setOnItemReselectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> popToRoot(navController, R.id.homeFragment)
+                R.id.social_nav_graph -> popToRoot(navController, R.id.socialFragment2)
+                R.id.canteen_nav_graph -> popToRoot(navController, R.id.canteenFragment)
+                R.id.marketPlaceFragment -> popToRoot(navController, R.id.marketPlaceFragment)
+                R.id.cartFragment -> popToRoot(navController, R.id.cartFragment)
+            }
+        }
 
         // Attach/update badge on the Cart tab
         val cartBadge = binding.bottomNav.getOrCreateBadge(R.id.cartFragment)
@@ -181,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         )
         
         // Inflate custom dialog layout
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_developers, null)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.drawer_dialog_developers, null)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.developersRecyclerView)
         
         // Setup RecyclerView with horizontal layout
@@ -238,6 +244,13 @@ class MainActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_TEXT, "Check out Campus Dock - Your Campus Companion! Download now: https://play.google.com/store/apps/details?id=$packageName")
         }
         startActivity(Intent.createChooser(shareIntent, "Share Campus Dock"))
+    }
+
+    private fun popToRoot(navController: NavController, destinationId: Int) {
+        val wasPopped = navController.popBackStack(destinationId, false)
+        if (!wasPopped) {
+            navController.navigate(destinationId)
+        }
     }
 
 }
