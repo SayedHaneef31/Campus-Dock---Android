@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -93,8 +94,8 @@ class CanteenFullFragment : Fragment() {
             val btnAdd = card.findViewById<Button>(R.id.btnAddIddddddd)
             val quantitySelector = card.findViewById<LinearLayout>(R.id.quantitySelector)
             val quantityText = card.findViewById<TextView>(R.id.quantityIddddd)
-            val btnPlus = card.findViewById<Button>(R.id.btnPlusIddddd)
-            val btnMinus = card.findViewById<Button>(R.id.btnMinusIdddd)
+            val btnPlus = card.findViewById<ImageButton>(R.id.btnPlusIddddd)
+            val btnMinus = card.findViewById<ImageButton>(R.id.btnMinusIdddd)
 
             // Setting the static data for menu item card
             Log.d("CanteenFullFragment", "Setting data for item: ${item.foodName}")

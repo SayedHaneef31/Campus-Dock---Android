@@ -13,7 +13,7 @@ object RetrofitClient {
 //    private const val BASE_URL= "http:/192.168.29.10:8081/"
     //private const val BASE_URL= "http://172.16.45.158:8081/"      //kc wifi
     // TODO: Change
-    private const val BASE_URL= "http://192.168.1.10:8081/"
+    private const val BASE_URL= "http://10.238.100.1:8081/"
 
     val instance: ApiService by lazy {
 

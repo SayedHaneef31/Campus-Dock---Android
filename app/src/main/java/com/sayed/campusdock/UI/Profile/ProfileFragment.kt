@@ -77,7 +77,7 @@ class ProfileFragment : Fragment() {
         // Data for each section
         val orderHistoryItems = listOf(
             OrderHistoryItem("TeaMans's Cafe", "Order #12345", "₹80", R.drawable.bhatura),
-            OrderHistoryItem("TeaMans's Cafe", "Order #67890", "₹135", R.drawable.aalu_paratha)
+            OrderHistoryItem("TeaMans's Cafe", "Order #67890", "₹135", R.drawable.paratha)
         )
 
         val marketplaceItems = listOf(
