@@ -48,7 +48,7 @@
                 android:text="Burger"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:textColor="#1a1a1a"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -57,7 +57,7 @@
             <TextView
                 android:id="@+id/foodRatingIddddd"
                 android:text="4.2 ⭐"
-                android:textColor="#666666"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp"
                 android:layout_marginTop="2dp"
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             <TextView
                 android:id="@+id/foodPriceIddddd"
                 android:text="₹ 60"
-                android:textColor="#1a1a1a"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
@@ -85,7 +85,7 @@
                     android:layout_height="36dp"
                     android:text="ADD"
                     android:textSize="13sp"
-                    android:backgroundTint="#F44336"
+                    android:backgroundTint="?attr/colorPrimary"
                     android:textColor="@android:color/white" />
 
                 <LinearLayout
@@ -102,7 +102,7 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:text="−"
-                        android:backgroundTint="#F44336"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:padding="0dp"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
@@ -126,7 +126,7 @@
                         android:id="@+id/btnPlusIddddd"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:backgroundTint="#F44336"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:text="+"
                         android:padding="0dp"
                         android:insetTop="0dp"

@@ -8,7 +8,7 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="6dp"
     app:strokeWidth="0dp"
-    android:backgroundTint="@color/white">
+    android:backgroundTint="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_height="80dp"
             app:cardCornerRadius="40dp"
             app:strokeWidth="2dp"
-            app:strokeColor="#667eea"
+            app:strokeColor="@color/colorPrimary"
             app:cardElevation="3dp">
             
             <ImageView
@@ -44,7 +44,7 @@
             android:text="Developer Name"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnSurface"
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end" />
@@ -57,7 +57,7 @@
             android:layout_marginTop="4dp"
             android:text="Designation"
             android:textSize="12sp"
-            android:textColor="#667eea"
+            android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:gravity="center"
             android:maxLines="2"
@@ -69,7 +69,7 @@
             android:layout_height="1.5dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="#E0E0E0" />
+            android:background="@color/colorOutline" />
 
         <!-- Contact Info -->
         <LinearLayout
@@ -95,7 +95,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_feedback"
-                    app:tint="#667eea" />
+                    app:tint="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/developerEmail"
@@ -104,7 +104,7 @@
                     android:layout_marginStart="6dp"
                     android:text="Email"
                     android:textSize="12sp"
-                    android:textColor="#666666"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -124,7 +124,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_web"
-                    app:tint="#667eea" />
+                    app:tint="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/developerSocial"
@@ -133,7 +133,7 @@
                     android:layout_marginStart="6dp"
                     android:text="LinkedIn"
                     android:textSize="12sp"
-                    android:textColor="#666666"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
