@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -57,6 +58,8 @@ class CanteenFragment : Fragment() {
         // Calling the viewModel
         viewModel = ViewModelProvider(this)[CanteenViewModel::class.java]
 
+        showLoading(true)
+
         // This block is automatically triggered because the data it's watching has changed. This calls your displayCanteens function.
         viewModel.canteens.observe(viewLifecycleOwner) { canteens ->
             displayCanteens(canteens)
@@ -71,6 +74,7 @@ class CanteenFragment : Fragment() {
             viewModel.fetchCanteens(token) // ✅ Pass token here
         } else {
             Log.e("CANTEEN_UI", "No JWT token found in SharedPreferences")
+            showLoading(false)
         }
     }
 
@@ -124,6 +128,12 @@ class CanteenFragment : Fragment() {
         }
 
         Log.d("CANTEEN_UI", "Finished rendering all canteens")
+        showLoading(false)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.shimmerContainer.isVisible = isLoading
+        binding.scrollView.isVisible = !isLoading
     }
 
     override fun onDestroyView() {

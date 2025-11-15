@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -53,6 +54,7 @@ class CanteenFullFragment : Fragment() {
         observeMenuItems()
         observeErrors()
 
+        showMenuLoading(true)
         viewModel.fetchMenuItems(canteenId)
     }
     private fun observeMenuItems() {
@@ -60,6 +62,7 @@ class CanteenFullFragment : Fragment() {
             viewModel.menuItems.collect { menuItems ->
                 if (menuItems.isNotEmpty()) {
                     displayMenuItems(menuItems)
+                    showMenuLoading(false)
                 }
             }
         }
@@ -70,6 +73,7 @@ class CanteenFullFragment : Fragment() {
             viewModel.error.collect { errorMessage ->
                 if (errorMessage.isNotEmpty()) {
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    showMenuLoading(false)
                 }
             }
         }
@@ -127,6 +131,11 @@ class CanteenFullFragment : Fragment() {
 
             container.addView(card)
         }
+    }
+
+    private fun showMenuLoading(isLoading: Boolean) {
+        binding.shimmerMenuContainer.isVisible = isLoading
+        binding.scrollView.isVisible = !isLoading
     }
 
         override fun onStop() {
