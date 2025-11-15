@@ -28,9 +28,8 @@ class AllPostsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: PostAdapter
-    private lateinit var progressBar: CircularProgressIndicator
     private lateinit var emptyView: TextView
-    private lateinit var loadingOverlay: View
+    private lateinit var shimmerContainer: View
     private val viewModel: SocialPostsViewModel by navGraphViewModels(R.id.social_nav_graph)
 
     override fun onCreateView(
@@ -39,9 +38,8 @@ class AllPostsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_all_posts, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
-        progressBar = view.findViewById(R.id.progressBar)
         emptyView = view.findViewById(R.id.emptyView)
-        loadingOverlay = view.findViewById(R.id.loadingOverlay)
+        shimmerContainer = view.findViewById(R.id.shimmerContainer)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         postAdapter = PostAdapter(emptyList()) { postId ->
@@ -74,17 +72,9 @@ class AllPostsFragment : Fragment() {
             }
             // observe loading state
             viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
-                if (loading) {
-                    loadingOverlay.alpha = 0f
-                    loadingOverlay.visibility = View.VISIBLE
-                    loadingOverlay.animate().alpha(1f).setDuration(150).start()
-                    recyclerView.visibility = View.GONE
-                    emptyView.visibility = View.GONE
-                } else {
-                    loadingOverlay.animate().alpha(0f).setDuration(180).withEndAction {
-                        loadingOverlay.visibility = View.GONE
-                    }.start()
-                }
+                shimmerContainer.visibility = if (loading) View.VISIBLE else View.GONE
+                recyclerView.visibility = if (loading) View.GONE else View.VISIBLE
+                emptyView.visibility = View.GONE
             }
             // Trigger initial load only if needed
             viewModel.ensureAllPosts(collegeId)

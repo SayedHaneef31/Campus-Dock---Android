@@ -82,6 +82,9 @@ dependencies {
     //Load json directly
     implementation("com.google.code.gson:gson:2.10.1")
 
+    // Shimmer loading effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
     //Room databse
     implementation("androidx.room:room-runtime:2.7.2")
     kapt("androidx.room:room-compiler:2.7.2")
