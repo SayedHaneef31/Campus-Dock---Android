@@ -61,9 +61,14 @@ class SocialPostsViewModel : ViewModel() {
 		_errorMessage.postValue(null)
 		viewModelScope.launch(Dispatchers.IO) {
 			try {
-				val response = RetrofitClient.instance.getAllTrendingPostsByCollegeId(collegeId)
+				val response = RetrofitClient.instance.getAllPostsByCollegeId(collegeId)
 				if (response.isSuccessful) {
-					_trendingPosts.postValue(response.body() ?: emptyList())
+					val allPosts = response.body() ?: emptyList()
+					// Sort by total engagement (upvotes + downvotes) in descending order and take top 3
+					val trendingTop3 = allPosts
+						.sortedByDescending { it.upvoteCount + it.downvoteCount }
+						.take(3)
+					_trendingPosts.postValue(trendingTop3)
 				} else {
 					_errorMessage.postValue("Failed to fetch trending: ${response.code()}")
 				}
