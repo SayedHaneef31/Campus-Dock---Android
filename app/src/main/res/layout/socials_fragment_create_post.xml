@@ -15,17 +15,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="12dp"
+        android:padding="16dp"
+        android:background="?android:colorBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/btnMenu"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/drwaer"
-            android:contentDescription="Menu"/>
+            android:contentDescription="Menu"
+            android:tint="?attr/colorOnBackground"
+            android:scaleType="centerInside"/>
 
         <TextView
             android:layout_width="0dp"
@@ -33,18 +36,25 @@
             android:layout_weight="1"
             android:text="Create Post"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            android:textSize="22sp"
+            android:textColor="?attr/colorOnBackground"
+            android:gravity="center"
+            android:letterSpacing="0.01"/>
 
-        <ImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/profile_pic"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_background"
-            android:clipToOutline="true"
-            android:contentDescription="Profile"/>
+        <FrameLayout
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/circle_bg">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_pic"
+                android:scaleType="centerCrop"
+                android:contentDescription="Profile"
+                android:padding="2dp"/>
+        </FrameLayout>
     </LinearLayout>
 
     <!-- Scrollable content between top bar and submit button -->
@@ -69,21 +79,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:hint="Title"
+                android:hint="Post Title"
                 app:startIconDrawable="@drawable/ic_title"
                 app:counterEnabled="true"
                 app:counterMaxLength="80"
                 app:helperText="Make it catchy and concise"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp">
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:strokeWidth="1dp"
+                app:helperTextTextColor="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPostTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"/>
+                    android:inputType="textCapSentences"
+                    android:textSize="15sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -92,12 +105,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:hint="What's on your mind?"
                 app:counterEnabled="true"
                 app:counterMaxLength="500"
-                app:helperText="Optional description"
-                app:boxCornerRadiusTopStart="12dp"
+                app:helperText="Add details (optional)"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:strokeWidth="1dp"
+                app:helperTextTextColor="@color/colorPrimary">
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusBottomEnd="12dp">
@@ -108,7 +126,9 @@
                     android:layout_height="wrap_content"
                     android:minLines="5"
                     android:gravity="top|start"
-                    android:inputType="textMultiLine"/>
+                    android:inputType="textMultiLine"
+                    android:textSize="15sp"
+                    android:lineSpacingMultiplier="1.2"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -117,21 +137,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="12dp"
-                android:hint="Image URL (optional)"
+                android:layout_marginTop="16dp"
+                android:hint="Image URL"
                 app:startIconDrawable="@drawable/ic_image"
                 app:endIconMode="clear_text"
-                app:helperText="Paste an image link to preview"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp">
+                app:helperText="Paste an image link (optional)"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:strokeWidth="1dp"
+                app:helperTextTextColor="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPostImageUrl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri"/>
+                    android:inputType="textUri"
+                    android:textSize="15sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.card.MaterialCardView
@@ -139,15 +162,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="3dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp"
                 android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ivPreview"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"/>
             </com.google.android.material.card.MaterialCardView>
 
@@ -157,7 +183,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:layout_marginTop="16dp">
+                android:paddingVertical="12dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:colorBackground"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tvIsAnonymous"
@@ -167,7 +197,8 @@
                     android:text="Post Anonymously?"
                     android:textSize="16sp"
                     android:textColor="?attr/colorOnBackground"
-                    android:gravity="center_vertical" />
+                    android:gravity="center_vertical"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchIsAnonymous"
@@ -181,24 +212,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:hint="Select a Topic"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp">
+                app:startIconDrawable="@drawable/ic_category"
+                app:boxCornerRadiusTopStart="14dp"
+                app:boxCornerRadiusTopEnd="14dp"
+                app:boxCornerRadiusBottomStart="14dp"
+                app:boxCornerRadiusBottomEnd="14dp"
+                app:strokeWidth="1dp"
+                app:helperText="Choose a relevant topic"
+                app:helperTextTextColor="@color/colorPrimary">
 
                 <AutoCompleteTextView
                     android:id="@+id/atvTopic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"/>
+                    android:inputType="none"
+                    android:textSize="15sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Extra bottom padding so last field isn't hidden behind button -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="24dp"/>
+                android:layout_height="32dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -206,21 +242,24 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmitPost"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:text="Submit Post"
         android:textAllCaps="false"
-        android:backgroundTint="@color/blue"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorPrimary"
         app:strokeWidth="0dp"
-        app:cornerRadius="16dp"
+        app:cornerRadius="14dp"
         app:icon="@drawable/submit_icon"
-        app:iconGravity="end"
+        app:iconGravity="textEnd"
         app:iconTint="@color/white"
+        app:elevation="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="20dp"/>
 
     <!-- Loading -->
     <ProgressBar
