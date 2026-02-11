@@ -36,23 +36,33 @@ class AllPostsFragment : Fragment() {
         shimmerContainer = view.findViewById(R.id.shimmerContainer)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        postAdapter = PostAdapter(emptyList()) { postId ->
-            // No-op for now, will be updated in fetchPosts
-        }
+        postAdapter = PostAdapter(
+            emptyList(),
+            onPostClick = { postId -> /* No-op for now */ },
+            onVote = { _, _, _ -> /* No-op for now */ }
+        )
         recyclerView.adapter = postAdapter
 
         // Initialize TokenManager and get the college ID
         TokenManager.init(requireContext())
         val collegeIdString = TokenManager.getCollegeId()
+        val userIdString = TokenManager.getUserId()
 
-        if (collegeIdString != null) {
+        if (collegeIdString != null && userIdString != null) {
             val collegeId = UUID.fromString(collegeIdString)
+            val userId = UUID.fromString(userIdString)
             // Observe cached posts
             viewModel.allPosts.observe(viewLifecycleOwner) { posts ->
-                postAdapter = PostAdapter(posts) { postId ->
-                    val action = SocialFragmentDirections.actionSocialFragmentToPostScreenFragment(postId.toString())
-                    findNavController().navigate(action)
-                }
+                postAdapter = PostAdapter(
+                    posts,
+                    onPostClick = { postId ->
+                        val action = SocialFragmentDirections.actionSocialFragmentToPostScreenFragment(postId.toString())
+                        findNavController().navigate(action)
+                    },
+                    onVote = { postId, _, voteType ->
+                        viewModel.voteOnPost(postId, userId, voteType, collegeId)
+                    }
+                )
                 recyclerView.adapter = postAdapter
 
                 // toggle views
@@ -73,8 +83,8 @@ class AllPostsFragment : Fragment() {
             // Trigger initial load only if needed
             viewModel.ensureAllPosts(collegeId)
         } else {
-            Log.e("AllPostsFragment", "Could not get collegeId from TokenManager.")
-            Toast.makeText(context, "Could not get college ID", Toast.LENGTH_SHORT).show()
+            Log.e("AllPostsFragment", "Could not get collegeId or userId from TokenManager.")
+            Toast.makeText(context, "Could not get user or college ID", Toast.LENGTH_SHORT).show()
         }
 
         return view

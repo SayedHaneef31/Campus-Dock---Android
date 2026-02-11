@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.Data.Socials.Post
+import com.sayed.campusdock.Data.Socials.VoteType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -70,6 +71,35 @@ class SocialPostsViewModel : ViewModel() {
 				_errorMessage.postValue(t.message ?: "Unknown error")
 			} finally {
 				_isLoading.postValue(false)
+			}
+		}
+	}
+
+	fun voteOnPost(postId: UUID, userId: UUID, voteType: VoteType, collegeId: UUID? = null) {
+		viewModelScope.launch(Dispatchers.IO) {
+			try {
+				val voteTypeString = voteType.name // Convert to UPVOTE or DOWNVOTE string
+				val response = RetrofitClient.instance.voteOnPost(postId, userId, voteTypeString)
+				if (response.isSuccessful) {
+					_errorMessage.postValue(null)
+					// Refresh posts after successful vote to get updated counts
+					if (collegeId != null) {
+						// Check which list contains this post and refresh accordingly
+						val currentAllPosts = _allPosts.value
+						val currentTrendingPosts = _trendingPosts.value
+						
+						if (currentAllPosts?.any { it.id == postId } == true) {
+							refreshAllPosts(collegeId)
+						}
+						if (currentTrendingPosts?.any { it.id == postId } == true) {
+							refreshTrendingPosts(collegeId)
+						}
+					}
+				} else {
+					_errorMessage.postValue("Failed to vote: ${response.code()}")
+				}
+			} catch (t: Throwable) {
+				_errorMessage.postValue(t.message ?: "Unknown error while voting")
 			}
 		}
 	}

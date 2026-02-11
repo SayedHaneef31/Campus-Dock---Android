@@ -29,9 +29,11 @@ class PollsFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewAllPosts)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        postAdapter = PostAdapter(emptyList()) { postId ->
-            // No-op for now, will be updated in fetchPosts
-        }
+        postAdapter = PostAdapter(
+            emptyList(),
+            onPostClick = { postId -> /* No-op for now */ },
+            onVote = { _, _, _ -> /* No-op for now */ }
+        )
         recyclerView.adapter = postAdapter
 
         // Initialize TokenManager and get the college ID

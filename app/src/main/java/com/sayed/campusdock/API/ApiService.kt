@@ -119,6 +119,13 @@ interface ApiService
     @POST("api/v1/posts")
     suspend fun createPost(@Body postRequest: PostRequest): Response<PostResponse>
 
+    @POST("api/v1/posts/{postId}/vote")
+    suspend fun voteOnPost(
+        @Path("postId") postId: UUID,
+        @Query("userId") userId: UUID,
+        @Query("voteType") voteType: String
+    ): Response<Void>
+
     @GET("api/v1/topics/college/{collegeId}")
     suspend fun getAllTopicsByCollegeId(@Path("collegeId") collegeId: UUID): Response<List<TopicResponse>>
     // -------------------  SOCIALS API  -------------------//

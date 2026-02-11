@@ -92,55 +92,91 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- Upvote -->
-            <ImageView
-                android:id="@+id/ivUpvote"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/thumbsup"
-                app:tint="@color/green_dark" />
-            <TextView
-                android:id="@+id/tvUpvoteCount"
+            <!-- Upvote Button Container -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="123"
-                android:layout_marginStart="4dp"
-                android:textSize="12sp"
-                android:textColor="?attr/colorOnSurfaceVariant"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:paddingStart="4dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <ImageView
+                    android:id="@+id/ivUpvote"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/thumbsup"
+                    android:contentDescription="Upvote"
+                    app:tint="@color/green_dark" />
+                <TextView
+                    android:id="@+id/tvUpvoteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
 
-            <!-- Downvote -->
-            <ImageView
-                android:id="@+id/ivDownvote"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/thumbsdown"
-                app:tint="@color/red" />
-            <TextView
-                android:id="@+id/tvDownvoteCount"
+            <!-- Downvote Button Container -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="45"
-                android:layout_marginStart="4dp"
-                android:textSize="12sp"
-                android:textColor="?attr/colorOnSurfaceVariant"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginStart="8dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <ImageView
+                    android:id="@+id/ivDownvote"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/thumbsdown"
+                    android:contentDescription="Downvote"
+                    app:tint="@color/red" />
+                <TextView
+                    android:id="@+id/tvDownvoteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
 
-            <!-- Comment -->
-            <ImageView
-                android:id="@+id/ivComment"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/thumscomment"
-                app:tint="@color/colorPrimary" />
-            <TextView
-                android:id="@+id/tvCommentCount"
+            <!-- Comment Button Container -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="67"
-                android:layout_marginStart="4dp"
-                android:textSize="12sp"
-                android:textColor="?attr/colorOnSurfaceVariant"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginStart="8dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+                <ImageView
+                    android:id="@+id/ivComment"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/thumscomment"
+                    android:contentDescription="Comments"
+                    app:tint="@color/colorPrimary" />
+                <TextView
+                    android:id="@+id/tvCommentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="67"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"/>
+            </LinearLayout>
 
         </LinearLayout>
 

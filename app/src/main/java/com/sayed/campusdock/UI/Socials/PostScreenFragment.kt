@@ -36,6 +36,7 @@ class PostScreenFragment : Fragment() {
         _binding = SocialsFragmentPostScreenBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        togglePostLoading(true)
         // Fetch the post details from the API
         fetchPostDetails(args.postId)
         
@@ -56,23 +57,27 @@ class PostScreenFragment : Fragment() {
                         withContext(Dispatchers.Main) {
                             // Populate the UI with the fetched data
                             bindPostDataToUI(post)
+                            togglePostLoading(false)
                         }
                     } else {
                         Log.e("PostScreenFragment", "Post body is null")
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Post not found.", Toast.LENGTH_SHORT).show()
+                            togglePostLoading(false)
                         }
                     }
                 } else {
                     Log.e("PostScreenFragment", "API call failed with code: ${response.code()}")
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, "Failed to fetch post details.", Toast.LENGTH_SHORT).show()
+                        togglePostLoading(false)
                     }
                 }
             } catch (e: Exception) {
                 Log.e("PostScreenFragment", "Network request failed: ${e.message}")
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Network request failed.", Toast.LENGTH_SHORT).show()
+                    togglePostLoading(false)
                 }
             }
         }
@@ -97,6 +102,11 @@ class PostScreenFragment : Fragment() {
         } else {
             binding.ivPostImage.visibility = View.GONE
         }
+    }
+
+    private fun togglePostLoading(isLoading: Boolean) {
+        binding.postShimmerContainer.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.scrollView.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     override fun onDestroyView() {

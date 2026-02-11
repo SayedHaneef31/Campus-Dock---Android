@@ -46,6 +46,23 @@
             android:contentDescription="Profile"/>
     </LinearLayout>
 
+    <!-- Shimmer Placeholder -->
+    <FrameLayout
+        android:id="@+id/postShimmerContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingHorizontal="8dp"
+        android:paddingTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/commentBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <include layout="@layout/socials_shimmer_post_detail" />
+
+    </FrameLayout>
+
     <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
