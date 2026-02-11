@@ -92,6 +92,37 @@ class SocialPostsViewModel : ViewModel() {
 			}
 		}
 	}
+
+	fun addPostToTop(post: Post) {
+		val currentPosts = _allPosts.value ?: emptyList()
+		val updatedPosts = listOf(post) + currentPosts
+		_allPosts.postValue(updatedPosts)
+
+		// Also add to trending posts
+		val currentTrendingPosts = _trendingPosts.value ?: emptyList()
+		val updatedTrendingPosts = listOf(post) + currentTrendingPosts
+		_trendingPosts.postValue(updatedTrendingPosts)
+	}
+
+	fun addPostResponseToTop(postResponse: com.sayed.campusdock.Data.Socials.PostResponse) {
+		// Convert PostResponse to Post
+		val post = Post(
+			id = postResponse.id,
+			title = postResponse.title,
+			content = postResponse.content,
+			imageUrl = postResponse.imageUrl,
+			authorName = postResponse.authorName,
+			authorAnonymousName = postResponse.authorAnonymousName,
+			authorId = postResponse.authorId ?: java.util.UUID.randomUUID(), // Use a placeholder UUID if null
+			topicName = postResponse.topicName,
+			isAnonymous = postResponse.isAnonymous,
+			upvoteCount = postResponse.upvoteCount,
+			downvoteCount = postResponse.downvoteCount,
+			commentCount = postResponse.commentCount,
+			createdAt = postResponse.createdAt ?: java.time.LocalDateTime.now() // Use current time if null
+		)
+		addPostToTop(post)
+	}
 }
 
 

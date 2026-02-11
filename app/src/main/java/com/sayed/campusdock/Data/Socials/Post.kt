@@ -16,5 +16,5 @@ data class Post(
     val upvoteCount: Int,
     val downvoteCount: Int,
     val commentCount: Int,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime?
 )

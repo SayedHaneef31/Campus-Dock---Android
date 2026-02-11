@@ -168,11 +168,10 @@ class CreatePostFragment : Fragment() {
                 val response = RetrofitClient.instance.createPost(postRequest)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
+                        val newPostResponse = response.body()!!
                         Toast.makeText(requireContext(), "Post created successfully!", Toast.LENGTH_SHORT).show()
-                        // Proactively refresh cached lists so tabs show the new post
-                        val collegeIdUuid = UUID.fromString(collegeId)
-                        viewModel.refreshAllPosts(collegeIdUuid)
-                        viewModel.refreshTrendingPosts(collegeIdUuid)
+                        // Add the new post to the top of the lists
+                        viewModel.addPostResponseToTop(newPostResponse)
                         // Restore UI state before navigating away to avoid binding NPE in finally
                         _binding?.let {
                             it.progressBar.visibility = View.GONE
