@@ -49,18 +49,24 @@ class TrendingFragment : Fragment() {
         if (collegeIdString != null && userIdString != null) {
             val collegeId = UUID.fromString(collegeIdString)
             val userId = UUID.fromString(userIdString)
+            
+            // Create adapter once with initial empty list
+            postAdapter = PostAdapter(
+                emptyList(),
+                onPostClick = { postId ->
+                    val action = SocialFragmentDirections.actionSocialFragmentToPostScreenFragment(postId.toString())
+                    findNavController().navigate(action)
+                },
+                onVote = { postId, _, voteType ->
+                    viewModel.voteOnPost(postId, userId, voteType)
+                }
+            )
+            recyclerView.adapter = postAdapter
+            
             viewModel.trendingPosts.observe(viewLifecycleOwner) { posts ->
-                postAdapter = PostAdapter(
-                    posts,
-                    onPostClick = { postId ->
-                        val action = SocialFragmentDirections.actionSocialFragmentToPostScreenFragment(postId.toString())
-                        findNavController().navigate(action)
-                    },
-                    onVote = { postId, _, voteType ->
-                        viewModel.voteOnPost(postId, userId, voteType, collegeId)
-                    }
-                )
-                recyclerView.adapter = postAdapter
+                // Update adapter data without recreating it
+                postAdapter.updatePosts(posts)
+                
                 if (posts.isNullOrEmpty()) {
                     crossfade(recyclerView, false)
                     emptyView.visibility = View.VISIBLE

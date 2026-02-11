@@ -14,10 +14,16 @@ import com.sayed.campusdock.R
 import java.util.UUID
 
 class PostAdapter(
-    private val posts: List<Post>,
+    private var posts: List<Post>,
     private val onPostClick: (UUID) -> Unit,
     private val onVote: (postId: UUID, userId: UUID, voteType: VoteType) -> Unit = { _, _, _ -> }
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+
+    // Method to update posts without recreating the adapter
+    fun updatePosts(newPosts: List<Post>) {
+        posts = newPosts
+        notifyDataSetChanged()
+    }
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivUserProfile: ImageView = itemView.findViewById(R.id.ivUserProfile)

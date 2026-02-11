@@ -82,19 +82,8 @@ class SocialPostsViewModel : ViewModel() {
 				val response = RetrofitClient.instance.voteOnPost(postId, userId, voteTypeString)
 				if (response.isSuccessful) {
 					_errorMessage.postValue(null)
-					// Refresh posts after successful vote to get updated counts
-					if (collegeId != null) {
-						// Check which list contains this post and refresh accordingly
-						val currentAllPosts = _allPosts.value
-						val currentTrendingPosts = _trendingPosts.value
-						
-						if (currentAllPosts?.any { it.id == postId } == true) {
-							refreshAllPosts(collegeId)
-						}
-						if (currentTrendingPosts?.any { it.id == postId } == true) {
-							refreshTrendingPosts(collegeId)
-						}
-					}
+					// Don't refresh entire list - let adapter handle UI updates
+					// Backend sync can happen in background later
 				} else {
 					_errorMessage.postValue("Failed to vote: ${response.code()}")
 				}
