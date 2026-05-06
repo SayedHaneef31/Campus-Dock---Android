@@ -8,16 +8,23 @@ import com.sayed.campusdock.Data.Auth.User
 import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.Data.Auth.OtpResponse
 import com.sayed.campusdock.Data.Auth.OtpVerifyResponse
+import com.sayed.campusdock.Data.Marketplace.PageResponse
+import com.sayed.campusdock.Data.Marketplace.ProductDetailDto
+import com.sayed.campusdock.Data.Marketplace.ProductDto
 import com.sayed.campusdock.Data.Room.CartItem
 import com.sayed.campusdock.Data.Socials.Post
 import com.sayed.campusdock.Data.Socials.PostRequest
 import com.sayed.campusdock.Data.Socials.PostResponse
 import com.sayed.campusdock.Data.Socials.TopicResponse
 import retrofit2.Response
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.UUID
@@ -135,6 +142,33 @@ interface ApiService
     @GET("api/v1/users/{id}")
     suspend fun getUserById(@Path("id") id: UUID): Response<User>
     // -------------------  USER API  -------------------//
+
+
+    // -------------------  MARKETPLACE API  -------------------//
+    @GET("api/v1/marketplace")
+    suspend fun getProducts(
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10,
+        @Query("sortField") sortField: String = "listedOn",
+        @Query("sortDir") sortDir: String = "desc",
+        @Query("collegeId") collegeId: String? = null,
+        @Query("userId") userId: String? = null
+    ): PageResponse<ProductDto>
+
+    @GET("api/v1/marketplace/{id}")
+    suspend fun getProductById(@Path("id") id: String): ProductDetailDto
+
+    @Multipart
+    @POST("api/v1/marketplace")
+    suspend fun createProduct(
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("service") service: RequestBody,
+        @Part media: List<MultipartBody.Part>? = null,
+        @Query("collegeId") collegeId: String? = null
+    ): Response<ProductDetailDto>
+    // -------------------  MARKETPLACE API  -------------------//
 
 
 }

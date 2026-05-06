@@ -27,7 +27,7 @@ class SocialFragment : Fragment() {
         val imgProfile: View = view.findViewById(R.id.imgProfile)
         val btnMenu: View = view.findViewById(R.id.btnMenu)
 
-        // Set up the ViewPager with a custom adapter
+        // Set up the ViewPager with a custom adapterff
         val pagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = pagerAdapter
 

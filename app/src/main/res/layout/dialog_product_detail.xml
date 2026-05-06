@@ -68,6 +68,19 @@
                 android:textStyle="bold"
                 android:textColor="#4A90E2" />
 
+            <!-- Description -->
+            <TextView
+                android:id="@+id/dialogProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Product description goes here."
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:lineSpacingMultiplier="1.1"
+                android:maxLines="4"
+                android:ellipsize="end" />
+
             <!-- Divider -->
             <View
                 android:layout_width="match_parent"
