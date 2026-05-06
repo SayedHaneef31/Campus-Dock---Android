@@ -1,5 +1,6 @@
 package com.sayed.campusdock.Adaptor
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,8 +42,11 @@ class MarketplaceAdapter(
         private val productName: TextView = itemView.findViewById(R.id.txtProductName)
         private val productPrice: TextView = itemView.findViewById(R.id.txtProductPrice)
         private val sellerName: TextView = itemView.findViewById(R.id.txtSellerName)
+        private val sellerAvatar: ImageView = itemView.findViewById(R.id.seller_avatar)
 
         fun bind(product: Product) {
+            Log.d("MarketplaceAdapter", "Product: ${product.name}, ownerProfile: ${product.ownerProfile}, profilePicUrl: ${product.ownerProfile?.profilePicUrl}")
+
             if (!product.imageUrl.isNullOrBlank()) {
                 Glide.with(itemView.context)
                     .load(product.imageUrl)
@@ -55,6 +59,21 @@ class MarketplaceAdapter(
             productName.text = product.name
             productPrice.text = product.price
             sellerName.text = product.sellerName
+
+            // Load seller profile picture from ownerProfile
+            if (!product.ownerProfile?.profilePicUrl.isNullOrBlank()) {
+                Log.d("MarketplaceAdapter", "Loading seller profile: ${product.ownerProfile?.profilePicUrl}")
+                Glide.with(itemView.context)
+                    .load(product.ownerProfile?.profilePicUrl)
+                    .placeholder(R.drawable.ic_profile_placeholder)
+                    .error(R.drawable.ic_profile_placeholder)
+                    .circleCrop()
+                    .into(sellerAvatar)
+            } else {
+                Log.d("MarketplaceAdapter", "No seller profile URL, using placeholder")
+                sellerAvatar.setImageResource(R.drawable.ic_profile_placeholder)
+            }
+
             itemView.setOnClickListener { onProductClick(product) }
         }
     }
