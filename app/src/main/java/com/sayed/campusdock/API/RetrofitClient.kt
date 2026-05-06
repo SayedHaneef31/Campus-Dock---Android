@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 
 object RetrofitClient {
-        private const val BASE_URL= "https://api.campusdock.live/"
-//    private const val BASE_URL= "http:/192.168.29.10:8081/"
+//        private const val BASE_URL= "https://api.campusdock.live/"
+    private const val BASE_URL= "http:/10.119.253.85:8080/"
     //private const val BASE_URL= "http://172.16.45.158:8081/"      //kc wifi
     // TODO: Change
 //    private const val BASE_URL= "http://192.168.1.1:8080/"
