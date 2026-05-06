@@ -120,6 +120,14 @@ class CanteenCartViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    fun clearCart() {
+        Log.d(TAG, "clearCart called")
+        viewModelScope.launch {
+            cartDao.clearCart()
+            Log.i(TAG, "Cart cleared successfully")
+        }
+    }
+
     fun onRemoveItem(itemId: String) {
         Log.d(TAG, "onRemoveItem called for itemId=$itemId")
         viewModelScope.launch {

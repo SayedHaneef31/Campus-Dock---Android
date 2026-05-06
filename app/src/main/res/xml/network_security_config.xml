@@ -3,7 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
 <!--        home WIFI-->
 <!--        TODO: Change-->
-        <domain includeSubdomains="true">10.119.253.85</domain>
+        <domain includeSubdomains="true">10.119.253.33</domain>
 
     </domain-config>
 </network-security-config>

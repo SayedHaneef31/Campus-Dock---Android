@@ -1,22 +1,29 @@
 package com.sayed.campusdock.UI.Canteen
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
 import com.sayed.campusdock.Adaptor.CartAdapter
 import androidx.navigation.fragment.findNavController
+import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.ViewModel.PlaceOrderStatus
 import com.sayed.campusdock.databinding.CanteenCartFragmentBinding
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.random.Random
 
 
 
@@ -115,11 +122,8 @@ class CartFragment : Fragment() {
                         binding.btnPlaceOrder.text = "Placing Order..."
                     }
                     is PlaceOrderStatus.Success -> {
-                        // The sync was successful! Now you can navigate to the next screen.
-                        Toast.makeText(requireContext(), "Order Placed! Proceeding to payment...", Toast.LENGTH_SHORT).show()
-
-                        // TODO: Navigate to your payment or order confirmation screen
-                        // findNavController().navigate(R.id.action_cartFragment_to_paymentFragment)
+                        // Show cool confirmation dialog with code + ETA
+                        showOrderConfirmationDialog()
 
                         // Reset the state in the ViewModel so this doesn't trigger again on screen rotation
                         viewModel.onOrderPlacedHandled()
@@ -141,6 +145,55 @@ class CartFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showOrderConfirmationDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_order_confirmed)
+
+        // Transparent background for rounded card
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Match parent width with margins
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        // Set animation
+        dialog.window?.attributes?.windowAnimations = R.style.ProductDetailDialogAnimation
+
+        // Generate random 4-digit alphanumeric code
+        val chars = ('A'..'Z') + ('0'..'9')
+        val orderCode = (1..4).map { chars.random() }.joinToString("")
+
+        // Generate random ETA (3-15 mins)
+        val etaMinutes = Random.nextInt(3, 16)
+
+        // Bind views
+        val tvCode = dialog.findViewById<TextView>(R.id.tvOrderCode)
+        val tvEta = dialog.findViewById<TextView>(R.id.tvEta)
+        val btnDone = dialog.findViewById<MaterialButton>(R.id.btnDone)
+
+        tvCode.text = orderCode
+        tvEta.text = "$etaMinutes mins"
+
+        // Done button dismisses dialog
+        btnDone.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Clear cart when dialog is dismissed
+        dialog.setOnDismissListener {
+            viewModel.clearCart()
+            Toast.makeText(requireContext(), "Cart cleared! Collect your food with code $orderCode", Toast.LENGTH_LONG).show()
+        }
+
+        // Prevent dismissing by back button or outside tap — must tap Done
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
+        dialog.show()
     }
 
     override fun onDestroyView() {
