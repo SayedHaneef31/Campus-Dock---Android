@@ -3,14 +3,22 @@ package com.sayed.campusdock.UI.MarketPlace
 
 import com.sayed.campusdock.R
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.sayed.campusdock.Adaptor.MarketplaceAdapter
 import com.sayed.campusdock.Data.Marketplace.Product
 
@@ -31,8 +39,10 @@ class MarketplaceFragment : Fragment() {
         // Generate mock data
         val productList = generateMockData()
 
-        // Set up the adapter
-        val adapter = MarketplaceAdapter(productList)
+        // Set up the adapter with click callback
+        val adapter = MarketplaceAdapter(productList) { product ->
+            showProductDetailDialog(product)
+        }
         recyclerView.adapter = adapter
 
         imgProfile?.setOnClickListener {
@@ -57,5 +67,54 @@ class MarketplaceFragment : Fragment() {
             Product("Headphones", "₹890", R.drawable.m6, "Sayed Haneef"),
             Product("Java Programming Book", "₹180", R.drawable.m7, "Sayed Haneef")
         )
+    }
+
+    private fun showProductDetailDialog(product: Product) {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_product_detail)
+
+        // Make dialog background transparent for rounded corners
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Set dialog width to match parent with margins
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        // Allow dismissing by tapping outside
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+
+        // Set dialog animation
+        dialog.window?.attributes?.windowAnimations = R.style.ProductDetailDialogAnimation
+
+        // Bind views
+        val imgProduct = dialog.findViewById<ImageView>(R.id.dialogProductImage)
+        val txtName = dialog.findViewById<TextView>(R.id.dialogProductName)
+        val txtPrice = dialog.findViewById<TextView>(R.id.dialogProductPrice)
+        val imgAvatar = dialog.findViewById<ImageView>(R.id.dialogSellerAvatar)
+        val txtSeller = dialog.findViewById<TextView>(R.id.dialogSellerName)
+        val btnClose = dialog.findViewById<ImageButton>(R.id.btnClose)
+        val btnMessage = dialog.findViewById<MaterialButton>(R.id.btnMessage)
+
+        // Set product data
+        imgProduct.setImageResource(product.imageUrl)
+        txtName.text = product.name
+        txtPrice.text = product.price
+        txtSeller.text = product.sellerName
+
+        // Close button
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Message seller button
+        btnMessage.setOnClickListener {
+            Toast.makeText(context, "Messaging ${product.sellerName}...", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

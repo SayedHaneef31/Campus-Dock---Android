@@ -45,6 +45,12 @@
 
     <style name="Theme.CampusDock" parent="Base.Theme.CampusDock" />
     
+    <!-- Product Detail Dialog Animation Theme -->
+    <style name="ProductDetailDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slide_down</item>
+    </style>
+    
     <!-- Shape Appearances -->
     <style name="ShapeAppearance.CampusDock.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
