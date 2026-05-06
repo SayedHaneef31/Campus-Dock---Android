@@ -5,13 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.R
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 class SocialFragment : Fragment() {
 
@@ -24,8 +31,11 @@ class SocialFragment : Fragment() {
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
         val fabAddPost: FloatingActionButton = view.findViewById(R.id.fabAddPost)
-        val imgProfile: View = view.findViewById(R.id.imgProfile)
+        val imgProfile: ImageView = view.findViewById(R.id.imgProfile)
         val btnMenu: View = view.findViewById(R.id.btnMenu)
+
+        // Load profile picture
+        loadProfilePicture(imgProfile)
 
         // Set up the ViewPager with a custom adapterff
         val pagerAdapter = ViewPagerAdapter(this)
@@ -54,6 +64,45 @@ class SocialFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun loadProfilePicture(imgProfile: ImageView) {
+        // Use cached URL if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(imgProfile)
+            return
+        }
+
+        // Fetch from API if not cached
+        val userIdStr = TokenManager.getUserId()
+        val userUuid = try { userIdStr?.let { UUID.fromString(it) } } catch (_: Exception) { null }
+
+        if (userUuid != null) {
+            lifecycleScope.launch {
+                try {
+                    val resp = RetrofitClient.instance.getUserById(userUuid)
+                    if (resp.isSuccessful) {
+                        resp.body()?.profilePicUrl?.let { url ->
+                            TokenManager.setProfilePicUrl(url) // Cache it
+                            Glide.with(requireContext())
+                                .load(url)
+                                .placeholder(R.drawable.profile_pic)
+                                .error(R.drawable.profile_pic)
+                                .circleCrop()
+                                .into(imgProfile)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Keep default image on error
+                }
+            }
+        }
     }
 
     private inner class ViewPagerAdapter(

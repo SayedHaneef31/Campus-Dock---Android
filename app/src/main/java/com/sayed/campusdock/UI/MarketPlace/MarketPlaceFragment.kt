@@ -31,6 +31,7 @@ import com.sayed.campusdock.ViewModel.MarketplaceViewModel
 import com.sayed.campusdock.databinding.MarketplaceFragmentBinding
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import java.util.UUID
 
 class MarketplaceFragment : Fragment() {
 
@@ -51,6 +52,7 @@ class MarketplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadProfilePicture()
         setupRecyclerView()
         setupClickListeners()
         observeViewModel()
@@ -65,6 +67,45 @@ class MarketplaceFragment : Fragment() {
         }
         binding.marketplaceRecyclerView.layoutManager = GridLayoutManager(context, 2)
         binding.marketplaceRecyclerView.adapter = adapter
+    }
+
+    private fun loadProfilePicture() {
+        // Use cached URL if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.imgProfile)
+            return
+        }
+
+        // Fetch from API if not cached
+        val userIdStr = TokenManager.getUserId()
+        val userUuid = try { userIdStr?.let { UUID.fromString(it) } } catch (_: Exception) { null }
+
+        if (userUuid != null) {
+            lifecycleScope.launch {
+                try {
+                    val resp = com.sayed.campusdock.API.RetrofitClient.instance.getUserById(userUuid)
+                    if (resp.isSuccessful) {
+                        resp.body()?.profilePicUrl?.let { url ->
+                            TokenManager.setProfilePicUrl(url) // Cache it
+                            Glide.with(requireContext())
+                                .load(url)
+                                .placeholder(R.drawable.profile_pic)
+                                .error(R.drawable.profile_pic)
+                                .circleCrop()
+                                .into(binding.imgProfile)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Keep default image on error
+                }
+            }
+        }
     }
 
     private fun setupClickListeners() {

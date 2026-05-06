@@ -56,8 +56,15 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Load default profile image initially
-        binding.profileImage.setImageResource(R.drawable.profile_pic)
+        // Use cached profile image if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            currentProfilePicUrl = cachedUrl
+            loadProfileImage(cachedUrl)
+        } else {
+            // Load default profile image initially
+            binding.profileImage.setImageResource(R.drawable.profile_pic)
+        }
 
         // Prefer fresh profile via API using userId from token
         val userIdStr = TokenManager.getUserId()
@@ -73,10 +80,13 @@ class ProfileFragment : Fragment() {
                             binding.profileName.text = user.name.uppercase()
                             binding.profileEmail.text = user.email
                             binding.profileHighlightTitle.text = "${user.name.split(" ").first()}'s Market Listings"
-                            // Load profile picture if available
+                            // Load profile picture if available (and different from cached)
                             user.profilePicUrl?.let { url ->
-                                currentProfilePicUrl = url
-                                loadProfileImage(url)
+                                if (url != currentProfilePicUrl) {
+                                    currentProfilePicUrl = url
+                                    TokenManager.setProfilePicUrl(url) // Cache it
+                                    loadProfileImage(url)
+                                }
                             }
                         }
                     } else {
@@ -166,6 +176,7 @@ class ProfileFragment : Fragment() {
                 if (response.isSuccessful) {
                     response.body()?.let { uploadResponse ->
                         currentProfilePicUrl = uploadResponse.profilePicUrl
+                        TokenManager.setProfilePicUrl(uploadResponse.profilePicUrl) // Update cache
                         loadProfileImage(uploadResponse.profilePicUrl, skipPlaceholder = true)
                         Toast.makeText(context, "Profile picture updated!", Toast.LENGTH_SHORT).show()
                         android.util.Log.d("ProfileUpload", "Success: ${uploadResponse.profilePicUrl}")

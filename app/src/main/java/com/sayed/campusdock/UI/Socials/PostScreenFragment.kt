@@ -132,8 +132,43 @@ class PostScreenFragment : Fragment() {
             binding.cardPostImage.visibility = View.GONE
         }
 
+        // Load profile picture - use cached or author's
+        loadProfilePicture(post)
+
         // Update vote UI
         updateVoteUI()
+    }
+
+    private fun loadProfilePicture(post: Post) {
+        Log.d("PostScreen", "Loading profile pic. authorProfilePicUrl: ${post.authorProfilePicUrl}, isAnonymous: ${post.isAnonymous}")
+
+        // Top bar profile picture - use cached URL
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Log.d("PostScreen", "Using cached URL: $cachedUrl")
+            binding.imgProfile.setImageTintList(null) // Remove blue tint
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.imgProfile)
+        }
+
+        // Post content area - use author's profile pic
+        if (!post.authorProfilePicUrl.isNullOrEmpty() && !post.isAnonymous) {
+            Log.d("PostScreen", "Loading author profile: ${post.authorProfilePicUrl}")
+            binding.ivUser.setImageTintList(null) // Remove blue tint
+            Glide.with(requireContext())
+                .load(post.authorProfilePicUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.ivUser)
+        } else {
+            Log.d("PostScreen", "Using default profile pic")
+            binding.ivUser.setImageResource(R.drawable.profile_pic)
+        }
     }
 
     private fun togglePostLoading(isLoading: Boolean) {

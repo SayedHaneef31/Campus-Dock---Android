@@ -75,15 +75,16 @@ class PostAdapter(
         }
 
         // --- Profile Picture ---
-//        if (!post.authorProfileUrl.isNullOrEmpty() && !post.isAnonymous) {
-//            Glide.with(context)
-//                .load(post.authorProfileUrl)
-//                .circleCrop()
-//                .into(holder.ivUserProfile)
-//        } else {
-//            holder.ivUserProfile.setImageResource(R.drawable.profile_icon)
-//        }
-        holder.ivUserProfile.setImageResource(R.drawable.profile_icon)
+        if (!post.authorProfilePicUrl.isNullOrEmpty() && !post.isAnonymous) {
+            Glide.with(context)
+                .load(post.authorProfilePicUrl)
+                .placeholder(R.drawable.profile_icon)
+                .error(R.drawable.profile_icon)
+                .circleCrop()
+                .into(holder.ivUserProfile)
+        } else {
+            holder.ivUserProfile.setImageResource(R.drawable.profile_icon)
+        }
 
         // --- Votes & Comments ---
         holder.tvUpvoteCount.text = post.upvoteCount.toString()

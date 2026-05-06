@@ -35,8 +35,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_profile_placeholder"
                 android:contentDescription="User Profile"
-                android:scaleType="centerCrop"
-                app:tint="@color/colorPrimary" />
+                android:scaleType="centerCrop" />
 
         </FrameLayout>
 

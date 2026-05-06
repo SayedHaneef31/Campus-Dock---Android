@@ -13,9 +13,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.sayed.campusdock.Adaptor.CartAdapter
 import androidx.navigation.fragment.findNavController
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.R
 import com.sayed.campusdock.ViewModel.CanteenCartViewModel
 import com.sayed.campusdock.ViewModel.PlaceOrderStatus
@@ -23,6 +26,7 @@ import com.sayed.campusdock.databinding.CanteenCartFragmentBinding
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
+import java.util.UUID
 import kotlin.random.Random
 
 
@@ -58,6 +62,7 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadProfilePicture()
         Log.d(TAG, "onViewCreated called")
 
         setupRecyclerView()
@@ -110,6 +115,45 @@ class CartFragment : Fragment() {
         binding.tvGrandTotal.text = currencyFormat.format(grandTotal)
 
         Log.i(TAG, "Price summary -> Subtotal=$subTotal, Tax=$tax, GrandTotal=$grandTotal")
+    }
+
+    private fun loadProfilePicture() {
+        // Use cached URL if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.imgProfile)
+            return
+        }
+
+        // Fetch from API if not cached
+        val userIdStr = TokenManager.getUserId()
+        val userUuid = try { userIdStr?.let { UUID.fromString(it) } } catch (_: Exception) { null }
+
+        if (userUuid != null) {
+            lifecycleScope.launch {
+                try {
+                    val resp = RetrofitClient.instance.getUserById(userUuid)
+                    if (resp.isSuccessful) {
+                        resp.body()?.profilePicUrl?.let { url ->
+                            TokenManager.setProfilePicUrl(url) // Cache it
+                            Glide.with(requireContext())
+                                .load(url)
+                                .placeholder(R.drawable.profile_pic)
+                                .error(R.drawable.profile_pic)
+                                .circleCrop()
+                                .into(binding.imgProfile)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Keep default image on error
+                }
+            }
+        }
     }
 
     private fun observePlaceOrderStatus() {

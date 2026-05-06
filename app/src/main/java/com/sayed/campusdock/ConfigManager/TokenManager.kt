@@ -35,6 +35,12 @@ object TokenManager {
     fun getName(): String? = cachedPayload?.optString("name")
     fun getEmail(): String? = cachedPayload?.optString("email")
 
+    // Profile picture URL cache
+    private var cachedProfilePicUrl: String? = null
+
+    fun getProfilePicUrl(): String? = cachedProfilePicUrl
+    fun setProfilePicUrl(url: String?) { cachedProfilePicUrl = url }
+
     private fun decodeToken(token: String): JSONObject? {
         return try {
             val parts = token.split(".")

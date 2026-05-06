@@ -23,10 +23,12 @@ import com.sayed.campusdock.R
 import com.sayed.campusdock.API.RetrofitClient
 import com.sayed.campusdock.databinding.CanteenFragmentBinding
 import androidx.navigation.fragment.findNavController
+import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.ViewModel.CanteenViewModel
 
 
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class CanteenFragment : Fragment() {
 
@@ -55,6 +57,8 @@ class CanteenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadProfilePicture()
+
         // Calling the viewModel
         viewModel = ViewModelProvider(this)[CanteenViewModel::class.java]
 
@@ -71,10 +75,49 @@ class CanteenFragment : Fragment() {
 
         // Load if not already loaded
         if (token != null) {
-            viewModel.fetchCanteens(token) // ✅ Pass token here
+            viewModel.fetchCanteens(token) // Pass token here
         } else {
             Log.e("CANTEEN_UI", "No JWT token found in SharedPreferences")
             showLoading(false)
+        }
+    }
+
+    private fun loadProfilePicture() {
+        // Use cached URL if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.imgProfile)
+            return
+        }
+
+        // Fetch from API if not cached
+        val userIdStr = com.sayed.campusdock.ConfigManager.TokenManager.getUserId()
+        val userUuid = try { userIdStr?.let { UUID.fromString(it) } } catch (_: Exception) { null }
+
+        if (userUuid != null) {
+            lifecycleScope.launch {
+                try {
+                    val resp = RetrofitClient.instance.getUserById(userUuid)
+                    if (resp.isSuccessful) {
+                        resp.body()?.profilePicUrl?.let { url ->
+                            TokenManager.setProfilePicUrl(url) // Cache it
+                            Glide.with(requireContext())
+                                .load(url)
+                                .placeholder(R.drawable.profile_pic)
+                                .error(R.drawable.profile_pic)
+                                .circleCrop()
+                                .into(binding.imgProfile)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Keep default image on error
+                }
+            }
         }
     }
 

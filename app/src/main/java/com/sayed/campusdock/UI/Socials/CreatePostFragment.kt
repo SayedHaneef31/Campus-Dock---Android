@@ -51,6 +51,9 @@ class CreatePostFragment : Fragment() {
         // Ensure TokenManager is initialized before any access
         TokenManager.init(requireContext())
 
+        // Load profile picture
+        loadProfilePicture()
+
         // Fetch topics and then set up the spinner
         fetchTopics()
 
@@ -74,6 +77,45 @@ class CreatePostFragment : Fragment() {
         
         binding.btnMenu.setOnClickListener {
             (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
+        }
+    }
+
+    private fun loadProfilePicture() {
+        // Use cached URL if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.imgProfile)
+            return
+        }
+
+        // Fetch from API if not cached
+        val userIdStr = TokenManager.getUserId()
+        val userUuid = try { userIdStr?.let { UUID.fromString(it) } } catch (_: Exception) { null }
+
+        if (userUuid != null) {
+            lifecycleScope.launch {
+                try {
+                    val resp = RetrofitClient.instance.getUserById(userUuid)
+                    if (resp.isSuccessful) {
+                        resp.body()?.profilePicUrl?.let { url ->
+                            TokenManager.setProfilePicUrl(url) // Cache it
+                            Glide.with(requireContext())
+                                .load(url)
+                                .placeholder(R.drawable.profile_pic)
+                                .error(R.drawable.profile_pic)
+                                .circleCrop()
+                                .into(binding.imgProfile)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Keep default image on error
+                }
+            }
         }
     }
 

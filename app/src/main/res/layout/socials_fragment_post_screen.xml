@@ -59,8 +59,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_profile_placeholder"
                     android:scaleType="centerCrop"
-                    android:contentDescription="Profile"
-                    app:tint="@color/colorPrimary"/>
+                    android:contentDescription="Profile"/>
             </FrameLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -133,8 +132,7 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_profile_placeholder"
                             android:scaleType="centerCrop"
-                            android:contentDescription="Profile"
-                            app:tint="@color/colorPrimary" />
+                            android:contentDescription="Profile" />
                     </FrameLayout>
 
                     <LinearLayout

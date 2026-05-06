@@ -11,6 +11,7 @@ data class Post(
     val authorName: String,
     val authorAnonymousName: String?,
     val authorId: UUID,
+    val authorProfilePicUrl: String? = null,
     val topicName: String,
     val isAnonymous: Boolean,
     val upvoteCount: Int,

@@ -5,17 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.sayed.campusdock.Adaptor.BannerAdapter
 import com.sayed.campusdock.Adaptor.PollAdapter
+import com.sayed.campusdock.API.RetrofitClient
+import com.sayed.campusdock.ConfigManager.TokenManager
 import com.sayed.campusdock.Data.Socials.PollOption
 import com.sayed.campusdock.R
 import com.sayed.campusdock.databinding.HomeFragmentBinding
+import java.util.UUID
 import kotlin.math.abs
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -28,15 +34,61 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         enableBannerView()
+        setupPolls()
+        loadProfilePicture()
+
         binding.imgProfile.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
         }
         binding.btnMenu.setOnClickListener {
             (activity as? com.sayed.campusdock.UI.Main.MainActivity)?.openDrawer()
         }
-        setupPolls()
-        return binding.root
+    }
+
+    private fun loadProfilePicture() {
+        // Use cached URL if available
+        val cachedUrl = TokenManager.getProfilePicUrl()
+        if (!cachedUrl.isNullOrEmpty()) {
+            Glide.with(requireContext())
+                .load(cachedUrl)
+                .placeholder(R.drawable.profile_pic)
+                .error(R.drawable.profile_pic)
+                .circleCrop()
+                .into(binding.imgProfile)
+            return
+        }
+
+        // Fetch from API if not cached
+        val userIdStr = TokenManager.getUserId()
+        val userUuid = try { userIdStr?.let { UUID.fromString(it) } } catch (_: Exception) { null }
+
+        if (userUuid != null) {
+            lifecycleScope.launch {
+                try {
+                    val resp = RetrofitClient.instance.getUserById(userUuid)
+                    if (resp.isSuccessful) {
+                        resp.body()?.profilePicUrl?.let { url ->
+                            TokenManager.setProfilePicUrl(url) // Cache it
+                            Glide.with(requireContext())
+                                .load(url)
+                                .placeholder(R.drawable.profile_pic)
+                                .error(R.drawable.profile_pic)
+                                .circleCrop()
+                                .into(binding.imgProfile)
+                        }
+                    }
+                } catch (_: Exception) {
+                    // Keep default image on error
+                }
+            }
+        }
     }
 
     private fun enableBannerView() {
