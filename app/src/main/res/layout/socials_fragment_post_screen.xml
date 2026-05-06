@@ -32,7 +32,7 @@
                 android:layout_height="28dp"
                 android:src="@drawable/drwaer"
                 android:contentDescription="Menu"
-                android:tint="?attr/colorOnSurface"
+                app:tint="?attr/colorOnSurface"
                 android:scaleType="centerInside"/>
 
             <TextView

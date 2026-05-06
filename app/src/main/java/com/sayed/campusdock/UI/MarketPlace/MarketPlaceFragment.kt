@@ -30,6 +30,7 @@ import com.sayed.campusdock.ViewModel.MarketplaceUiState
 import com.sayed.campusdock.ViewModel.MarketplaceViewModel
 import com.sayed.campusdock.databinding.MarketplaceFragmentBinding
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
 class MarketplaceFragment : Fragment() {
 
@@ -128,10 +129,10 @@ class MarketplaceFragment : Fragment() {
 
             lifecycleScope.launch {
                 try {
-                    val nameBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), name)
-                    val descBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), description)
-                    val priceBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), price)
-                    val serviceBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), isService.toString())
+                    val nameBody = okhttp3.RequestBody.create("text/plain".toMediaTypeOrNull(), name)
+                    val descBody = okhttp3.RequestBody.create("text/plain".toMediaTypeOrNull(), description)
+                    val priceBody = okhttp3.RequestBody.create("text/plain".toMediaTypeOrNull(), price)
+                    val serviceBody = okhttp3.RequestBody.create("text/plain".toMediaTypeOrNull(), isService.toString())
 
                     val collegeId = TokenManager.getCollegeId()
                     val response = com.sayed.campusdock.API.RetrofitClient.instance.createProduct(

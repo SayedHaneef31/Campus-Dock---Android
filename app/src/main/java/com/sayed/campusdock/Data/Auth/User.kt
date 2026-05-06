@@ -6,7 +6,8 @@ data class User(
     val id: UUID,
     val name: String,
     val email: String,
-    val anonymousName: String?
+    val anonymousName: String?,
+    val profilePicUrl: String? = null
 )
 
 

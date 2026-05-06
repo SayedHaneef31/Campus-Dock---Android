@@ -8,6 +8,8 @@ import com.sayed.campusdock.Data.Auth.User
 import com.sayed.campusdock.Data.Canteen.MenuItem
 import com.sayed.campusdock.Data.Auth.OtpResponse
 import com.sayed.campusdock.Data.Auth.OtpVerifyResponse
+import com.sayed.campusdock.Data.Auth.ProfilePicUploadResponse
+import com.sayed.campusdock.Data.Auth.ProfilePicUrlResponse
 import com.sayed.campusdock.Data.Marketplace.PageResponse
 import com.sayed.campusdock.Data.Marketplace.ProductDetailDto
 import com.sayed.campusdock.Data.Marketplace.ProductDto
@@ -24,6 +26,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -141,6 +144,23 @@ interface ApiService
     // -------------------  USER API  -------------------//
     @GET("api/v1/users/{id}")
     suspend fun getUserById(@Path("id") id: UUID): Response<User>
+
+    @Multipart
+    @POST("api/v1/users/{id}/profile-pic")
+    suspend fun uploadProfilePicture(
+        @Path("id") id: UUID,
+        @Part file: MultipartBody.Part
+    ): Response<ProfilePicUploadResponse>
+
+    @Multipart
+    @PUT("api/v1/users/{id}/profile-pic")
+    suspend fun updateProfilePicture(
+        @Path("id") id: UUID,
+        @Part file: MultipartBody.Part
+    ): Response<ProfilePicUploadResponse>
+
+    @GET("api/v1/users/{id}/profile-pic")
+    suspend fun getProfilePictureUrl(@Path("id") id: UUID): Response<ProfilePicUrlResponse>
     // -------------------  USER API  -------------------//
 
 
