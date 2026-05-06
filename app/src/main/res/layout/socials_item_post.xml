@@ -23,6 +23,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/circle_bg"
+            android:clipToOutline="true"
+            android:outlineProvider="background"
             app:layout_constraintTop_toTopOf="@id/userInfoLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/userInfoLayout">
@@ -31,10 +33,10 @@
                 android:id="@+id/ivUserProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/profile_pic"
+                android:src="@drawable/ic_profile_placeholder"
                 android:contentDescription="User Profile"
                 android:scaleType="centerCrop"
-                android:padding="2dp" />
+                app:tint="@color/colorPrimary" />
 
         </FrameLayout>
 
